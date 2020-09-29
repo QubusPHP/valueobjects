@@ -1,0 +1,6 @@
+.DS_Store
+/vendor/
+index.php
+/.vscode
+/phpunit.xml
+.phpcs-cache
