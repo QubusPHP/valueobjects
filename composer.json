@@ -32,7 +32,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Qubus\\ValueObjects\\": "src/"
+            "Qubus\\ValueObjects\\": ""
         }
     },
     "autoload-dev": {
