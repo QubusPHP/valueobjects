@@ -1,34 +1,41 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Structure;
 
-use Qubus\ValueObjects\Util;
-use Qubus\ValueObjects\ValueObjectInterface;
+use BadMethodCallException;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
+use Qubus\ValueObjects\Util;
+use Qubus\ValueObjects\ValueObject;
 
-class KeyValuePair implements ValueObjectInterface
+use function count;
+use function func_get_args;
+use function sprintf;
+use function strval;
+
+class KeyValuePair implements ValueObject
 {
-    /**
-     * @var ValueObjectInterface
-     */
-    protected ValueObjectInterface $key;
+    protected ValueObject $key;
 
-    /**
-     * @var ValueObjectInterface
-     */
-    protected ValueObjectInterface $value;
+    protected ValueObject $value;
 
     /**
      * Returns a KeyValuePair.
-     *
-     * @param ValueObjectInterface $key
-     * @param ValueObjectInterface $value
      */
     public function __construct(
-        ValueObjectInterface $key,
-        ValueObjectInterface $value
+        ValueObject $key,
+        ValueObject $value
     ) {
         $this->key = $key;
         $this->value = $value;
@@ -36,8 +43,6 @@ class KeyValuePair implements ValueObjectInterface
 
     /**
      * Returns a string representation of the KeyValuePair in format "$key => $value".
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -49,18 +54,17 @@ class KeyValuePair implements ValueObjectInterface
      *
      * @param string $key
      * @param string $value
-     *
-     * @throws \BadMethodCallException
-     *
-     * @return KeyValuePair|ValueObjectInterface
-     * @return KeyValuePair|ValueObjectInterface
+     * @throws BadMethodCallException
+     * @return KeyValuePair|ValueObject
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): ValueObject
     {
         $args = func_get_args();
 
-        if (2 != count($args)) {
-            throw new \BadMethodCallException('This methods expects two arguments. One for the key and one for the value.');
+        if (2 !== count($args)) {
+            throw new BadMethodCallException(
+                'This methods expects two arguments. One for the key and one for the value.'
+            );
         }
 
         $keyString = strval($args[0]);
@@ -74,36 +78,30 @@ class KeyValuePair implements ValueObjectInterface
     /**
      * Tells whether two KeyValuePair are equal.
      *
-     * @param KeyValuePair|ValueObjectInterface $keyValuePair
-     *
-     * @return bool
+     * @param KeyValuePair|ValueObject $keyValuePair
      */
-    public function equals(ValueObjectInterface $keyValuePair): bool
+    public function equals(ValueObject $keyValuePair): bool
     {
         if (false === Util::classEquals($this, $keyValuePair)) {
             return false;
         }
 
         return $this->getKey()->equals($keyValuePair->getKey())
-            && $this->getValue()->equals($keyValuePair->getValue());
+        && $this->getValue()->equals($keyValuePair->getValue());
     }
 
     /**
      * Returns key.
-     *
-     * @return ValueObjectInterface
      */
-    public function getKey(): ValueObjectInterface
+    public function getKey(): ValueObject
     {
         return clone $this->key;
     }
 
     /**
      * Returns value.
-     *
-     * @return ValueObjectInterface
      */
-    public function getValue(): ValueObjectInterface
+    public function getValue(): ValueObject
     {
         return clone $this->value;
     }

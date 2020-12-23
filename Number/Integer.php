@@ -1,13 +1,29 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Number;
 
-use Qubus\ValueObjects\Util;
-use Qubus\ValueObjects\Number\Real;
 use Qubus\Exception\Data\TypeException;
-use Qubus\ValueObjects\ValueObjectInterface;
+use Qubus\ValueObjects\Number\Real;
+use Qubus\ValueObjects\Util;
+use Qubus\ValueObjects\ValueObject;
+
+use function filter_var;
+use function intval;
+use function sprintf;
+
+use const FILTER_VALIDATE_INT;
 
 class Integer extends Real
 {
@@ -34,11 +50,8 @@ class Integer extends Real
 
     /**
      * Tells whether two Integer are equal by comparing their values
-     *
-     * @param  ValueObjectInterface $integer
-     * @return bool
      */
-    public function equals(ValueObjectInterface $integer): bool
+    public function equals(ValueObject $integer): bool
     {
         if (false === Util::classEquals($this, $integer)) {
             return false;
@@ -49,8 +62,6 @@ class Integer extends Real
 
     /**
      * Returns the value of the integer number
-     *
-     * @return int
      */
     public function toNative(): int
     {
@@ -59,13 +70,9 @@ class Integer extends Real
 
     /**
      * Returns a Real with the value of the Integer
-     *
-     * @return Real
      */
     public function toReal(): Real
     {
-        $real = new Real($this->toNative());
-
-        return $real;
+        return new Real($this->toNative());
     }
 }

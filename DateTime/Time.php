@@ -1,42 +1,40 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\DateTime;
 
 use Carbon\CarbonImmutable;
-use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\DateTime\Hour;
 use Qubus\ValueObjects\DateTime\Minute;
 use Qubus\ValueObjects\DateTime\Second;
-use Qubus\ValueObjects\ValueObjectInterface;
+use Qubus\ValueObjects\Util;
+use Qubus\ValueObjects\ValueObject;
 
-/**
- * Class Time.
- */
-class Time implements ValueObjectInterface
+use function func_get_args;
+use function intval;
+use function sprintf;
+
+class Time implements ValueObject
 {
-    /**
-     * @var Hour
-     */
     protected Hour $hour;
 
-    /**
-     * @var Minute
-     */
     protected Minute $minute;
 
-    /**
-     * @var Second
-     */
     protected Second $second;
 
     /**
      * Returns a new Time objects.
-     *
-     * @param Hour   $hour
-     * @param Minute $minute
-     * @param Second $second
      */
     public function __construct(Hour $hour, Minute $minute, Second $second)
     {
@@ -47,8 +45,6 @@ class Time implements ValueObjectInterface
 
     /**
      * Returns time as string in format G:i:s.
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -61,9 +57,9 @@ class Time implements ValueObjectInterface
      * @param  int $hour
      * @param  int $minute
      * @param  int $second
-     * @return Time|ValueObjectInterface
+     * @return Time|ValueObject
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): ValueObject
     {
         $args = func_get_args();
 
@@ -73,11 +69,9 @@ class Time implements ValueObjectInterface
     /**
      * Returns a new Time from a native CarbonImmutable.
      *
-     * @param CarbonImmutable $time
-     *
-     * @return Time|ValueObjectInterface
+     * @return Time|ValueObject
      */
-    public static function fromNativeCarbonImmutable(CarbonImmutable $time): ValueObjectInterface
+    public static function fromNativeCarbonImmutable(CarbonImmutable $time): ValueObject
     {
         $hour = intval($time->format('G'));
         $minute = intval($time->format('i'));
@@ -89,9 +83,9 @@ class Time implements ValueObjectInterface
     /**
      * Returns current Time.
      *
-     * @return Time|ValueObjectInterface
+     * @return Time|ValueObject
      */
-    public static function now(): ValueObjectInterface
+    public static function now(): ValueObject
     {
         return new static(Hour::now(), Minute::now(), Second::now());
     }
@@ -99,9 +93,9 @@ class Time implements ValueObjectInterface
     /**
      * Return zero time.
      *
-     * @return Time|ValueObjectInterface
+     * @return Time|ValueObject
      */
-    public static function zero(): ValueObjectInterface
+    public static function zero(): ValueObject
     {
         return new static(new Hour(0), new Minute(0), new Second(0));
     }
@@ -109,25 +103,21 @@ class Time implements ValueObjectInterface
     /**
      * Tells whether two Time are equal by comparing their values.
      *
-     * @param Time|ValueObjectInterface $time
-     *
-     * @return bool
+     * @param Time|ValueObject $time
      */
-    public function equals(ValueObjectInterface $time): bool
+    public function equals(ValueObject $time): bool
     {
         if (false === Util::classEquals($this, $time)) {
             return false;
         }
 
         return $this->getHour()->equals($time->getHour())
-            && $this->getMinute()->equals($time->getMinute())
-            && $this->getSecond()->equals($time->getSecond());
+        && $this->getMinute()->equals($time->getMinute())
+        && $this->getSecond()->equals($time->getSecond());
     }
 
     /**
      * Get hour.
-     *
-     * @return Hour
      */
     public function getHour(): Hour
     {
@@ -136,8 +126,6 @@ class Time implements ValueObjectInterface
 
     /**
      * Get minute.
-     *
-     * @return Minute
      */
     public function getMinute(): Minute
     {
@@ -146,8 +134,6 @@ class Time implements ValueObjectInterface
 
     /**
      * Get second.
-     *
-     * @return Second
      */
     public function getSecond(): Second
     {
@@ -157,8 +143,6 @@ class Time implements ValueObjectInterface
     /**
      * Returns a native CarbonImmutable version of the current Time.
      * Date is set to current.
-     *
-     * @return CarbonImmutable
      */
     public function toNativeCarbonImmutable(): CarbonImmutable
     {

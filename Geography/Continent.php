@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Geography;
@@ -15,11 +25,11 @@ namespace Qubus\ValueObjects\Geography;
  */
 class Continent extends Enum
 {
-    const AFRICA = 'Africa';
-    const EUROPE = 'Europe';
-    const ASIA = 'Asia';
-    const NORTH_AMERICA = 'North America';
-    const SOUTH_AMERICA = 'South America';
-    const ANTARCTICA = 'Antarctica';
-    const AUSTRALIA = 'Australia';
+    public const AFRICA = 'Africa';
+    public const EUROPE = 'Europe';
+    public const ASIA = 'Asia';
+    public const NORTH_AMERICA = 'North America';
+    public const SOUTH_AMERICA = 'South America';
+    public const ANTARCTICA = 'Antarctica';
+    public const AUSTRALIA = 'Australia';
 }

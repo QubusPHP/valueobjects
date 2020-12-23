@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\DateTime;
@@ -7,9 +17,9 @@ namespace Qubus\ValueObjects\DateTime;
 use Carbon\CarbonImmutable;
 use Qubus\ValueObjects\Enum\Enum;
 
+use function strtoupper;
+
 /**
- * Class Month.
- *
  * @method static string JANUARY()
  * @method static string FEBRUARY()
  * @method static string MARCH()
@@ -25,23 +35,21 @@ use Qubus\ValueObjects\Enum\Enum;
  */
 class Month extends Enum
 {
-    const JANUARY = 'January';
-    const FEBRUARY = 'February';
-    const MARCH = 'March';
-    const APRIL = 'April';
-    const MAY = 'May';
-    const JUNE = 'June';
-    const JULY = 'July';
-    const AUGUST = 'August';
-    const SEPTEMBER = 'September';
-    const OCTOBER = 'October';
-    const NOVEMBER = 'November';
-    const DECEMBER = 'December';
+    public const JANUARY = 'January';
+    public const FEBRUARY = 'February';
+    public const MARCH = 'March';
+    public const APRIL = 'April';
+    public const MAY = 'May';
+    public const JUNE = 'June';
+    public const JULY = 'July';
+    public const AUGUST = 'August';
+    public const SEPTEMBER = 'September';
+    public const OCTOBER = 'October';
+    public const NOVEMBER = 'November';
+    public const DECEMBER = 'December';
 
     /**
      * Get current Month.
-     *
-     * @return Month
      */
     public static function now(): Month
     {
@@ -54,7 +62,6 @@ class Month extends Enum
      * Returns Month from a native PHP \DateTime.
      *
      * @param  Carbon $date
-     * @return Month
      */
     public static function fromNativeCarbonImmutable(CarbonImmutable $date): Month
     {
@@ -66,8 +73,6 @@ class Month extends Enum
     /**
      * Returns a numeric representation of the Month.
      * 1 for January to 12 for December.
-     *
-     * @return int
      */
     public function getNumericValue(): int
     {

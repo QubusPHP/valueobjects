@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Geography;
@@ -14,8 +24,8 @@ use Qubus\ValueObjects\Enum\Enum;
  */
 class DistanceUnit extends Enum
 {
-    const FOOT = 'ft';
-    const METER = 'mt';
-    const KILOMETER = 'km';
-    const MILE = 'mi';
+    public const FOOT = 'ft';
+    public const METER = 'mt';
+    public const KILOMETER = 'km';
+    public const MILE = 'mi';
 }

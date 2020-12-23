@@ -1,12 +1,26 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Web;
 
+use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\Web\Hostname;
 use Qubus\ValueObjects\Web\IPAddress;
-use Qubus\ValueObjects\StringLiteral\StringLiteral;
+
+use function filter_var;
+
+use const FILTER_VALIDATE_IP;
 
 abstract class Domain extends StringLiteral
 {

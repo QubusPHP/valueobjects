@@ -1,37 +1,44 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\DateTime;
 
 use Carbon\CarbonTimeZone;
-use Qubus\ValueObjects\Util;
-use Qubus\ValueObjects\DateTime\Year;
-use Qubus\ValueObjects\DateTime\Month;
-use Qubus\ValueObjects\DateTime\MonthDay;
-use Qubus\ValueObjects\ValueObjectInterface;
+use Qubus\ValueObjects\DateTime\Exception\InvalidTimeZoneException;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
+use Qubus\ValueObjects\Util;
+use Qubus\ValueObjects\ValueObject;
 
-/**
- * Class TimeZone.
- */
-class TimeZone implements ValueObjectInterface
+use function date_default_timezone_get;
+use function func_get_args;
+use function in_array;
+use function strval;
+use function timezone_identifiers_list;
+
+class TimeZone implements ValueObject
 {
-    /**
-     * @var StringLiteral
-     */
     protected StringLiteral $name;
 
     /**
      * Returns a new TimeZone object.
      *
-     * @param  StringLiteral $name
-     * @throws Exceptions\InvalidTimeZoneException
+     * @throws InvalidTimeZoneException
      */
     public function __construct(StringLiteral $name)
     {
-        if (!in_array($name->toNative(), timezone_identifiers_list())) {
-            throw new Exceptions\InvalidTimeZoneException($name);
+        if (! in_array($name->toNative(), timezone_identifiers_list())) {
+            throw new InvalidTimeZoneException($name);
         }
 
         $this->name = $name;
@@ -39,8 +46,6 @@ class TimeZone implements ValueObjectInterface
 
     /**
      * Returns timezone name as string.
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -51,10 +56,10 @@ class TimeZone implements ValueObjectInterface
      * Returns a new Time object from native timezone name.
      *
      * @param  string $name
-     * @throws Exceptions\InvalidTimeZoneException
-     * @return TimeZone|ValueObjectInterface
+     * @throws InvalidTimeZoneException
+     * @return TimeZone|ValueObject
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): ValueObject
     {
         $args = func_get_args();
 
@@ -66,11 +71,10 @@ class TimeZone implements ValueObjectInterface
     /**
      * Returns a new Time from a native PHP \DateTime.
      *
-     * @param  CarbonTimeZone $timezone
-     * @throws Exceptions\InvalidTimeZoneException
-     * @return TimeZone|ValueObjectInterface
+     * @throws InvalidTimeZoneException
+     * @return TimeZone|ValueObject
      */
-    public static function fromNativeCarbonTimeZone(CarbonTimeZone $timezone): ValueObjectInterface
+    public static function fromNativeCarbonTimeZone(CarbonTimeZone $timezone): ValueObject
     {
         return static::fromNative($timezone->getName());
     }
@@ -78,8 +82,8 @@ class TimeZone implements ValueObjectInterface
     /**
      * Returns default TimeZone.
      *
-     * @throws Exceptions\InvalidTimeZoneException
-     * @return TimeZone|ValueObjectInterface
+     * @throws InvalidTimeZoneException
+     * @return TimeZone|ValueObject
      */
     public static function fromDefault()
     {
@@ -88,8 +92,6 @@ class TimeZone implements ValueObjectInterface
 
     /**
      * Returns a native CarbonTimeZone version of the current TimeZone.
-     *
-     * @return CarbonTimeZone
      */
     public function toNativeCarbonTimeZone(): CarbonTimeZone
     {
@@ -99,10 +101,9 @@ class TimeZone implements ValueObjectInterface
     /**
      * Tells whether two DateTimeZone are equal by comparing their names.
      *
-     * @param  ValueObjectInterface|TimeZone $timezone
-     * @return bool
+     * @param  ValueObject|TimeZone $timezone
      */
-    public function equals(ValueObjectInterface $timezone): bool
+    public function equals(ValueObject $timezone): bool
     {
         if (false === Util::classEquals($this, $timezone)) {
             return false;
@@ -113,8 +114,6 @@ class TimeZone implements ValueObjectInterface
 
     /**
      * Returns timezone name.
-     *
-     * @return StringLiteral
      */
     public function getName(): StringLiteral
     {

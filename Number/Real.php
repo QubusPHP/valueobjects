@@ -1,17 +1,37 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Number;
 
-use Qubus\ValueObjects\Util;
+use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\Number\Integer;
 use Qubus\ValueObjects\Number\Natural;
-use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\Number\RoundingMode;
-use Qubus\ValueObjects\ValueObjectInterface;
+use Qubus\ValueObjects\Util;
+use Qubus\ValueObjects\ValueObject;
 
-class Real implements ValueObjectInterface
+use function abs;
+use function filter_var;
+use function func_get_arg;
+use function round;
+use function sprintf;
+use function str_replace;
+use function strval;
+
+use const FILTER_VALIDATE_FLOAT;
+
+class Real implements ValueObject
 {
     protected $value;
 
@@ -21,7 +41,7 @@ class Real implements ValueObjectInterface
      * @param  float $number
      * @return static
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): ValueObject
     {
         $value = func_get_arg(0);
 
@@ -35,7 +55,7 @@ class Real implements ValueObjectInterface
      */
     public function __construct($value)
     {
-        $stringValue = (string)$value;
+        $stringValue = (string) $value;
         /**
          * In some locales the decimal-point character might be different,
          * which can cause filter_var($value, FILTER_VALIDATE_FLOAT) to fail.
@@ -46,7 +66,7 @@ class Real implements ValueObjectInterface
          * Only apply the decimal-point character fix if needed, otherwise
          * preserve the old value.
          */
-        if ($stringValue !== (string)$value) {
+        if ($stringValue !== (string) $value) {
             $value = filter_var($stringValue, FILTER_VALIDATE_FLOAT);
         } else {
             $value = filter_var($value, FILTER_VALIDATE_FLOAT);
@@ -76,11 +96,8 @@ class Real implements ValueObjectInterface
 
     /**
      * Tells whether two Real's are equal by comparing their values.
-     *
-     * @param  ValueObjectInterface $real
-     * @return bool
      */
-    public function equals(ValueObjectInterface $real): bool
+    public function equals(ValueObject $real): bool
     {
         if (false === Util::classEquals($this, $real)) {
             return false;
@@ -92,43 +109,35 @@ class Real implements ValueObjectInterface
     /**
      * Returns the integer part of the Real number as a Integer.
      *
-     * @param  RoundingMode $rounding_mode Rounding mode of the conversion.
+     * @param  RoundingMode $roundingMode Rounding mode of the conversion.
      *                                     Defaults to RoundingMode::HALF_UP.
-     * @return Integer
      */
-    public function toInteger(RoundingMode $rounding_mode = null): Integer
+    public function toInteger(?RoundingMode $roundingMode = null): Integer
     {
-        if (null == $rounding_mode) {
-            $rounding_mode = RoundingMode::HALF_UP();
+        if (null === $roundingMode) {
+            $roundingMode = RoundingMode::HALF_UP();
         }
 
         $value        = $this->toNative();
-        $integerValue = round($value, 0, $rounding_mode->toNative());
-        $integer      = new Integer($integerValue);
-
-        return $integer;
+        $integerValue = round($value, 0, $roundingMode->toNative());
+        return new Integer($integerValue);
     }
 
     /**
      * Returns the absolute integer part of the Real number as a Natural.
      *
-     * @param  RoundingMode $rounding_mode Rounding mode of the conversion.
+     * @param  RoundingMode $roundingMode Rounding mode of the conversion.
      *                                     Defaults to RoundingMode::HALF_UP.
-     * @return Natural
      */
-    public function toNatural(RoundingMode $rounding_mode = null): Natural
+    public function toNatural(?RoundingMode $roundingMode = null): Natural
     {
-        $integerValue = $this->toInteger($rounding_mode)->toNative();
+        $integerValue = $this->toInteger($roundingMode)->toNative();
         $naturalValue = abs($integerValue);
-        $natural      = new Natural($naturalValue);
-
-        return $natural;
+        return new Natural($naturalValue);
     }
 
     /**
      * Returns the string representation of the real value
-     *
-     * @return string
      */
     public function __toString(): string
     {

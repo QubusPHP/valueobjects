@@ -1,15 +1,29 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Enum;
 
-use Qubus\ValueObjects\Util;
 use MabeEnum\Enum as BaseEnum;
 use MabeEnum\EnumSerializableTrait;
-use Qubus\ValueObjects\ValueObjectInterface;
+use Qubus\ValueObjects\Util;
+use Qubus\ValueObjects\ValueObject;
+use Serializable;
 
-abstract class Enum extends BaseEnum implements ValueObjectInterface, \Serializable
+use function func_get_arg;
+use function strval;
+
+abstract class Enum extends BaseEnum implements ValueObject, Serializable
 {
     use EnumSerializableTrait;
 
@@ -19,7 +33,7 @@ abstract class Enum extends BaseEnum implements ValueObjectInterface, \Serializa
      * @param  string $value
      * @return static
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): ValueObject
     {
         return static::get(func_get_arg(0));
     }
@@ -38,9 +52,8 @@ abstract class Enum extends BaseEnum implements ValueObjectInterface, \Serializa
      * Tells whether two Enum objects are sameValueAs by comparing their values
      *
      * @param  Enum $enum
-     * @return bool
      */
-    public function equals(ValueObjectInterface $enum): bool
+    public function equals(ValueObject $enum): bool
     {
         if (false === Util::classEquals($this, $enum)) {
             return false;
@@ -51,20 +64,17 @@ abstract class Enum extends BaseEnum implements ValueObjectInterface, \Serializa
 
     /**
      * Returns a native string representation of the Enum value
-     *
-     * @return string
      */
     public function __toString(): string
     {
         return strval($this->toNative());
     }
 
-
     public function jsonSerialize(): array
     {
         return [
-            'current' => $this->getValue(),
-            'available' => BaseEnum::getConstants()
+            'current'   => $this->getValue(),
+            'available' => BaseEnum::getConstants(),
         ];
     }
 }

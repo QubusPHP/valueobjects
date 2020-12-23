@@ -1,43 +1,43 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\DateTime;
 
 use Carbon\CarbonImmutable;
-use Qubus\ValueObjects\Util;
-use Qubus\ValueObjects\DateTime\Year;
+use Qubus\ValueObjects\DateTime\Exception\InvalidDateException;
 use Qubus\ValueObjects\DateTime\Month;
 use Qubus\ValueObjects\DateTime\MonthDay;
-use Qubus\ValueObjects\ValueObjectInterface;
+use Qubus\ValueObjects\DateTime\Year;
+use Qubus\ValueObjects\Util;
+use Qubus\ValueObjects\ValueObject;
 
-/**
- * Class Date.
- */
-class Date implements ValueObjectInterface
+use function func_get_args;
+use function intval;
+use function sprintf;
+
+class Date implements ValueObject
 {
-    /**
-     * @var Year
-     */
     protected Year $year;
 
-    /**
-     * @var Month
-     */
     protected Month $month;
 
-    /**
-     * @var MonthDay
-     */
     protected MonthDay $day;
 
     /**
      * Create a new Date.
      *
-     * @param  Year     $year
-     * @param  Month    $month
-     * @param  MonthDay $day
-     * @throws Exceptions\InvalidDateException
+     * @throws InvalidDateException
      */
     public function __construct(Year $year, Month $month, MonthDay $day)
     {
@@ -45,7 +45,7 @@ class Date implements ValueObjectInterface
         $nativeDateErrors = CarbonImmutable::getLastErrors();
 
         if ($nativeDateErrors['warning_count'] > 0 || $nativeDateErrors['error_count'] > 0) {
-            throw new Exceptions\InvalidDateException($year->toNative(), $month->toNative(), $day->toNative());
+            throw new InvalidDateException($year->toNative(), $month->toNative(), $day->toNative());
         }
 
         $this->year = $year;
@@ -55,8 +55,6 @@ class Date implements ValueObjectInterface
 
     /**
      * Returns date as string in format Y-n-j.
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -69,10 +67,10 @@ class Date implements ValueObjectInterface
      * @param  int    $year
      * @param  string $month
      * @param  int    $day
-     * @throws Exceptions\InvalidDateException
-     * @return Date|ValueObjectInterface
+     * @throws InvalidDateException
+     * @return Date|ValueObject
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): ValueObject
     {
         $args = func_get_args();
 
@@ -86,9 +84,7 @@ class Date implements ValueObjectInterface
     /**
      * Returns a new Date from CarbonImmutable.
      *
-     * @param  CarbonImmutable $date
-     * @throws Exceptions\InvalidDateException
-     * @return Date
+     * @throws InvalidDateException
      */
     public static function fromNativeCarbonImmutable(CarbonImmutable $date): Date
     {
@@ -102,8 +98,7 @@ class Date implements ValueObjectInterface
     /**
      * Returns current Date.
      *
-     * @throws Exceptions\InvalidDateException
-     * @return Date
+     * @throws InvalidDateException
      */
     public static function now(): Date
     {
@@ -113,24 +108,21 @@ class Date implements ValueObjectInterface
     /**
      * Tells whether two Date are equal by comparing their values.
      *
-     * @param  ValueObjectInterface|Date $date
-     * @return bool
+     * @param  ValueObject|Date $date
      */
-    public function equals(ValueObjectInterface $date): bool
+    public function equals(ValueObject $date): bool
     {
         if (false === Util::classEquals($this, $date)) {
             return false;
         }
 
         return $this->getYear()->equals($date->getYear()) &&
-            $this->getMonth()->equals($date->getMonth()) &&
-            $this->getDay()->equals($date->getDay());
+        $this->getMonth()->equals($date->getMonth()) &&
+        $this->getDay()->equals($date->getDay());
     }
 
     /**
      * Get year.
-     *
-     * @return Year
      */
     public function getYear(): Year
     {
@@ -139,8 +131,6 @@ class Date implements ValueObjectInterface
 
     /**
      * Get month.
-     *
-     * @return Month
      */
     public function getMonth(): Month
     {
@@ -149,8 +139,6 @@ class Date implements ValueObjectInterface
 
     /**
      * Get day.
-     *
-     * @return MonthDay
      */
     public function getDay(): MonthDay
     {
@@ -159,8 +147,6 @@ class Date implements ValueObjectInterface
 
     /**
      * Returns a CarbonImmutable version of the current Date.
-     *
-     * @return CarbonImmutable
      */
     public function toNativeCarbonImmutable(): CarbonImmutable
     {

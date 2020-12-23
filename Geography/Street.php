@@ -1,19 +1,35 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Geography;
 
-use Qubus\ValueObjects\Util;
-use Qubus\ValueObjects\ValueObjectInterface;
+use BadFunctionCallException;
+use BadMethodCallException;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
+use Qubus\ValueObjects\Util;
+use Qubus\ValueObjects\ValueObject;
 
-class Street implements ValueObjectInterface
+use function array_keys;
+use function array_values;
+use function count;
+use function func_get_args;
+use function str_replace;
+
+class Street implements ValueObject
 {
-    /** @var StringLiteral */
     protected StringLiteral $name;
 
-    /** @var StringLiteral */
     protected StringLiteral $number;
 
     /** @var StringLiteral Building, floor and unit */
@@ -27,17 +43,12 @@ class Street implements ValueObjectInterface
 
     /**
      * Returns a new Street object.
-     *
-     * @param StringLiteral      $name
-     * @param StringLiteral      $number
-     * @param StringLiteral|null $elements
-     * @param StringLiteral|null $format
      */
     public function __construct(
         StringLiteral $name,
         StringLiteral $number,
-        StringLiteral $elements = null,
-        StringLiteral $format = null
+        ?StringLiteral $elements = null,
+        ?StringLiteral $format = null
     ) {
         $this->name = $name;
         $this->number = $number;
@@ -55,20 +66,16 @@ class Street implements ValueObjectInterface
 
     /**
      * Returns a string representation of the StringLiteral in the format defined in the constructor.
-     *
-     * @return string
      */
     public function __toString(): string
     {
         $replacements = [
-            '%name%' => $this->getName(),
-            '%number%' => $this->getNumber(),
+            '%name%'     => $this->getName(),
+            '%number%'   => $this->getNumber(),
             '%elements%' => $this->getElements(),
         ];
 
-        $streetString = str_replace(array_keys($replacements), array_values($replacements), $this->format);
-
-        return $streetString;
+        return str_replace(array_keys($replacements), array_values($replacements), $this->format);
     }
 
     /**
@@ -77,25 +84,24 @@ class Street implements ValueObjectInterface
      * @param string $name
      * @param string $number
      * @param string $elements
-     *
-     * @throws \BadFunctionCallException
-     *
-     * @return Street|ValueObjectInterface
+     * @throws BadFunctionCallException
+     * @return Street|ValueObject
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): ValueObject
     {
         $args = func_get_args();
 
         if (count($args) < 2) {
-            throw new \BadMethodCallException(
-                'You must provide from 2 to 4 arguments: 1) street name, 2) street number, 3) elements, 4) format (optional)'
+            throw new BadMethodCallException(
+                'You must provide from 2 to 4 arguments: 1) street name, 2) street number, 
+                3) elements, 4) format (optional)'
             );
         }
 
         $nameString = $args[0];
         $numberString = $args[1];
-        $elementsString = isset($args[2]) ? $args[2] : '';
-        $formatString = isset($args[3]) ? $args[3] : '';
+        $elementsString = $args[2] ?? '';
+        $formatString = $args[3] ?? '';
 
         $name = new StringLiteral($nameString);
         $number = new StringLiteral($numberString);
@@ -108,25 +114,21 @@ class Street implements ValueObjectInterface
     /**
      * Tells whether two Street objects are equal.
      *
-     * @param Street|ValueObjectInterface $street
-     *
-     * @return bool
+     * @param Street|ValueObject $street
      */
-    public function equals(ValueObjectInterface $street): bool
+    public function equals(ValueObject $street): bool
     {
         if (false === Util::classEquals($this, $street)) {
             return false;
         }
 
         return $this->getName()->equals($street->getName()) &&
-            $this->getNumber()->equals($street->getNumber()) &&
-            $this->getElements()->equals($street->getElements());
+        $this->getNumber()->equals($street->getNumber()) &&
+        $this->getElements()->equals($street->getElements());
     }
 
     /**
      * Returns street name.
-     *
-     * @return StringLiteral
      */
     public function getName(): StringLiteral
     {
@@ -135,8 +137,6 @@ class Street implements ValueObjectInterface
 
     /**
      * Returns street number.
-     *
-     * @return StringLiteral
      */
     public function getNumber(): StringLiteral
     {
@@ -145,8 +145,6 @@ class Street implements ValueObjectInterface
 
     /**
      * Returns street elements.
-     *
-     * @return StringLiteral
      */
     public function getElements(): StringLiteral
     {

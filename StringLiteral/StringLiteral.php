@@ -1,14 +1,29 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\StringLiteral;
 
-use Qubus\ValueObjects\Util;
 use Qubus\Exception\Data\TypeException;
-use Qubus\ValueObjects\ValueObjectInterface;
+use Qubus\ValueObjects\Util;
+use Qubus\ValueObjects\ValueObject;
 
-class StringLiteral implements ValueObjectInterface
+use function func_get_arg;
+use function is_string;
+use function sprintf;
+use function strlen;
+
+class StringLiteral implements ValueObject
 {
     protected $value;
 
@@ -16,9 +31,9 @@ class StringLiteral implements ValueObjectInterface
      * Returns a String object given a PHP native string as parameter.
      *
      * @param  string $value
-     * @return StringLiteral|ValueObjectInterface
+     * @return StringLiteral|ValueObject
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): ValueObject
     {
         $value = func_get_arg(0);
 
@@ -28,8 +43,7 @@ class StringLiteral implements ValueObjectInterface
     /**
      * Returns a String object given a PHP native string as parameter.
      *
-     * @param  string $value
-     * @throws \Qubus\Exception\Data\TypeException
+     * @throws TypeException
      */
     public function __construct(string $value)
     {
@@ -47,8 +61,6 @@ class StringLiteral implements ValueObjectInterface
 
     /**
      * Returns the value of the string.
-     *
-     * @return string
      */
     public function toNative(): string
     {
@@ -58,10 +70,9 @@ class StringLiteral implements ValueObjectInterface
     /**
      * Tells whether two strings are equal by comparing their values
      *
-     * @param  ValueObjectInterface $string
-     * @return bool
+     * @param  ValueObject $string
      */
-    public function equals(ValueObjectInterface $stringLiteral): bool
+    public function equals(ValueObject $stringLiteral): bool
     {
         if (false === Util::classEquals($this, $stringLiteral)) {
             return false;
@@ -72,18 +83,14 @@ class StringLiteral implements ValueObjectInterface
 
     /**
      * Tells whether the String is empty
-     *
-     * @return bool
      */
     public function isEmpty(): bool
     {
-        return 0 == strlen($this->toNative());
+        return 0 === strlen($this->toNative());
     }
 
     /**
      * Returns the string value itself
-     *
-     * @return string
      */
     public function __toString(): string
     {

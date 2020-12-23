@@ -1,42 +1,44 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Money;
 
-use Qubus\ValueObjects\Util;
 use Money\Currency as BaseCurrency;
 use Qubus\ValueObjects\Money\CurrencyCode;
-use Qubus\ValueObjects\ValueObjectInterface;
+use Qubus\ValueObjects\Util;
+use Qubus\ValueObjects\ValueObject;
 
-class Currency implements ValueObjectInterface
+use function func_get_arg;
+
+class Currency implements ValueObject
 {
-    /**
-     * @var BaseCurrency
-     */
+    /** @var BaseCurrency */
     protected $currency;
 
-    /**
-     * @var CurrencyCode
-     */
     protected CurrencyCode $code;
 
     /**
      * Returns a new Currency object from native string currency code
      *
      * @param  string $code Currency code
-     * @return Currency|ValueObjectInterface
+     * @return Currency|ValueObject
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): ValueObject
     {
         return new static(CurrencyCode::get(func_get_arg(0)));
     }
 
-    /**
-     * Currency constructor.
-     *
-     * @param CurrencyCode $code
-     */
     public function __construct(CurrencyCode $code)
     {
         $this->code     = $code;
@@ -45,23 +47,18 @@ class Currency implements ValueObjectInterface
 
     /**
      * Tells whether two Currency are equal by comparing their names
-     *
-     * @param  ValueObjectInterface $currency
-     * @return bool
      */
-    public function equals(ValueObjectInterface $currency): bool
+    public function equals(ValueObject $currency): bool
     {
         if (false === Util::classEquals($this, $currency)) {
             return false;
         }
 
-        return $this->getCode()->toNative() == $currency->getCode()->toNative();
+        return $this->getCode()->toNative() === $currency->getCode()->toNative();
     }
 
     /**
      * Returns currency code
-     *
-     * @return CurrencyCode
      */
     public function getCode(): CurrencyCode
     {
@@ -70,8 +67,6 @@ class Currency implements ValueObjectInterface
 
     /**
      * Returns string representation of the currency
-     *
-     * @return string
      */
     public function __toString(): string
     {

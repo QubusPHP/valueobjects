@@ -1,25 +1,36 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\DateTime;
 
 use Carbon\CarbonImmutable;
-use Qubus\ValueObjects\Number\Natural;
 use Qubus\Exception\Data\TypeException;
+use Qubus\ValueObjects\Number\Natural;
 
-/**
- * Class Second.
- */
+use function filter_var;
+use function intval;
+use function sprintf;
+
+use const FILTER_VALIDATE_INT;
+
 class Second extends Natural
 {
-    const MIN_SECOND = 0;
-    const MAX_SECOND = 59;
+    public const MIN_SECOND = 0;
+    public const MAX_SECOND = 59;
 
     /**
      * Returns a new Second object.
-     *
-     * @param int $value
      */
     public function __construct(int $value)
     {
@@ -43,8 +54,6 @@ class Second extends Natural
 
     /**
      * Returns the current second.
-     *
-     * @return Second
      */
     public static function now(): Second
     {

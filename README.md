@@ -5,16 +5,21 @@ A PHP library of immutable objects to use in Domain Driven Design.
 
 This is fork of [ytake/valueobjects](https://github.com/ytake/valueobjects/). The difference with this libary is that DateTime is using [Carbon](https://github.com/briannesbitt/Carbon).
 
-# Install
+## Requirements
 
-required >= PHP 7.4
+* PHP 7.4+
+
+## Install
 
 ```bash
 $ composer require qubus/valueobjects
 ```
 
-# Testing
+## Testing
 
 ```bash
 $ composer test
 ```
+
+## License
+Released under the MIT [License](https://opensource.org/licenses/MIT).
