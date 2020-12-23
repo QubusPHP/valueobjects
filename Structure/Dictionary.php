@@ -1,15 +1,34 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Structure;
 
-use SplFixedArray;
 use Qubus\Exception\Data\TypeException;
-use Qubus\ValueObjects\Structure\Collection;
-use Qubus\ValueObjects\ValueObjectInterface;
-use Qubus\ValueObjects\Structure\KeyValuePair;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
+use Qubus\ValueObjects\Structure\Collection;
+use Qubus\ValueObjects\Structure\KeyValuePair;
+use Qubus\ValueObjects\ValueObject;
+use SplFixedArray;
+use Traversable;
+
+use function func_get_arg;
+use function get_class;
+use function gettype;
+use function is_array;
+use function is_object;
+use function sprintf;
+use function strval;
 
 class Dictionary extends Collection
 {
@@ -40,10 +59,9 @@ class Dictionary extends Collection
      * Returns a new Dictionary object.
      *
      * @param ...array $array
-     *
-     * @return Dictionary|ValueObjectInterface
+     * @return Dictionary|ValueObject
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): ValueObject
     {
         $array = func_get_arg(0);
         $keyValuePairs = [];
@@ -51,7 +69,7 @@ class Dictionary extends Collection
         foreach ($array as $arrayKey => $arrayValue) {
             $key = new StringLiteral(strval($arrayKey));
 
-            if ($arrayValue instanceof \Traversable || is_array($arrayValue)) {
+            if ($arrayValue instanceof Traversable || is_array($arrayValue)) {
                 $value = Collection::fromNative($arrayValue);
             } else {
                 $value = new StringLiteral(strval($arrayValue));
@@ -64,8 +82,6 @@ class Dictionary extends Collection
 
     /**
      * Returns a Collection of the keys.
-     *
-     * @return Collection
      */
     public function keys(): Collection
     {
@@ -81,8 +97,6 @@ class Dictionary extends Collection
 
     /**
      * Returns a Collection of the values.
-     *
-     * @return Collection
      */
     public function values(): Collection
     {
@@ -98,12 +112,8 @@ class Dictionary extends Collection
 
     /**
      * Tells whether $object is one of the keys.
-     *
-     * @param ValueObjectInterface $object
-     *
-     * @return bool
      */
-    public function containsKey(ValueObjectInterface $object): bool
+    public function containsKey(ValueObject $object): bool
     {
         $keys = $this->keys();
 
@@ -112,12 +122,8 @@ class Dictionary extends Collection
 
     /**
      * Tells whether $object is one of the values.
-     *
-     * @param ValueObjectInterface $object
-     *
-     * @return bool
      */
-    public function containsValue(ValueObjectInterface $object): bool
+    public function containsValue(ValueObject $object): bool
     {
         $values = $this->values();
 

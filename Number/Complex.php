@@ -1,19 +1,38 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Number;
 
-use Qubus\ValueObjects\Util;
+use BadMethodCallException;
 use Qubus\ValueObjects\Number\Real;
-use Qubus\ValueObjects\ValueObjectInterface;
+use Qubus\ValueObjects\Util;
+use Qubus\ValueObjects\ValueObject;
 
-class Complex implements ValueObjectInterface
+use function atan2;
+use function cos;
+use function count;
+use function func_get_args;
+use function pow;
+use function preg_replace;
+use function sin;
+use function sprintf;
+use function sqrt;
+
+class Complex implements ValueObject
 {
-    /** @var Real */
     protected Real $real;
 
-    /** @var Real */
     protected Real $im;
 
     /**
@@ -21,29 +40,25 @@ class Complex implements ValueObjectInterface
      *
      * @param  float                        $real Real part of the complex number
      * @param  float                        $im   Imaginary part of the complex number
-     * @return Complex|ValueObjectInterface
-     * @throws \BadMethodCallException
+     * @return Complex|ValueObject
+     * @throws BadMethodCallException
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): ValueObject
     {
         $args = func_get_args();
 
-        if (2 != count($args)) {
-            throw new \BadMethodCallException('You must provide 2 arguments: 1) real part, 2) imaginary part');
+        if (2 !== count($args)) {
+            throw new BadMethodCallException('You must provide 2 arguments: 1) real part, 2) imaginary part');
         }
 
         $real = Real::fromNative($args[0]);
         $im = Real::fromNative($args[1]);
-        $complex = new static($real, $im);
-
-        return $complex;
+        return new static($real, $im);
     }
 
     /**
      * Returns a Complex given polar coordinates
      *
-     * @param  Real    $modulus
-     * @param  Real    $argument
      * @return Complex
      */
     public static function fromPolar(Real $modulus, Real $argument)
@@ -52,16 +67,11 @@ class Complex implements ValueObjectInterface
         $imValue = $modulus->toNative() * sin($argument->toNative());
         $real = new Real($realValue);
         $im = new Real($imValue);
-        $complex = new static($real, $im);
-
-        return $complex;
+        return new static($real, $im);
     }
 
     /**
      * Returns a Complex object give its real and imaginary parts as parameters
-     *
-     * @param Real $real
-     * @param Real $im
      */
     public function __construct(Real $real, Real $im)
     {
@@ -69,14 +79,14 @@ class Complex implements ValueObjectInterface
         $this->im = $im;
     }
 
-    public function equals(ValueObjectInterface $complex): bool
+    public function equals(ValueObject $complex): bool
     {
         if (false === Util::classEquals($this, $complex)) {
             return false;
         }
 
         return $this->getReal()->equals($complex->getReal()) &&
-               $this->getIm()->equals($complex->getIm());
+        $this->getIm()->equals($complex->getIm());
     }
 
     /**
@@ -88,14 +98,12 @@ class Complex implements ValueObjectInterface
     {
         return [
             $this->getReal()->toNative(),
-            $this->getIm()->toNative()
+            $this->getIm()->toNative(),
         ];
     }
 
     /**
      * Returns the real part of the complex number
-     *
-     * @return Real
      */
     public function getReal(): Real
     {
@@ -104,8 +112,6 @@ class Complex implements ValueObjectInterface
 
     /**
      * Returns the imaginary part of the complex number
-     *
-     * @return Real
      */
     public function getIm(): Real
     {
@@ -114,8 +120,6 @@ class Complex implements ValueObjectInterface
 
     /**
      * Returns the modulus (or absolute value or magnitude) of the Complex number
-     *
-     * @return Real
      */
     public function getModulus(): Real
     {
@@ -128,8 +132,6 @@ class Complex implements ValueObjectInterface
 
     /**
      * Returns the argument (or phase) of the Complex number
-     *
-     * @return Real
      */
     public function getArgument(): Real
     {
@@ -142,8 +144,6 @@ class Complex implements ValueObjectInterface
 
     /**
      * Returns a native string version of the Complex object in format "${real} +|- ${complex}i"
-     *
-     * @return string
      */
     public function __toString(): string
     {

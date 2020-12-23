@@ -1,37 +1,41 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\DateTime;
 
 use Carbon\CarbonImmutable;
-use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\DateTime\DateTime;
+use Qubus\ValueObjects\DateTime\DateTimeWithTimeZone;
+use Qubus\ValueObjects\DateTime\Exception\InvalidDateException;
+use Qubus\ValueObjects\DateTime\Exception\InvalidTimeZoneException;
 use Qubus\ValueObjects\DateTime\TimeZone;
-use Qubus\ValueObjects\ValueObjectInterface;
+use Qubus\ValueObjects\Util;
+use Qubus\ValueObjects\ValueObject;
 
-/**
- * Class DateTimeWithTimeZone.
- */
-class DateTimeWithTimeZone implements ValueObjectInterface
+use function func_get_args;
+use function sprintf;
+
+class DateTimeWithTimeZone implements ValueObject
 {
-    /**
-     * @var DateTime
-     */
     protected DateTime $dateTime;
 
-    /**
-     * @var TimeZone
-     */
     protected TimeZone $timeZone;
 
     /**
      * Returns a new DateTimeWithTimeZone object.
-     *
-     * @param DateTime      $datetime
-     * @param TimeZone|null $timezone
      */
-    public function __construct(DateTime $datetime, TimeZone $timezone = null)
+    public function __construct(DateTime $datetime, ?TimeZone $timezone = null)
     {
         $this->dateTime = $datetime;
         $this->timeZone = $timezone;
@@ -39,8 +43,6 @@ class DateTimeWithTimeZone implements ValueObjectInterface
 
     /**
      * Returns DateTime as string in format "Y-n-j G:i:s.u e".
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -57,13 +59,11 @@ class DateTimeWithTimeZone implements ValueObjectInterface
      * @param int    $minute
      * @param int    $second
      * @param string $timezone
-     *
-     * @throws Exceptions\InvalidDateException
-     * @throws Exceptions\InvalidTimeZoneException
-     *
-     * @return DateTimeWithTimeZone|ValueObjectInterface
+     * @throws InvalidDateException
+     * @throws InvalidTimeZoneException
+     * @return DateTimeWithTimeZone|ValueObject
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): ValueObject
     {
         $args = func_get_args();
 
@@ -76,14 +76,11 @@ class DateTimeWithTimeZone implements ValueObjectInterface
     /**
      * Returns a new DateTime from a native PHP \DateTime.
      *
-     * @param CarbonImmutable $nativeDatetime
-     *
-     * @throws Exceptions\InvalidDateException
-     * @throws Exceptions\InvalidTimeZoneException
-     *
-     * @return DateTimeWithTimeZone|ValueObjectInterface
+     * @throws InvalidDateException
+     * @throws InvalidTimeZoneException
+     * @return DateTimeWithTimeZone|ValueObject
      */
-    public static function fromNativeCarbonImmutable(CarbonImmutable $nativeDatetime): ValueObjectInterface
+    public static function fromNativeCarbonImmutable(CarbonImmutable $nativeDatetime): ValueObject
     {
         return new static(
             DateTime::fromNativeCarbonImmutable($nativeDatetime),
@@ -94,10 +91,9 @@ class DateTimeWithTimeZone implements ValueObjectInterface
     /**
      * Returns a DateTimeWithTimeZone object using current DateTime and default TimeZone.
      *
-     * @throws Exceptions\InvalidDateException
-     * @throws Exceptions\InvalidTimeZoneException
-     *
-     * @return DateTimeWithTimeZone|ValueObjectInterface
+     * @throws InvalidDateException
+     * @throws InvalidTimeZoneException
+     * @return DateTimeWithTimeZone|ValueObject
      */
     public static function now()
     {
@@ -107,40 +103,34 @@ class DateTimeWithTimeZone implements ValueObjectInterface
     /**
      * Tells whether two DateTimeWithTimeZone are equal by comparing their values.
      *
-     * @param DateTimeWithTimeZone|ValueObjectInterface $dateTimeWithTimeZone
-     *
-     * @return bool
+     * @param DateTimeWithTimeZone|ValueObject $dateTimeWithTimeZone
      */
-    public function equals(ValueObjectInterface $dateTimeWithTimeZone): bool
+    public function equals(ValueObject $dateTimeWithTimeZone): bool
     {
         if (false === Util::classEquals($this, $dateTimeWithTimeZone)) {
             return false;
         }
 
         return $this->getDateTime()->equals($dateTimeWithTimeZone->getDateTime())
-            && $this->getTimeZone()->equals($dateTimeWithTimeZone->getTimeZone());
+        && $this->getTimeZone()->equals($dateTimeWithTimeZone->getTimeZone());
     }
 
     /**
      * Tells whether two DateTimeWithTimeZone represents the same timestamp.
      *
-     * @param DateTimeWithTimeZone|ValueObjectInterface $dateTimeWithTimeZone
-     *
-     * @return bool
+     * @param DateTimeWithTimeZone|ValueObject $dateTimeWithTimeZone
      */
-    public function sameTimestampAs(ValueObjectInterface $dateTimeWithTimeZone): bool
+    public function sameTimestampAs(ValueObject $dateTimeWithTimeZone): bool
     {
         if (false === Util::classEquals($this, $dateTimeWithTimeZone)) {
             return false;
         }
 
-        return $this->toNativeCarbonImmutable() == $dateTimeWithTimeZone->toNativeCarbonImmutable();
+        return $this->toNativeCarbonImmutable() === $dateTimeWithTimeZone->toNativeCarbonImmutable();
     }
 
     /**
      * Returns datetime from current DateTimeWithTimeZone.
-     *
-     * @return DateTime
      */
     public function getDateTime(): DateTime
     {
@@ -149,8 +139,6 @@ class DateTimeWithTimeZone implements ValueObjectInterface
 
     /**
      * Returns timezone from current DateTimeWithTimeZone.
-     *
-     * @return TimeZone
      */
     public function getTimeZone(): TimeZone
     {
@@ -159,8 +147,6 @@ class DateTimeWithTimeZone implements ValueObjectInterface
 
     /**
      * Returns a Carbon version of the current DateTimeWithTimeZone.
-     *
-     * @return CarbonImmutable
      */
     public function toNativeCarbonImmutable(): CarbonImmutable
     {

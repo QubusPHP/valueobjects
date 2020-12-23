@@ -1,28 +1,37 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Money;
 
-use Qubus\ValueObjects\Util;
-use Money\Money as BaseMoney;
 use Money\Currency as BaseCurrency;
-use Qubus\ValueObjects\Number\Real;
+use Money\Money as BaseMoney;
 use Qubus\ValueObjects\Money\Currency;
 use Qubus\ValueObjects\Number\Integer;
+use Qubus\ValueObjects\Number\Real;
 use Qubus\ValueObjects\Number\RoundingMode;
-use Qubus\ValueObjects\ValueObjectInterface;
+use Qubus\ValueObjects\Util;
+use Qubus\ValueObjects\ValueObject;
 
-class Money implements ValueObjectInterface
+use function func_get_args;
+use function round;
+use function sprintf;
+
+class Money implements ValueObject
 {
-    /**
-     * @var BaseMoney
-     */
+    /** @var BaseMoney */
     protected $money;
 
-    /**
-     * @var Currency
-     */
     protected Currency $currency;
 
     /**
@@ -32,7 +41,7 @@ class Money implements ValueObjectInterface
      * @param  string $currency Currency code of the money object
      * @return static
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): ValueObject
     {
         $args = func_get_args();
 
@@ -57,11 +66,8 @@ class Money implements ValueObjectInterface
 
     /**
      *  Tells whether two Currency are equal by comparing their amount and currency
-     *
-     * @param  ValueObjectInterface $money
-     * @return bool
      */
-    public function equals(ValueObjectInterface $money): bool
+    public function equals(ValueObject $money): bool
     {
         if (false === Util::classEquals($this, $money)) {
             return false;
@@ -72,8 +78,6 @@ class Money implements ValueObjectInterface
 
     /**
      * Returns money amount
-     *
-     * @return Integer
      */
     public function getAmount(): Integer
     {
@@ -82,8 +86,6 @@ class Money implements ValueObjectInterface
 
     /**
      * Returns money currency
-     *
-     * @return Currency
      */
     public function getCurrency(): Currency
     {
@@ -95,41 +97,32 @@ class Money implements ValueObjectInterface
      * Use a negative quantity for subtraction.
      *
      * @param  Integer $quantity Quantity to add
-     * @return Money
      */
     public function add(Integer $quantity): Money
     {
         $amount = new Integer($this->getAmount()->toNative() + $quantity->toNative());
-        $result = new static($amount, $this->getCurrency());
-
-        return $result;
+        return new static($amount, $this->getCurrency());
     }
 
     /**
      * Multiply the Money amount for a given number and returns a new Money object.
      * Use 0 < Real $multipler < 1 for division.
      *
-     * @param  Real  $multiplier
-     * @param  mixed $rounding_mode Rounding mode of the operation. Defaults to RoundingMode::HALF_UP.
-     * @return Money
+     * @param  mixed $roundingMode Rounding mode of the operation. Defaults to RoundingMode::HALF_UP.
      */
-    public function multiply(Real $multiplier, RoundingMode $rounding_mode = null): Money
+    public function multiply(Real $multiplier, ?RoundingMode $roundingMode = null): Money
     {
-        if (null === $rounding_mode) {
-            $rounding_mode = RoundingMode::HALF_UP();
+        if (null === $roundingMode) {
+            $roundingMode = RoundingMode::HALF_UP();
         }
 
         $amount        = $this->getAmount()->toNative() * $multiplier->toNative();
-        $roundedAmount = new Integer(round($amount, 0, $rounding_mode->toNative()));
-        $result        = new static($roundedAmount, $this->getCurrency());
-
-        return $result;
+        $roundedAmount = new Integer(round($amount, 0, $roundingMode->toNative()));
+        return new static($roundedAmount, $this->getCurrency());
     }
 
     /**
      * Returns a string representation of the Money value in format "CUR AMOUNT" (e.g.: EUR 1000)
-     *
-     * @return string
      */
     public function __toString(): string
     {

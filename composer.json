@@ -2,7 +2,11 @@
     "name": "qubus/valueobjects",
     "type": "library",
     "description": "A PHP library of immutable objects to use in Domain Driven Design.",
-    "keywords": ["value object", "domain driven design", "ddd"],
+    "keywords": [
+        "value object",
+        "domain driven design",
+        "ddd"
+    ],
     "license": "MIT",
     "authors": [
         {
@@ -18,7 +22,7 @@
         "marc-mabe/php-enum": "^4.3",
         "moneyphp/money": "^3.3",
         "nesbot/carbon": "^2.39",
-        "qubus/exception": "^1.0",
+        "qubus/exception": "^1.1",
         "ramsey/uuid": "^4.1"
     },
     "require-dev": {
@@ -37,7 +41,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-        "Qubus\\ValueObjects\\Test\\": "tests/"
+            "Qubus\\Tests\\ValueObjects\\": "Tests/"
         }
     },
     "scripts": {

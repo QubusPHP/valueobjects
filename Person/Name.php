@@ -1,42 +1,45 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Person;
 
-use Qubus\ValueObjects\Util;
-use Qubus\ValueObjects\ValueObjectInterface;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
+use Qubus\ValueObjects\Util;
+use Qubus\ValueObjects\ValueObject;
 
-class Name implements ValueObjectInterface
+use function func_get_args;
+use function strval;
+
+class Name implements ValueObject
 {
     /**
      * First name.
-     *
-     * @var StringLiteral
      */
     protected StringLiteral $firstName;
 
     /**
      * Middle name.
-     *
-     * @var StringLiteral
      */
     protected StringLiteral $middleName;
 
     /**
      * Last name.
-     *
-     * @var StringLiteral
      */
     protected StringLiteral $lastName;
 
     /**
      * Returns a Name object.
-     *
-     * @param StringLiteral $firstName
-     * @param StringLiteral $middleName
-     * @param StringLiteral $lastName
      */
     public function __construct(
         StringLiteral $firstName,
@@ -50,8 +53,6 @@ class Name implements ValueObjectInterface
 
     /**
      * Returns the full name.
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -64,10 +65,9 @@ class Name implements ValueObjectInterface
      * @param string $first_name
      * @param string $middle_name
      * @param string $last_name
-     *
-     * @return Name|ValueObjectInterface
+     * @return Name|ValueObject
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): ValueObject
     {
         $args = func_get_args();
 
@@ -80,8 +80,6 @@ class Name implements ValueObjectInterface
 
     /**
      * Returns the first name.
-     *
-     * @return StringLiteral
      */
     public function getFirstName(): StringLiteral
     {
@@ -90,8 +88,6 @@ class Name implements ValueObjectInterface
 
     /**
      * Returns the middle name.
-     *
-     * @return StringLiteral
      */
     public function getMiddleName(): StringLiteral
     {
@@ -100,8 +96,6 @@ class Name implements ValueObjectInterface
 
     /**
      * Returns the last name.
-     *
-     * @return StringLiteral
      */
     public function getLastName(): StringLiteral
     {
@@ -110,28 +104,22 @@ class Name implements ValueObjectInterface
 
     /**
      * Returns the full name.
-     *
-     * @return StringLiteral
      */
     public function getFullName(): StringLiteral
     {
-        $fullNameString = $this->firstName.
-            ($this->middleName->isEmpty() ? '' : ' '.$this->middleName).
-            ($this->lastName->isEmpty() ? '' : ' '.$this->lastName);
+        $fullNameString = $this->firstName
+        . ($this->middleName->isEmpty() ? '' : ' ' . $this->middleName)
+        . ($this->lastName->isEmpty() ? '' : ' ' . $this->lastName);
 
-        $fullName = new StringLiteral($fullNameString);
-
-        return $fullName;
+        return new StringLiteral($fullNameString);
     }
 
     /**
      * Tells whether two names are equal by comparing their values.
      *
-     * @param Name|ValueObjectInterface $name
-     *
-     * @return bool
+     * @param Name|ValueObject $name
      */
-    public function equals(ValueObjectInterface $name): bool
+    public function equals(ValueObject $name): bool
     {
         if (false === Util::classEquals($this, $name)) {
             return false;

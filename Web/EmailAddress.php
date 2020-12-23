@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Web;
@@ -7,12 +17,17 @@ namespace Qubus\ValueObjects\Web;
 use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
 
+use function explode;
+use function filter_var;
+use function sprintf;
+use function trim;
+
+use const FILTER_VALIDATE_EMAIL;
+
 class EmailAddress extends StringLiteral
 {
     /**
      * Returns an EmailAddress object given a PHP native string as parameter.
-     *
-     * @param string $value
      */
     public function __construct(string $value)
     {
@@ -32,8 +47,6 @@ class EmailAddress extends StringLiteral
 
     /**
      * Returns the local part of the email address
-     *
-     * @return StringLiteral
      */
     public function getLocalPart(): StringLiteral
     {
@@ -44,8 +57,6 @@ class EmailAddress extends StringLiteral
 
     /**
      * Returns the domain part of the email address
-     *
-     * @return Domain
      */
     public function getDomainPart(): Domain
     {

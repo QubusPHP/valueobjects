@@ -1,37 +1,51 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Structure;
 
-use SplFixedArray;
-use Qubus\ValueObjects\Util;
-use Qubus\ValueObjects\Number\Natural;
 use Qubus\Exception\Data\TypeException;
-use Qubus\ValueObjects\ValueObjectInterface;
+use Qubus\ValueObjects\Number\Natural;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
+use Qubus\ValueObjects\Util;
+use Qubus\ValueObjects\ValueObject;
+use SplFixedArray;
+use Traversable;
 
-class Collection implements ValueObjectInterface
+use function func_get_arg;
+use function get_class;
+use function gettype;
+use function is_array;
+use function is_object;
+use function sprintf;
+use function strval;
+
+class Collection implements ValueObject
 {
-    /**
-     * @var SplFixedArray
-     */
     protected SplFixedArray $items;
 
     /**
      * Returns a new Collection object.
-     *
-     * @param SplFixedArray $items
      */
     public function __construct(SplFixedArray $items)
     {
         foreach ($items as $item) {
-            if (false === $item instanceof ValueObjectInterface) {
+            if (false === $item instanceof ValueObject) {
                 $type = is_object($item) ? get_class($item) : gettype($item);
 
                 throw new TypeException(
                     sprintf(
-                        'Passed SplFixedArray object must contains "ValueObjectInterface" objects only. "%s" given.',
+                        'Passed SplFixedArray object must contains "ValueObject" objects only. "%s" given.',
                         $type
                     )
                 );
@@ -43,30 +57,25 @@ class Collection implements ValueObjectInterface
 
     /**
      * Returns a native string representation of the Collection object.
-     *
-     * @return string
      */
     public function __toString(): string
     {
-        $string = sprintf('%s(%d)', get_class($this), $this->count()->toNative());
-
-        return $string;
+        return sprintf('%s(%d)', static::class, $this->count()->toNative());
     }
 
     /**
      * Returns a new Collection object.
      *
      * @param ...SplFixedArray $array
-     *
-     * @return Collection|ValueObjectInterface
+     * @return Collection|ValueObject
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): ValueObject
     {
         $array = func_get_arg(0);
         $items = [];
 
         foreach ($array as $item) {
-            if ($item instanceof \Traversable || is_array($item)) {
+            if ($item instanceof Traversable || is_array($item)) {
                 $items[] = static::fromNative($item);
             } else {
                 $items[] = new StringLiteral(strval($item));
@@ -79,13 +88,12 @@ class Collection implements ValueObjectInterface
     /**
      * Tells whether two Collection are equal by comparing their size and items (item order matters).
      *
-     * @param Collection|ValueObjectInterface $collection
-     *
-     * @return bool
+     * @param Collection|ValueObject $collection
      */
-    public function equals(ValueObjectInterface $collection): bool
+    public function equals(ValueObject $collection): bool
     {
-        if (false === Util::classEquals($this, $collection)
+        if (
+            false === Util::classEquals($this, $collection)
             || false === $this->count()->equals($collection->count())
         ) {
             return false;
@@ -94,7 +102,7 @@ class Collection implements ValueObjectInterface
         $arrayCollection = $collection->toArray();
 
         foreach ($this->items as $index => $item) {
-            if (!isset($arrayCollection[$index]) || false === $item->equals($arrayCollection[$index])) {
+            if (! isset($arrayCollection[$index]) || false === $item->equals($arrayCollection[$index])) {
                 return false;
             }
         }
@@ -104,8 +112,6 @@ class Collection implements ValueObjectInterface
 
     /**
      * Returns the number of objects in the collection.
-     *
-     * @return Natural
      */
     public function count(): Natural
     {
@@ -114,12 +120,8 @@ class Collection implements ValueObjectInterface
 
     /**
      * Tells whether the Collection contains an object.
-     *
-     * @param ValueObjectInterface $object
-     *
-     * @return bool
      */
-    public function contains(ValueObjectInterface $object): bool
+    public function contains(ValueObject $object): bool
     {
         foreach ($this->items as $item) {
             if ($item->equals($object)) {

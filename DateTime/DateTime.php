@@ -1,37 +1,39 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\DateTime;
 
 use Carbon\CarbonImmutable;
-use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\DateTime\Date;
+use Qubus\ValueObjects\DateTime\Exception\InvalidDateException;
 use Qubus\ValueObjects\DateTime\Time;
-use Qubus\ValueObjects\DateTime\Year;
-use Qubus\ValueObjects\DateTime\Month;
-use Qubus\ValueObjects\DateTime\MonthDay;
-use Qubus\ValueObjects\ValueObjectInterface;
+use Qubus\ValueObjects\Util;
+use Qubus\ValueObjects\ValueObject;
 
-class DateTime implements ValueObjectInterface
+use function func_get_args;
+use function sprintf;
+
+class DateTime implements ValueObject
 {
-    /**
-     * @var Date
-     */
     protected Date $date;
 
-    /**
-     * @var Time
-     */
     protected Time $time;
 
     /**
      * Returns a new DateTime object.
-     *
-     * @param Date $date
-     * @param Time $time
      */
-    public function __construct(Date $date, Time $time = null)
+    public function __construct(Date $date, ?Time $time = null)
     {
         $this->date = $date;
         if (null === $time) {
@@ -42,8 +44,6 @@ class DateTime implements ValueObjectInterface
 
     /**
      * Returns DateTime as string in format "Y-n-j G:i:s".
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -59,12 +59,10 @@ class DateTime implements ValueObjectInterface
      * @param int    $hour
      * @param int    $minute
      * @param int    $second
-     *
-     * @throws Exceptions\InvalidDateException
-     *
-     * @return DateTime|ValueObjectInterface
+     * @throws InvalidDateException
+     * @return DateTime|ValueObject
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): ValueObject
     {
         $args = func_get_args();
 
@@ -77,14 +75,12 @@ class DateTime implements ValueObjectInterface
     /**
      * Returns a new DateTime from native CarbonImmutable.
      *
-     * @param  CarbonImmutable $date_time
-     * @throws Exceptions\InvalidDateException
-     * @return DateTime
+     * @throws InvalidDateException
      */
-    public static function fromNativeCarbonImmutable(CarbonImmutable $date_time): DateTime
+    public static function fromNativeCarbonImmutable(CarbonImmutable $dateTime): DateTime
     {
-        $date = Date::fromNativeCarbonImmutable($date_time);
-        $time = Time::fromNativeCarbonImmutable($date_time);
+        $date = Date::fromNativeCarbonImmutable($dateTime);
+        $time = Time::fromNativeCarbonImmutable($dateTime);
 
         return new static($date, $time);
     }
@@ -92,38 +88,28 @@ class DateTime implements ValueObjectInterface
     /**
      * Returns current DateTime.
      *
-     * @throws Exceptions\InvalidDateException
-     *
-     * @return DateTime
+     * @throws InvalidDateException
      */
     public static function now(): DateTime
     {
-        $dateTime = new static(Date::now(), Time::now());
-
-        return $dateTime;
+        return new static(Date::now(), Time::now());
     }
 
     /**
      * Tells whether two DateTime are equal by comparing their values.
-     *
-     * @param ValueObjectInterface $date_time
-     *
-     * @return bool
      */
-    public function equals(ValueObjectInterface $date_time): bool
+    public function equals(ValueObject $dateTime): bool
     {
-        if (false === Util::classEquals($this, $date_time)) {
+        if (false === Util::classEquals($this, $dateTime)) {
             return false;
         }
 
-        return $this->getDate()->equals($date_time->getDate())
-            && $this->getTime()->equals($date_time->getTime());
+        return $this->getDate()->equals($dateTime->getDate())
+        && $this->getTime()->equals($dateTime->getTime());
     }
 
     /**
      * Returns date from current DateTime.
-     *
-     * @return Date
      */
     public function getDate(): Date
     {
@@ -132,8 +118,6 @@ class DateTime implements ValueObjectInterface
 
     /**
      * Returns time from current DateTime.
-     *
-     * @return Time
      */
     public function getTime(): Time
     {
@@ -142,8 +126,6 @@ class DateTime implements ValueObjectInterface
 
     /**
      * Returns a CarbonImmutable version of the current DateTime.
-     *
-     * @return CarbonImmutable
      */
     public function toNativeCarbonImmutable(): CarbonImmutable
     {

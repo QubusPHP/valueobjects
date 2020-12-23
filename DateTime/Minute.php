@@ -1,27 +1,39 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\DateTime;
 
 use Carbon\CarbonImmutable;
-use Qubus\ValueObjects\Number\Natural;
 use Qubus\Exception\Data\TypeException;
-use Qubus\ValueObjects\ValueObjectInterface;
+use Qubus\ValueObjects\Number\Natural;
+use Qubus\ValueObjects\ValueObject;
 
-/**
- * Class Minute.
- */
+use function filter_var;
+use function func_get_arg;
+use function intval;
+use function sprintf;
+
+use const FILTER_VALIDATE_INT;
+
 class Minute extends Natural
 {
-    const MIN_MINUTE = 0;
+    public const MIN_MINUTE = 0;
 
-    const MAX_MINUTE = 59;
+    public const MAX_MINUTE = 59;
 
     /**
      * Returns a new Minute object.
-     *
-     * @param int $value
      */
     public function __construct(int $value)
     {
@@ -47,10 +59,9 @@ class Minute extends Natural
      * Returns a new Minute from native int value.
      *
      * @param ...int $value
-     *
-     * @return Minute|ValueObjectInterface
+     * @return Minute|ValueObject
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): ValueObject
     {
         $value = func_get_arg(0);
 
@@ -59,8 +70,6 @@ class Minute extends Natural
 
     /**
      * Returns the current minute.
-     *
-     * @return Minute
      */
     public static function now(): Minute
     {

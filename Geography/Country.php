@@ -1,26 +1,33 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Geography;
 
-use Qubus\ValueObjects\Util;
-use Qubus\ValueObjects\ValueObjectInterface;
 use Qubus\ValueObjects\Geography\CountryCode;
 use Qubus\ValueObjects\Geography\CountryCodeName;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
+use Qubus\ValueObjects\Util;
+use Qubus\ValueObjects\ValueObject;
 
-class Country implements ValueObjectInterface
+use function func_get_arg;
+
+class Country implements ValueObject
 {
-    /**
-     * @var CountryCode
-     */
     protected CountryCode $code;
 
     /**
      * Returns a new Country object.
-     *
-     * @param CountryCode $code
      */
     public function __construct(CountryCode $code)
     {
@@ -29,8 +36,6 @@ class Country implements ValueObjectInterface
 
     /**
      * Returns country name as native string.
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -41,26 +46,21 @@ class Country implements ValueObjectInterface
      * Returns a new Country object given a native PHP string country code.
      *
      * @param ...string $code
-     *
-     * @return Country|ValueObjectInterface
+     * @return Country|ValueObject
      */
-    public static function fromNative(): ValueObjectInterface
+    public static function fromNative(): ValueObject
     {
         $codeString = func_get_arg(0);
         $code = CountryCode::byName($codeString);
-        $country = new static($code);
-
-        return $country;
+        return new static($code);
     }
 
     /**
      * Tells whether two Country are equal.
      *
-     * @param Country|ValueObjectInterface $country
-     *
-     * @return bool
+     * @param Country|ValueObject $country
      */
-    public function equals(ValueObjectInterface $country): bool
+    public function equals(ValueObject $country): bool
     {
         if (false === Util::classEquals($this, $country)) {
             return false;
@@ -71,8 +71,6 @@ class Country implements ValueObjectInterface
 
     /**
      * Returns country code.
-     *
-     * @return CountryCode
      */
     public function getCode(): CountryCode
     {
@@ -81,8 +79,6 @@ class Country implements ValueObjectInterface
 
     /**
      * Returns country name.
-     *
-     * @return StringLiteral
      */
     public function getName(): StringLiteral
     {

@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020 Joshua Parker
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ *
+ * @since      1.0.0
+ */
+
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects\DateTime;
@@ -7,23 +17,20 @@ namespace Qubus\ValueObjects\DateTime;
 use Carbon\CarbonImmutable;
 use Qubus\ValueObjects\Enum\Enum;
 
-/**
- * Class WeekDay.
- */
+use function strtoupper;
+
 class WeekDay extends Enum
 {
-    const MONDAY = 'Monday';
-    const TUESDAY = 'Tuesday';
-    const WEDNESDAY = 'Wednesday';
-    const THURSDAY = 'Thursday';
-    const FRIDAY = 'Friday';
-    const SATURDAY = 'Saturday';
-    const SUNDAY = 'Sunday';
+    public const MONDAY = 'Monday';
+    public const TUESDAY = 'Tuesday';
+    public const WEDNESDAY = 'Wednesday';
+    public const THURSDAY = 'Thursday';
+    public const FRIDAY = 'Friday';
+    public const SATURDAY = 'Saturday';
+    public const SUNDAY = 'Sunday';
 
     /**
      * Returns the current week day.
-     *
-     * @return WeekDay
      */
     public static function now(): WeekDay
     {
@@ -32,10 +39,6 @@ class WeekDay extends Enum
 
     /**
      * Returns a WeekDay from a PHP native \DateTime.
-     *
-     * @param CarbonImmutable $date
-     *
-     * @return WeekDay
      */
     public static function fromNativeCarbonImmutable(CarbonImmutable $date): WeekDay
     {
@@ -47,8 +50,6 @@ class WeekDay extends Enum
     /**
      * Returns a numeric representation of the WeekDay.
      * 1 for Monday to 7 for Sunday.
-     *
-     * @return int
      */
     public function getNumericValue(): int
     {
