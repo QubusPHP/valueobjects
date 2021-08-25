@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\ValueObjects\Geography;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\ValueObjects\Geography\CountryCode;
 use Qubus\ValueObjects\Geography\CountryCodeName;
@@ -17,6 +18,6 @@ class CountryCodeNameTest extends TestCase
         $name = CountryCodeName::getName($code);
         $expectedString = new StringLiteral('Italy');
 
-        $this->assertTrue($name->equals($expectedString));
+        Assert::assertTrue($name->equals($expectedString));
     }
 }

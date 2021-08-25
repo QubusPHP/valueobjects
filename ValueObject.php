@@ -4,8 +4,6 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
- * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
  */

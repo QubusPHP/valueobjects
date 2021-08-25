@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\ValueObjects\Structure;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\Number\Integer;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\Structure\Collection;
@@ -17,7 +19,7 @@ class DictionaryTest extends TestCase
     /** @var Dictionary */
     protected $dictionary;
 
-    public function setup()
+    public function setup(): void
     {
         $array = SplFixedArray::fromArray([
             new KeyValuePair(new Integer(0), new StringLiteral('zero')),
@@ -45,15 +47,16 @@ class DictionaryTest extends TestCase
         $constructedDictionary = new Dictionary($constructedArray);
         $fromNativeDictionary  = Dictionary::fromNative($fromNativeArray);
 
-        $this->assertTrue($constructedDictionary->equals($fromNativeDictionary));
+        Assert::assertTrue($constructedDictionary->equals($fromNativeDictionary));
     }
 
-    /** @expectedException \Qubus\Exception\Data\TypeException */
     public function testInvalidArgument()
     {
         $array = SplFixedArray::fromArray(['one', 'two', 'three']);
 
         new Dictionary($array);
+
+        $this->expectException(TypeException::class);
     }
 
     public function testKeys()
@@ -65,7 +68,7 @@ class DictionaryTest extends TestCase
         ]);
         $keys = new Collection($array);
 
-        $this->assertTrue($this->dictionary->keys()->equals($keys));
+        Assert::assertTrue($this->dictionary->keys()->equals($keys));
     }
 
     public function testValues()
@@ -77,7 +80,7 @@ class DictionaryTest extends TestCase
         ]);
         $values = new Collection($array);
 
-        $this->assertTrue($this->dictionary->values()->equals($values));
+        Assert::assertTrue($this->dictionary->values()->equals($values));
     }
 
     public function testContainsKey()
@@ -85,8 +88,8 @@ class DictionaryTest extends TestCase
         $one = new Integer(1);
         $ten = new Integer(10);
 
-        $this->assertTrue($this->dictionary->containsKey($one));
-        $this->assertFalse($this->dictionary->containsKey($ten));
+        Assert::assertTrue($this->dictionary->containsKey($one));
+        Assert::assertFalse($this->dictionary->containsKey($ten));
     }
 
     public function testContainsValue()
@@ -94,7 +97,7 @@ class DictionaryTest extends TestCase
         $one = new StringLiteral('one');
         $ten = new StringLiteral('ten');
 
-        $this->assertTrue($this->dictionary->containsValue($one));
-        $this->assertFalse($this->dictionary->containsValue($ten));
+        Assert::assertTrue($this->dictionary->containsValue($one));
+        Assert::assertFalse($this->dictionary->containsValue($ten));
     }
 }

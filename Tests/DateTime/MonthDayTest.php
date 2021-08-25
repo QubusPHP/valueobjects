@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\ValueObjects\DateTime;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\DateTime\MonthDay;
 
 use function date;
@@ -16,18 +18,19 @@ class MonthDayTest extends TestCase
         $fromNativeMonthDay  = MonthDay::fromNative(15);
         $constructedMonthDay = new MonthDay(15);
 
-        $this->assertTrue($fromNativeMonthDay->equals($constructedMonthDay));
+        Assert::assertTrue($fromNativeMonthDay->equals($constructedMonthDay));
     }
 
     public function testNow()
     {
         $monthDay = MonthDay::now();
-        $this->assertEquals(date('j'), $monthDay->toNative());
+        Assert::assertEquals(date('j'), $monthDay->toNative());
     }
 
-    /** @expectedException \Qubus\Exception\Data\TypeException */
     public function testInvalidMonthDay()
     {
+        $this->expectException(TypeException::class);
+
         new MonthDay(32);
     }
 }

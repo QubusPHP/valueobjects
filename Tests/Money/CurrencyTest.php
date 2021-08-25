@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\ValueObjects\Money;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\ValueObjects\Money\Currency;
 use Qubus\ValueObjects\Money\CurrencyCode;
@@ -16,7 +17,7 @@ class CurrencyTest extends TestCase
         $fromNativeCurrency = Currency::fromNative('EUR');
         $constructedCurrency = new Currency(CurrencyCode::EUR());
 
-        $this->assertTrue($fromNativeCurrency->equals($constructedCurrency));
+        Assert::assertTrue($fromNativeCurrency->equals($constructedCurrency));
     }
 
     public function testSameValueAs()
@@ -25,27 +26,27 @@ class CurrencyTest extends TestCase
         $eur2 = new Currency(CurrencyCode::EUR());
         $usd  = new Currency(CurrencyCode::USD());
 
-        $this->assertTrue($eur1->equals($eur2));
-        $this->assertTrue($eur2->equals($eur1));
-        $this->assertFalse($eur1->equals($usd));
+        Assert::assertTrue($eur1->equals($eur2));
+        Assert::assertTrue($eur2->equals($eur1));
+        Assert::assertFalse($eur1->equals($usd));
 
         $mock = $this->getMockBuilder(ValueObject::class)
             ->getMock();
-        $this->assertFalse($eur1->equals($mock));
+        Assert::assertFalse($eur1->equals($mock));
     }
 
     public function testGetCode()
     {
         $cad = new Currency(CurrencyCode::CAD());
 
-        $this->assertInstanceOf(CurrencyCode::class, $cad->getCode());
-        $this->assertSame('CAD', $cad->getCode()->toNative());
+        Assert::assertInstanceOf(CurrencyCode::class, $cad->getCode());
+        Assert::assertSame('CAD', $cad->getCode()->toNative());
     }
 
     public function testToString()
     {
         $eur = new Currency(CurrencyCode::EUR());
 
-        $this->assertSame('EUR', $eur->__toString());
+        Assert::assertSame('EUR', $eur->__toString());
     }
 }

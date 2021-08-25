@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\ValueObjects\Web;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\Web\FragmentIdentifier;
 use Qubus\ValueObjects\Web\NullFragmentIdentifier;
 use Qubus\ValueObjects\Web\UrlFragmentIdentifier;
@@ -15,19 +17,20 @@ class FragmentIdentifierTest extends TestCase
     {
         $fragment = new UrlFragmentIdentifier('#id');
 
-        $this->assertInstanceOf(FragmentIdentifier::class, $fragment);
+        Assert::assertInstanceOf(FragmentIdentifier::class, $fragment);
     }
 
     public function testNullFragmentIdentifier()
     {
         $fragment = new NullFragmentIdentifier();
 
-        $this->assertInstanceOf(FragmentIdentifier::class, $fragment);
+        Assert::assertInstanceOf(FragmentIdentifier::class, $fragment);
     }
 
-    /** @expectedException \Qubus\Exception\Data\TypeException */
     public function testInvalidFragmentIdentifier()
     {
         new UrlFragmentIdentifier('invalìd');
+
+        $this->expectException(TypeException::class);
     }
 }

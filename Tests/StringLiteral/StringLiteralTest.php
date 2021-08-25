@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\ValueObjects\StringLiteral;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\ValueObject;
+use TypeError;
 
 class StringLiteralTest extends TestCase
 {
@@ -15,13 +17,13 @@ class StringLiteralTest extends TestCase
         $string = StringLiteral::fromNative('foo');
         $constructedString = new StringLiteral('foo');
 
-        $this->assertTrue($string->equals($constructedString));
+        Assert::assertTrue($string->equals($constructedString));
     }
 
     public function testToNative()
     {
         $string = new StringLiteral('foo');
-        $this->assertEquals('foo', $string->toNative());
+        Assert::assertEquals('foo', $string->toNative());
     }
 
     public function testSameValueAs()
@@ -30,31 +32,32 @@ class StringLiteralTest extends TestCase
         $foo2 = new StringLiteral('foo');
         $bar = new StringLiteral('bar');
 
-        $this->assertTrue($foo1->equals($foo2));
-        $this->assertTrue($foo2->equals($foo1));
-        $this->assertFalse($foo1->equals($bar));
+        Assert::assertTrue($foo1->equals($foo2));
+        Assert::assertTrue($foo2->equals($foo1));
+        Assert::assertFalse($foo1->equals($bar));
 
         $mock = $this->getMockBuilder(ValueObject::class)
             ->getMock();
-        $this->assertFalse($foo1->equals($mock));
+        Assert::assertFalse($foo1->equals($mock));
     }
 
-    /** @expectedException \TypeError */
     public function testInvalidNativeArgument()
     {
         new StringLiteral(12);
+
+        $this->expectException(TypeError::class);
     }
 
     public function testIsEmpty()
     {
         $string = new StringLiteral('');
 
-        $this->assertTrue($string->isEmpty());
+        Assert::assertTrue($string->isEmpty());
     }
 
     public function testToString()
     {
         $foo = new StringLiteral('foo');
-        $this->assertEquals('foo', $foo->__toString());
+        Assert::assertEquals('foo', $foo->__toString());
     }
 }

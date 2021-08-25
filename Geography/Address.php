@@ -4,8 +4,6 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
- * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
  */
@@ -28,45 +26,23 @@ use function sprintf;
 class Address implements ValueObject
 {
     /**
-     * Name of the addressee (natural person or company).
-     */
-    protected StringLiteral $name;
-
-    protected Street $street;
-
-    /**
-     * District/City area.
-     */
-    protected StringLiteral $district;
-
-    /**
-     * City/Town/Village.
-     */
-    protected StringLiteral $city;
-
-    /**
-     * Region/County/State.
-     */
-    protected StringLiteral $region;
-
-    /**
-     * Postal code/P.O. Box/ZIP code.
-     */
-    protected StringLiteral $postalCode;
-
-    protected Country $country;
-
-    /**
      * Returns a new Address object.
      */
     public function __construct(
-        StringLiteral $name,
-        Street $street,
-        StringLiteral $district,
-        StringLiteral $city,
-        StringLiteral $region,
-        StringLiteral $postalCode,
-        Country $country
+        /** @var StringLiteral */
+        protected StringLiteral $name,
+        /** @var Street */
+        protected Street $street,
+        /** @var StringLiteral */
+        protected StringLiteral $district,
+        /** @var StringLiteral */
+        protected StringLiteral $city,
+        /** @var StringLiteral */
+        protected StringLiteral $region,
+        /** @var StringLiteral */
+        protected StringLiteral $postalCode,
+        /** @var Countryw */
+        protected Country $country
     ) {
         $this->name = $name;
         $this->street = $street;

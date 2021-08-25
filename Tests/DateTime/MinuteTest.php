@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\ValueObjects\DateTime;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\DateTime\Minute;
 
 use function date;
@@ -17,18 +19,19 @@ class MinuteTest extends TestCase
         $fromNativeMinute  = Minute::fromNative(11);
         $constructedMinute = new Minute(11);
 
-        $this->assertTrue($fromNativeMinute->equals($constructedMinute));
+        Assert::assertTrue($fromNativeMinute->equals($constructedMinute));
     }
 
     public function testNow()
     {
         $minute = Minute::now();
-        $this->assertEquals(intval(date('i')), $minute->toNative());
+        Assert::assertEquals(intval(date('i')), $minute->toNative());
     }
 
-    /** @expectedException \Qubus\Exception\Data\TypeException */
     public function testInvalidMinute()
     {
+        $this->expectException(TypeException::class);
+
         new Minute(60);
     }
 }

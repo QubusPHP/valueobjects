@@ -4,8 +4,6 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
- * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
  */
@@ -25,8 +23,6 @@ use function strlen;
 
 class StringLiteral implements ValueObject
 {
-    protected $value;
-
     /**
      * Returns a String object given a PHP native string as parameter.
      *
@@ -45,7 +41,7 @@ class StringLiteral implements ValueObject
      *
      * @throws TypeException
      */
-    public function __construct(string $value)
+    public function __construct(protected string $value)
     {
         if (false === is_string($value)) {
             throw new TypeException(

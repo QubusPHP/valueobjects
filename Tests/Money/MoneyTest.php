@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\ValueObjects\Money;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\ValueObjects\Money\Currency;
 use Qubus\ValueObjects\Money\CurrencyCode;
@@ -18,7 +19,7 @@ use const LC_ALL;
 
 class MoneyTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         // When tests run in a different locale, this might affect the decimal-point character and thus the validation
         // of floats. This makes sure the tests run in a locale that the tests are known to be working in.
@@ -30,7 +31,7 @@ class MoneyTest extends TestCase
         $fromNativeMoney = Money::fromNative(2100, 'EUR');
         $constructedMoney = new Money(new Integer(2100), new Currency(CurrencyCode::EUR()));
 
-        $this->assertTrue($fromNativeMoney->equals($constructedMoney));
+        Assert::assertTrue($fromNativeMoney->equals($constructedMoney));
     }
 
     public function testSameValueAs()
@@ -42,13 +43,13 @@ class MoneyTest extends TestCase
         $money2 = new Money(new Integer(1200), $eur);
         $money3 = new Money(new Integer(34607), $usd);
 
-        $this->assertTrue($money1->equals($money2));
-        $this->assertTrue($money2->equals($money1));
-        $this->assertFalse($money1->equals($money3));
+        Assert::assertTrue($money1->equals($money2));
+        Assert::assertTrue($money2->equals($money1));
+        Assert::assertFalse($money1->equals($money3));
 
         $mock = $this->getMockBuilder(ValueObject::class)
             ->getMock();
-        $this->assertFalse($money1->equals($mock));
+        Assert::assertFalse($money1->equals($mock));
     }
 
     public function testGetAmount()
@@ -57,8 +58,8 @@ class MoneyTest extends TestCase
         $money = new Money(new Integer(1200), $eur);
         $amount = $money->getAmount();
 
-        $this->assertInstanceOf(Integer::class, $amount);
-        $this->assertSame(1200, $amount->toNative());
+        Assert::assertInstanceOf(Integer::class, $amount);
+        Assert::assertSame(1200, $amount->toNative());
     }
 
     public function testGetCurrency()
@@ -67,8 +68,8 @@ class MoneyTest extends TestCase
         $money = new Money(new Integer(1200), $eur);
         $currency = $money->getCurrency();
 
-        $this->assertInstanceOf(Currency::class, $currency);
-        $this->assertSame('EUR', $currency->getCode()->toNative());
+        Assert::assertInstanceOf(Currency::class, $currency);
+        Assert::assertSame('EUR', $currency->getCode()->toNative());
     }
 
     public function testAdd()
@@ -79,7 +80,7 @@ class MoneyTest extends TestCase
 
         $addedMoney = $money->add($addendum);
 
-        $this->assertEquals(1356, $addedMoney->getAmount()->toNative());
+        Assert::assertEquals(1356, $addedMoney->getAmount()->toNative());
     }
 
     public function testAddNegative()
@@ -90,7 +91,7 @@ class MoneyTest extends TestCase
 
         $addedMoney = $money->add($addendum);
 
-        $this->assertEquals(1080, $addedMoney->getAmount()->toNative());
+        Assert::assertEquals(1080, $addedMoney->getAmount()->toNative());
     }
 
     public function testMultiply()
@@ -101,7 +102,7 @@ class MoneyTest extends TestCase
 
         $addedMoney = $money->multiply($multiplier);
 
-        $this->assertEquals(1440, $addedMoney->getAmount()->toNative());
+        Assert::assertEquals(1440, $addedMoney->getAmount()->toNative());
     }
 
     public function testMultiplyInverse()
@@ -112,7 +113,7 @@ class MoneyTest extends TestCase
 
         $addedMoney = $money->multiply($multiplier);
 
-        $this->assertEquals(360, $addedMoney->getAmount()->toNative());
+        Assert::assertEquals(360, $addedMoney->getAmount()->toNative());
     }
 
     public function testToString()
@@ -120,7 +121,7 @@ class MoneyTest extends TestCase
         $eur = new Currency(CurrencyCode::EUR());
         $money = new Money(new Integer(1200), $eur);
 
-        $this->assertSame('EUR 1200', $money->__toString());
+        Assert::assertSame('EUR 1200', $money->__toString());
     }
 
     public function testDifferentLocaleWithDifferentDecimalCharacter()

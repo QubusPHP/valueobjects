@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\ValueObjects\Geography;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\ValueObjects\Geography\Country;
 use Qubus\ValueObjects\Geography\CountryCode;
@@ -17,7 +18,7 @@ class CountryTest extends TestCase
         $fromNativeCountry  = Country::fromNative('IT');
         $constructedCountry = new Country(CountryCode::IT());
 
-        $this->assertTrue($constructedCountry->equals($fromNativeCountry));
+        Assert::assertTrue($constructedCountry->equals($fromNativeCountry));
     }
 
     public function testSameValueAs()
@@ -26,30 +27,30 @@ class CountryTest extends TestCase
         $country2 = new Country(CountryCode::IT());
         $country3 = new Country(CountryCode::US());
 
-        $this->assertTrue($country1->equals($country2));
-        $this->assertFalse($country1->equals($country3));
+        Assert::assertTrue($country1->equals($country2));
+        Assert::assertFalse($country1->equals($country3));
 
         $mock = $this->getMockBuilder(ValueObject::class)
             ->getMock();
-        $this->assertFalse($country1->equals($mock));
+        Assert::assertFalse($country1->equals($mock));
     }
 
     public function testGetCode()
     {
         $italy = new Country(CountryCode::IT());
-        $this->assertTrue($italy->getCode()->equals(CountryCode::IT()));
+        Assert::assertTrue($italy->getCode()->equals(CountryCode::IT()));
     }
 
     public function testGetName()
     {
         $italy = new Country(CountryCode::IT());
         $name  = new StringLiteral('Italy');
-        $this->assertTrue($italy->getName()->equals($name));
+        Assert::assertTrue($italy->getName()->equals($name));
     }
 
     public function testToString()
     {
         $italy = new Country(CountryCode::IT());
-        $this->assertSame('Italy', $italy->__toString());
+        Assert::assertSame('Italy', $italy->__toString());
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\ValueObjects\Climate;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\ValueObjects\Climate\Fahrenheit;
 
@@ -14,7 +15,7 @@ use const LC_ALL;
 
 class FahrenheitTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         // When tests run in a different locale, this might affect the decimal-point character and thus the validation
         // of floats. This makes sure the tests run in a locale that the tests are known to be working in.
@@ -31,7 +32,7 @@ class FahrenheitTest extends TestCase
      */
     public function testToCelsius(Fahrenheit $temperature)
     {
-        $this->assertEquals((10 - 32) / 1.8, $temperature->toCelsius()->toNative());
+        Assert::assertEquals((10 - 32) / 1.8, $temperature->toCelsius()->toNative());
     }
 
     /**
@@ -39,7 +40,7 @@ class FahrenheitTest extends TestCase
      */
     public function testToKelvin(Fahrenheit $temperature)
     {
-        $this->assertEquals(
+        Assert::assertEquals(
             round($temperature->toCelsius()->toNative() + 273.15, 8),
             round($temperature->toKelvin()->toNative(), 8)
         );
@@ -50,7 +51,7 @@ class FahrenheitTest extends TestCase
      */
     public function testToFahrenheit(Fahrenheit $temperature)
     {
-        $this->assertEquals(10, $temperature->toFahrenheit()->toNative());
+        Assert::assertEquals(10, $temperature->toFahrenheit()->toNative());
     }
 
     /**

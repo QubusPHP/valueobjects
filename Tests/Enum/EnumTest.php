@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\ValueObjects\Enum;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Qubus\ValueObjects\Enum\Enum;
@@ -26,7 +27,7 @@ class EnumTest extends TestCase
             ->method('equals')
             ->will($this->returnValue(true));
 
-        $this->assertTrue($stub1->equals($stub2));
+        Assert::assertTrue($stub1->equals($stub2));
     }
 
     public function testToString()
@@ -36,6 +37,6 @@ class EnumTest extends TestCase
             ->setConstructorArgs([])
             ->setMockClassName('')
             ->disableOriginalConstructor()->getMock();
-        $this->assertEquals('', $stub->__toString());
+        Assert::assertEquals('', $stub->__toString());
     }
 }

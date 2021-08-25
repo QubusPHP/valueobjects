@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\ValueObjects\Person;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\ValueObjects\Person\Name;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
@@ -14,7 +15,7 @@ class NameTest extends TestCase
     /** @var Name */
     private $name;
 
-    protected function setup()
+    protected function setup(): void
     {
         $this->name = new Name(
             new StringLiteral('foo'),
@@ -27,34 +28,34 @@ class NameTest extends TestCase
     {
         $fromNativeName = Name::fromNative('foo', 'bar', 'baz');
 
-        $this->assertTrue($fromNativeName->equals($this->name));
+        Assert::assertTrue($fromNativeName->equals($this->name));
     }
 
     public function testGetFirstName()
     {
-        $this->assertEquals('foo', $this->name->getFirstName());
+        Assert::assertEquals('foo', $this->name->getFirstName());
     }
 
     public function testGetMiddleName()
     {
-        $this->assertEquals('bar', $this->name->getMiddleName());
+        Assert::assertEquals('bar', $this->name->getMiddleName());
     }
 
     public function testGetLastName()
     {
-        $this->assertEquals('baz', $this->name->getLastName());
+        Assert::assertEquals('baz', $this->name->getLastName());
     }
 
     public function testGetFullName()
     {
-        $this->assertEquals('foo bar baz', $this->name->getFullName());
+        Assert::assertEquals('foo bar baz', $this->name->getFullName());
     }
 
     public function testEmptyFullName()
     {
         $name = new Name(new StringLiteral(''), new StringLiteral(''), new StringLiteral(''));
 
-        $this->assertEquals('', $name->getFullName());
+        Assert::assertEquals('', $name->getFullName());
     }
 
     public function testSameValueAs()
@@ -70,17 +71,17 @@ class NameTest extends TestCase
             new StringLiteral('baz')
         );
 
-        $this->assertTrue($this->name->equals($name2));
-        $this->assertTrue($name2->equals($this->name));
-        $this->assertFalse($this->name->equals($name3));
+        Assert::assertTrue($this->name->equals($name2));
+        Assert::assertTrue($name2->equals($this->name));
+        Assert::assertFalse($this->name->equals($name3));
 
         $mock = $this->getMockBuilder(ValueObject::class)
             ->getMock();
-        $this->assertFalse($this->name->equals($mock));
+        Assert::assertFalse($this->name->equals($mock));
     }
 
     public function testToString()
     {
-        $this->assertEquals('foo bar baz', $this->name->__toString());
+        Assert::assertEquals('foo bar baz', $this->name->__toString());
     }
 }

@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\ValueObjects\NullValue;
 
+use BadMethodCallException;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\ValueObjects\NullValue\NullValue;
 
 class NullValueTest extends TestCase
 {
-    /** @expectedException \BadMethodCallException */
     public function testFromNative()
     {
         NullValue::fromNative();
+
+        $this->expectException(BadMethodCallException::class);
     }
 
     public function testSameValueAs()
@@ -20,19 +23,19 @@ class NullValueTest extends TestCase
         $null1 = new NullValue();
         $null2 = new NullValue();
 
-        $this->assertTrue($null1->equals($null2));
+        Assert::assertTrue($null1->equals($null2));
     }
 
     public function testCreate()
     {
         $null = NullValue::create();
 
-        $this->assertInstanceOf(NullValue::class, $null);
+        Assert::assertInstanceOf(NullValue::class, $null);
     }
 
     public function testToString()
     {
         $foo = new NullValue();
-        $this->assertSame('', $foo->__toString());
+        Assert::assertSame('', $foo->__toString());
     }
 }

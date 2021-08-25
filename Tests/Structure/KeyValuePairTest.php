@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\ValueObjects\Structure;
 
+use BadMethodCallException;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\Structure\KeyValuePair;
@@ -14,7 +16,7 @@ class KeyValuePairTest extends TestCase
     /** @var KeyValuePair */
     protected $keyValuePair;
 
-    public function setup()
+    public function setup(): void
     {
         $this->keyValuePair = new KeyValuePair(
             new StringLiteral('key'),
@@ -25,13 +27,14 @@ class KeyValuePairTest extends TestCase
     public function testFromNative()
     {
         $fromNativePair = KeyValuePair::fromNative('key', 'value');
-        $this->assertTrue($this->keyValuePair->equals($fromNativePair));
+        Assert::assertTrue($this->keyValuePair->equals($fromNativePair));
     }
 
-    /** @expectedException \BadMethodCallException */
     public function testInvalidFromNative()
     {
         KeyValuePair::fromNative('key', 'value', 'invalid');
+
+        $this->expectException(BadMethodCallException::class);
     }
 
     public function testSameValueAs()
@@ -39,27 +42,27 @@ class KeyValuePairTest extends TestCase
         $keyValuePair2 = new KeyValuePair(new StringLiteral('key'), new StringLiteral('value'));
         $keyValuePair3 = new KeyValuePair(new StringLiteral('foo'), new StringLiteral('bar'));
 
-        $this->assertTrue($this->keyValuePair->equals($keyValuePair2));
-        $this->assertTrue($keyValuePair2->equals($this->keyValuePair));
-        $this->assertFalse($this->keyValuePair->equals($keyValuePair3));
+        Assert::assertTrue($this->keyValuePair->equals($keyValuePair2));
+        Assert::assertTrue($keyValuePair2->equals($this->keyValuePair));
+        Assert::assertFalse($this->keyValuePair->equals($keyValuePair3));
 
         $mock = $this->getMockBuilder(ValueObject::class)
             ->getMock();
-        $this->assertFalse($this->keyValuePair->equals($mock));
+        Assert::assertFalse($this->keyValuePair->equals($mock));
     }
 
     public function testGetKey()
     {
-        $this->assertEquals('key', $this->keyValuePair->getKey());
+        Assert::assertEquals('key', $this->keyValuePair->getKey());
     }
 
     public function testGetValue()
     {
-        $this->assertEquals('value', $this->keyValuePair->getValue());
+        Assert::assertEquals('value', $this->keyValuePair->getValue());
     }
 
     public function testToString()
     {
-        $this->assertEquals('key => value', $this->keyValuePair->__toString());
+        Assert::assertEquals('key => value', $this->keyValuePair->__toString());
     }
 }
