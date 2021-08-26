@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\ValueObjects\DateTime;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\DateTime\Hour;
 
 use function date;
@@ -16,18 +18,19 @@ class HourTest extends TestCase
         $fromNativeHour  = Hour::fromNative(21);
         $constructedHour = new Hour(21);
 
-        $this->assertTrue($fromNativeHour->equals($constructedHour));
+        Assert::assertTrue($fromNativeHour->equals($constructedHour));
     }
 
     public function testNow()
     {
         $hour = Hour::now();
-        $this->assertEquals(date('G'), $hour->toNative());
+        Assert::assertEquals(date('G'), $hour->toNative());
     }
 
-    /** @expectedException \Qubus\Exception\Data\TypeException */
     public function testInvalidHour()
     {
+        $this->expectException(TypeException::class);
+
         new Hour(24);
     }
 }

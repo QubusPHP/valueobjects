@@ -4,8 +4,6 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
- * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
  */
@@ -23,7 +21,6 @@ use SplFixedArray;
 use Traversable;
 
 use function func_get_arg;
-use function get_class;
 use function gettype;
 use function is_array;
 use function is_object;
@@ -41,7 +38,7 @@ class Collection implements ValueObject
     {
         foreach ($items as $item) {
             if (false === $item instanceof ValueObject) {
-                $type = is_object($item) ? get_class($item) : gettype($item);
+                $type = is_object($item) ? $item::class : gettype($item);
 
                 throw new TypeException(
                     sprintf(

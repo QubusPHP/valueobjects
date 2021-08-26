@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Qubus\Tests\ValueObjects\DateTime;
 
 use Carbon\CarbonImmutable;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\ValueObjects\DateTime\WeekDay;
 
@@ -15,7 +16,7 @@ class WeekDayTest extends TestCase
     public function testNow()
     {
         $weekDay = WeekDay::now();
-        $this->assertEquals(date('l'), $weekDay->toNative());
+        Assert::assertEquals(date('l'), $weekDay->toNative());
     }
 
     public function testFromNativeCarbonImmutable()
@@ -24,13 +25,13 @@ class WeekDayTest extends TestCase
 
         $weekDay = WeekDay::fromNativeCarbonImmutable($nativeDateTime);
 
-        $this->assertEquals('Saturday', $weekDay->toNative());
+        Assert::assertEquals('Saturday', $weekDay->toNative());
     }
 
     public function testGetNumericValue()
     {
         $weekDay = WeekDay::SATURDAY();
 
-        $this->assertEquals(6, $weekDay->getNumericValue());
+        Assert::assertEquals(6, $weekDay->getNumericValue());
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\ValueObjects\Geography;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\ValueObjects\Geography\Address;
 use Qubus\ValueObjects\Geography\Country;
@@ -17,7 +18,7 @@ class AddressTest extends TestCase
     /** @var Address */
     protected $address;
 
-    public function setup()
+    public function setup(): void
     {
         $this->address = new Address(
             new StringLiteral('Nicolò Pignatelli'),
@@ -33,12 +34,13 @@ class AddressTest extends TestCase
     public function testFromNative()
     {
         $fromNativeAddress = Address::fromNative('Nicolò Pignatelli', 'via Manara', '3', '', 'Altamura', 'BARI', '70022', 'IT');
-        $this->assertTrue($this->address->equals($fromNativeAddress));
+        Assert::assertTrue($this->address->equals($fromNativeAddress));
     }
 
-    /** @expectedException \BadMethodCallException */
     public function testInvalidFromNative()
     {
+        $this->expectException(Address::class);
+
         Address::fromNative('invalid');
     }
 
@@ -64,55 +66,55 @@ class AddressTest extends TestCase
             new Country(CountryCode::IT())
         );
 
-        $this->assertTrue($this->address->equals($address2));
-        $this->assertTrue($address2->equals($this->address));
-        $this->assertFalse($this->address->equals($address3));
+        Assert::assertTrue($this->address->equals($address2));
+        Assert::assertTrue($address2->equals($this->address));
+        Assert::assertFalse($this->address->equals($address3));
 
         $mock = $this->getMockBuilder(ValueObject::class)
             ->getMock();
-        $this->assertFalse($this->address->equals($mock));
+        Assert::assertFalse($this->address->equals($mock));
     }
 
     public function testGetName()
     {
         $name = new StringLiteral('Nicolò Pignatelli');
-        $this->assertTrue($this->address->getName()->equals($name));
+        Assert::assertTrue($this->address->getName()->equals($name));
     }
 
     public function testGetStreet()
     {
         $street = new Street(new StringLiteral('via Manara'), new StringLiteral('3'));
-        $this->assertTrue($this->address->getStreet()->equals($street));
+        Assert::assertTrue($this->address->getStreet()->equals($street));
     }
 
     public function testGetDistrict()
     {
         $district = new StringLiteral('');
-        $this->assertTrue($this->address->getDistrict()->equals($district));
+        Assert::assertTrue($this->address->getDistrict()->equals($district));
     }
 
     public function testGetCity()
     {
         $city = new StringLiteral('Altamura');
-        $this->assertTrue($this->address->getCity()->equals($city));
+        Assert::assertTrue($this->address->getCity()->equals($city));
     }
 
     public function testGetRegion()
     {
         $region = new StringLiteral('BARI');
-        $this->assertTrue($this->address->getRegion()->equals($region));
+        Assert::assertTrue($this->address->getRegion()->equals($region));
     }
 
     public function testGetPostalCode()
     {
         $code = new StringLiteral('70022');
-        $this->assertTrue($this->address->getPostalCode()->equals($code));
+        Assert::assertTrue($this->address->getPostalCode()->equals($code));
     }
 
     public function testGetCountry()
     {
         $country = new Country(CountryCode::IT());
-        $this->assertTrue($this->address->getCountry()->equals($country));
+        Assert::assertTrue($this->address->getCountry()->equals($country));
     }
 
     public function testToString()
@@ -124,6 +126,6 @@ Altamura BARI 70022
 Italy
 ADDR;
 
-        $this->assertSame($addressString, $this->address->__toString());
+        Assert::assertSame($addressString, $this->address->__toString());
     }
 }

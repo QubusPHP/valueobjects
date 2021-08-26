@@ -4,8 +4,6 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
- * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
  */
@@ -18,13 +16,13 @@ use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 use Qubus\ValueObjects\Web\Domain;
-use Qubus\ValueObjects\Web\UrlFragmentIdentifier;
 use Qubus\ValueObjects\Web\NullPortNumber;
 use Qubus\ValueObjects\Web\Path;
 use Qubus\ValueObjects\Web\PortNumber;
-use Qubus\ValueObjects\Web\UrlQueryString;
 use Qubus\ValueObjects\Web\SchemeName;
+use Qubus\ValueObjects\Web\UrlFragmentIdentifier;
 use Qubus\ValueObjects\Web\UrlPortNumber;
+use Qubus\ValueObjects\Web\UrlQueryString;
 
 use function func_get_arg;
 use function parse_url;

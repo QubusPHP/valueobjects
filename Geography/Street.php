@@ -28,27 +28,19 @@ use function str_replace;
 
 class Street implements ValueObject
 {
-    protected StringLiteral $name;
-
-    protected StringLiteral $number;
-
-    /** @var StringLiteral Building, floor and unit */
-    protected StringLiteral $elements;
-
-    /**
-     * @var StringLiteral __toString() format
-     *                    Use properties corresponding placeholders: %name%, %number%, %elements%
-     */
-    protected StringLiteral $format;
-
     /**
      * Returns a new Street object.
      */
     public function __construct(
-        StringLiteral $name,
-        StringLiteral $number,
-        ?StringLiteral $elements = null,
-        ?StringLiteral $format = null
+        protected StringLiteral $name,
+        protected StringLiteral $number,
+        /** @var StringLiteral Building, floor and unit */
+        protected ?StringLiteral $elements = null,
+        /**
+         * @var StringLiteral __toString() format
+         *                    Use properties corresponding placeholders: %name%, %number%, %elements%
+         */
+        protected ?StringLiteral $format = null
     ) {
         $this->name = $name;
         $this->number = $number;

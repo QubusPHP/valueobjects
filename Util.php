@@ -4,8 +4,6 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
- * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
  */
@@ -13,8 +11,6 @@
 declare(strict_types=1);
 
 namespace Qubus\ValueObjects;
-
-use function get_class;
 
 /**
  * Utility class for methods used all across the framework.
@@ -26,7 +22,7 @@ class Util
      */
     public static function classEquals(object $objectA, object $objectB): bool
     {
-        return get_class($objectA) === get_class($objectB);
+        return $objectA::class === $objectB::class;
     }
 
     /**
@@ -34,6 +30,6 @@ class Util
      */
     public static function getClassAsString(object $object): string
     {
-        return get_class($object);
+        return $object::class;
     }
 }

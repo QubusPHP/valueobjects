@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\ValueObjects\Web;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\Structure\Dictionary;
 use Qubus\ValueObjects\Web\NullQueryString;
 use Qubus\ValueObjects\Web\QueryString;
@@ -16,23 +18,24 @@ class QueryStringTest extends TestCase
     {
         $query = new UrlQueryString('?foo=bar');
 
-        $this->assertInstanceOf(QueryString::class, $query);
+        Assert::assertInstanceOf(QueryString::class, $query);
     }
 
     public function testEmptyQueryString()
     {
         $query = new NullQueryString();
 
-        $this->assertInstanceOf(QueryString::class, $query);
+        Assert::assertInstanceOf(QueryString::class, $query);
 
         $dictionary = $query->toDictionary();
-        $this->assertInstanceOf(Dictionary::class, $dictionary);
+        Assert::assertInstanceOf(Dictionary::class, $dictionary);
     }
 
-    /** @expectedException \Qubus\Exception\Data\TypeException */
     public function testInvalidQueryString()
     {
         new UrlQueryString('invalìd');
+
+        $this->expectException(TypeException::class);
     }
 
     public function testToDictionary()
@@ -40,7 +43,7 @@ class QueryStringTest extends TestCase
         $query = new UrlQueryString('?foo=bar&array[]=one&array[]=two');
         $dictionary = $query->toDictionary();
 
-        $this->assertInstanceOf(Dictionary::class, $dictionary);
+        Assert::assertInstanceOf(Dictionary::class, $dictionary);
 
         $array = [
             'foo'   => 'bar',
@@ -51,6 +54,6 @@ class QueryStringTest extends TestCase
         ];
         $expectedDictionary = Dictionary::fromNative($array);
 
-        $this->assertTrue($expectedDictionary->equals($dictionary));
+        Assert::assertTrue($expectedDictionary->equals($dictionary));
     }
 }

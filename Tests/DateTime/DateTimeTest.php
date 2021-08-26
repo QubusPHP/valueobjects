@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Qubus\Tests\ValueObjects\DateTime;
 
 use Carbon\CarbonImmutable;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\ValueObjects\DateTime\Date;
 use Qubus\ValueObjects\DateTime\DateTime;
@@ -30,7 +31,7 @@ class DateTimeTest extends TestCase
             new Time(new Hour(10), new Minute(20), new Second(34))
         );
 
-        $this->assertTrue($fromNativeDateTime->equals($constructedDateTime));
+        Assert::assertTrue($fromNativeDateTime->equals($constructedDateTime));
     }
 
     public function testFromNativeCarbonImmutable()
@@ -42,20 +43,20 @@ class DateTimeTest extends TestCase
         $time = new Time(new Hour(20), new Minute(50), new Second(10));
         $constructedDateTime = new DateTime($date, $time);
 
-        $this->assertTrue($dateTimeFromNative->equals($constructedDateTime));
+        Assert::assertTrue($dateTimeFromNative->equals($constructedDateTime));
     }
 
     public function testNow()
     {
         $dateTime = DateTime::now();
-        $this->assertEquals(date('Y-n-j G:i:s'), strval($dateTime));
+        Assert::assertEquals(date('Y-n-j G:i:s'), strval($dateTime));
     }
 
     public function testNullTime()
     {
         $date = new Date(new Year(2013), Month::DECEMBER(), new MonthDay(21));
         $dateTime = new DateTime($date);
-        $this->assertTrue(Time::zero()->equals($dateTime->getTime()));
+        Assert::assertTrue(Time::zero()->equals($dateTime->getTime()));
     }
 
     public function testSameValueAs()
@@ -70,12 +71,12 @@ class DateTimeTest extends TestCase
         $dateTime2 = new DateTime($date, $time);
         $dateTime3 = new DateTime($date3, $time3);
 
-        $this->assertTrue($dateTime1->equals($dateTime2));
-        $this->assertFalse($dateTime1->equals($dateTime3));
+        Assert::assertTrue($dateTime1->equals($dateTime2));
+        Assert::assertFalse($dateTime1->equals($dateTime3));
 
         $mock = $this->getMockBuilder(ValueObject::class)
             ->getMock();
-        $this->assertFalse($dateTime1->equals($mock));
+        Assert::assertFalse($dateTime1->equals($mock));
     }
 
     public function testGetDate()
@@ -84,7 +85,7 @@ class DateTimeTest extends TestCase
         $time = new Time(new Hour(20), new Minute(50), new Second(10));
         $dateTime = new DateTime($date, $time);
 
-        $this->assertTrue($date->equals($dateTime->getDate()));
+        Assert::assertTrue($date->equals($dateTime->getDate()));
     }
 
     public function testGetTime()
@@ -93,7 +94,7 @@ class DateTimeTest extends TestCase
         $time = new Time(new Hour(20), new Minute(50), new Second(10));
         $dateTime = new DateTime($date, $time);
 
-        $this->assertTrue($time->equals($dateTime->getTime()));
+        Assert::assertTrue($time->equals($dateTime->getTime()));
     }
 
     public function testToNativeCarbonImmutable()
@@ -103,7 +104,7 @@ class DateTimeTest extends TestCase
         $dateTime       = new DateTime($date, $time);
         $nativeDateTime = CarbonImmutable::createFromFormat('Y-n-j H:i:s', '2013-12-3 20:50:10');
 
-        $this->assertEquals($nativeDateTime, $dateTime->toNativeCarbonImmutable());
+        Assert::assertEquals($nativeDateTime, $dateTime->toNativeCarbonImmutable());
     }
 
     public function testToString()
@@ -112,6 +113,6 @@ class DateTimeTest extends TestCase
         $time           = new Time(new Hour(20), new Minute(50), new Second(10));
         $dateTime       = new DateTime($date, $time);
 
-        $this->assertEquals('2013-12-3 20:50:10', $dateTime->__toString());
+        Assert::assertEquals('2013-12-3 20:50:10', $dateTime->__toString());
     }
 }

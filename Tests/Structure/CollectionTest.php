@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\ValueObjects\Structure;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\Number\Integer;
 use Qubus\ValueObjects\Number\Natural;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
@@ -17,7 +19,7 @@ class CollectionTest extends TestCase
     /** @var Collection */
     protected $collection;
 
-    public function setup()
+    public function setup(): void
     {
         $array = new SplFixedArray(3);
         $array->offsetSet(0, new StringLiteral('one'));
@@ -27,12 +29,13 @@ class CollectionTest extends TestCase
         $this->collection = new Collection($array);
     }
 
-    /** @expectedException \Qubus\Exception\Data\TypeException */
     public function testInvalidArgument()
     {
         $array = SplFixedArray::fromArray(['one', 'two', 'three']);
 
         new Collection($array);
+
+        $this->expectException(TypeException::class);
     }
 
     public function testFromNative()
@@ -57,7 +60,7 @@ class CollectionTest extends TestCase
         ]);
         $constructedCollection = new Collection($array);
 
-        $this->assertTrue($fromNativeCollection->equals($constructedCollection));
+        Assert::assertTrue($fromNativeCollection->equals($constructedCollection));
     }
 
     public function testSameValueAs()
@@ -76,20 +79,20 @@ class CollectionTest extends TestCase
         ]);
         $collection3 = Collection::fromNative($array);
 
-        $this->assertTrue($this->collection->equals($collection2));
-        $this->assertTrue($collection2->equals($this->collection));
-        $this->assertFalse($this->collection->equals($collection3));
+        Assert::assertTrue($this->collection->equals($collection2));
+        Assert::assertTrue($collection2->equals($this->collection));
+        Assert::assertFalse($this->collection->equals($collection3));
 
         $mock = $this->getMockBuilder(ValueObject::class)
             ->getMock();
-        $this->assertFalse($this->collection->equals($mock));
+        Assert::assertFalse($this->collection->equals($mock));
     }
 
     public function testCount()
     {
         $three = new Natural(3);
 
-        $this->assertTrue($this->collection->count()->equals($three));
+        Assert::assertTrue($this->collection->count()->equals($three));
     }
 
     public function testContains()
@@ -97,8 +100,8 @@ class CollectionTest extends TestCase
         $one = new StringLiteral('one');
         $ten = new StringLiteral('ten');
 
-        $this->assertTrue($this->collection->contains($one));
-        $this->assertFalse($this->collection->contains($ten));
+        Assert::assertTrue($this->collection->contains($one));
+        Assert::assertFalse($this->collection->contains($ten));
     }
 
     public function testToArray()
@@ -109,11 +112,11 @@ class CollectionTest extends TestCase
             new Integer(3),
         ];
 
-        $this->assertEquals($array, $this->collection->toArray());
+        Assert::assertEquals($array, $this->collection->toArray());
     }
 
     public function testToString()
     {
-        $this->assertEquals('Qubus\ValueObjects\Structure\Collection(3)', $this->collection->__toString());
+        Assert::assertEquals('Qubus\ValueObjects\Structure\Collection(3)', $this->collection->__toString());
     }
 }

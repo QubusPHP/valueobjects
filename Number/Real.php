@@ -4,8 +4,6 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
- * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
  */
@@ -33,8 +31,6 @@ use const FILTER_VALIDATE_FLOAT;
 
 class Real implements ValueObject
 {
-    protected $value;
-
     /**
      * Returns a Real object given a PHP native float as parameter.
      *
@@ -53,7 +49,7 @@ class Real implements ValueObject
      *
      * @param float $number
      */
-    public function __construct($value)
+    public function __construct(protected $value)
     {
         $stringValue = (string) $value;
         /**

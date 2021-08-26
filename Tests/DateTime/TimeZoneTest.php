@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Qubus\Tests\ValueObjects\DateTime;
 
 use Carbon\CarbonTimeZone;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Qubus\ValueObjects\DateTime\Exception\InvalidTimeZoneException;
 use Qubus\ValueObjects\DateTime\TimeZone;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\ValueObject;
@@ -20,7 +22,7 @@ class TimeZoneTest extends TestCase
         $fromNativeTimeZone  = TimeZone::fromNative('Europe/Madrid');
         $constructedTimeZone = new TimeZone(new StringLiteral('Europe/Madrid'));
 
-        $this->assertTrue($fromNativeTimeZone->equals($constructedTimeZone));
+        Assert::assertTrue($fromNativeTimeZone->equals($constructedTimeZone));
     }
 
     public function testFromNativeCarbonTimeZone()
@@ -30,13 +32,13 @@ class TimeZoneTest extends TestCase
 
         $constructedTimeZone = new TimeZone(new StringLiteral('Europe/Madrid'));
 
-        $this->assertTrue($timeZoneFromNative->equals($constructedTimeZone));
+        Assert::assertTrue($timeZoneFromNative->equals($constructedTimeZone));
     }
 
     public function testDefaultTz()
     {
         $timeZone = TimeZone::fromDefault();
-        $this->assertEquals(date_default_timezone_get(), strval($timeZone));
+        Assert::assertEquals(date_default_timezone_get(), strval($timeZone));
     }
 
     public function testSameValueAs()
@@ -45,12 +47,12 @@ class TimeZoneTest extends TestCase
         $timeZone2 = new TimeZone(new StringLiteral('Europe/Madrid'));
         $timeZone3 = new TimeZone(new StringLiteral('Europe/Berlin'));
 
-        $this->assertTrue($timeZone1->equals($timeZone2));
-        $this->assertFalse($timeZone1->equals($timeZone3));
+        Assert::assertTrue($timeZone1->equals($timeZone2));
+        Assert::assertFalse($timeZone1->equals($timeZone3));
 
         $mock = $this->getMockBuilder(ValueObject::class)
             ->getMock();
-        $this->assertFalse($timeZone1->equals($mock));
+        Assert::assertFalse($timeZone1->equals($mock));
     }
 
     public function testGetName()
@@ -58,7 +60,7 @@ class TimeZoneTest extends TestCase
         $name = new StringLiteral('Europe/Madrid');
         $timeZone = new TimeZone($name);
 
-        $this->assertTrue($name->equals($timeZone->getName()));
+        Assert::assertTrue($name->equals($timeZone->getName()));
     }
 
     public function testToNativeCarbonTimeZone()
@@ -66,21 +68,20 @@ class TimeZoneTest extends TestCase
         $nativeTimeZone = new CarbonTimeZone('Europe/Madrid');
         $timeZone = new TimeZone(new StringLiteral('Europe/Madrid'));
 
-        $this->assertEquals($nativeTimeZone, $timeZone->toNativeCarbonTimeZone());
+        Assert::assertEquals($nativeTimeZone, $timeZone->toNativeCarbonTimeZone());
     }
 
     public function testToString()
     {
         $timeZone = new TimeZone(new StringLiteral('Europe/Madrid'));
 
-        $this->assertEquals('Europe/Madrid', $timeZone->__toString());
+        Assert::assertEquals('Europe/Madrid', $timeZone->__toString());
     }
 
-    /**
-     * @expectedException \Qubus\ValueObjects\DateTime\Exception\InvalidTimeZoneException
-     */
     public function testExceptionOnInvalidTimeZoneName()
     {
+        $this->expectException(InvalidTimeZoneException::class);
+
         $timeZone = new TimeZone(new StringLiteral('Mars/Phobos'));
     }
 }

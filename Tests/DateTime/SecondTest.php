@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\ValueObjects\DateTime;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\DateTime\Second;
 
 use function date;
@@ -17,18 +19,19 @@ class SecondTest extends TestCase
         $fromNativeSecond  = Second::fromNative(13);
         $constructedSecond = new Second(13);
 
-        $this->assertTrue($fromNativeSecond->equals($constructedSecond));
+        Assert::assertTrue($fromNativeSecond->equals($constructedSecond));
     }
 
     public function testNow()
     {
         $second = Second::now();
-        $this->assertEquals(intval(date('s')), $second->toNative());
+        Assert::assertEquals(intval(date('s')), $second->toNative());
     }
 
-    /** @expectedException \Qubus\Exception\Data\TypeException */
     public function testInvalidSecond()
     {
+        $this->expectException(TypeException::class);
+
         new Second(60);
     }
 }

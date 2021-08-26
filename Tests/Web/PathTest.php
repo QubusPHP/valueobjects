@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\ValueObjects\Web;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\Web\Path;
 
 class PathTest extends TestCase
@@ -13,12 +15,13 @@ class PathTest extends TestCase
     {
         $pathString = '/path/to/resource.ext';
         $path = new Path($pathString);
-        $this->assertEquals($pathString, $path->toNative());
+        Assert::assertEquals($pathString, $path->toNative());
     }
 
-    /** @expectedException \Qubus\Exception\Data\TypeException */
     public function testInvalidPath()
     {
         new Path('//valid?');
+
+        $this->expectException(TypeException::class);
     }
 }

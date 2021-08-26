@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Qubus\Tests\ValueObjects\DateTime;
 
 use Carbon\CarbonImmutable;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\ValueObjects\DateTime\Date;
+use Qubus\ValueObjects\DateTime\Exception\InvalidDateException;
 use Qubus\ValueObjects\DateTime\Month;
 use Qubus\ValueObjects\DateTime\MonthDay;
 use Qubus\ValueObjects\DateTime\Year;
@@ -22,7 +24,7 @@ class DateTest extends TestCase
         $fromNativeDate = Date::fromNative(2013, 'December', 21);
         $constructedDate = new Date(new Year(2013), Month::DECEMBER(), new MonthDay(21));
 
-        $this->assertTrue($fromNativeDate->equals($constructedDate));
+        Assert::assertTrue($fromNativeDate->equals($constructedDate));
     }
 
     public function testFromNativeCarbonImmutable()
@@ -31,18 +33,19 @@ class DateTest extends TestCase
         $dateFromNative = Date::fromNativeCarbonImmutable($nativeDate);
         $constructedDate = new Date(new Year(2013), Month::DECEMBER(), new MonthDay(3));
 
-        $this->assertTrue($dateFromNative->equals($constructedDate));
+        Assert::assertTrue($dateFromNative->equals($constructedDate));
     }
 
     public function testNow()
     {
         $date = Date::now();
-        $this->assertEquals(date('Y-n-j'), strval($date));
+        Assert::assertEquals(date('Y-n-j'), strval($date));
     }
 
-    /** @expectedException \Qubus\ValueObjects\DateTime\Exception\InvalidDateException */
     public function testAlmostValidDateException()
     {
+        $this->expectException(InvalidDateException::class);
+
         new Date(new Year(2013), Month::FEBRUARY(), new MonthDay(31));
     }
 
@@ -52,11 +55,11 @@ class DateTest extends TestCase
         $date2 = new Date(new Year(2013), Month::DECEMBER(), new MonthDay(3));
         $date3 = new Date(new Year(2013), Month::DECEMBER(), new MonthDay(5));
 
-        $this->assertTrue($date1->equals($date2));
-        $this->assertFalse($date1->equals($date3));
+        Assert::assertTrue($date1->equals($date2));
+        Assert::assertFalse($date1->equals($date3));
 
         $mock = $this->getMockBuilder(ValueObject::class)->getMock();
-        $this->assertFalse($date1->equals($mock));
+        Assert::assertFalse($date1->equals($mock));
     }
 
     public function testGetYear()
@@ -64,7 +67,7 @@ class DateTest extends TestCase
         $date = new Date(new Year(2013), Month::DECEMBER(), new MonthDay(3));
         $year = new Year(2013);
 
-        $this->assertTrue($year->equals($date->getYear()));
+        Assert::assertTrue($year->equals($date->getYear()));
     }
 
     public function testGetMonth()
@@ -72,7 +75,7 @@ class DateTest extends TestCase
         $date = new Date(new Year(2013), Month::DECEMBER(), new MonthDay(3));
         $month = Month::DECEMBER();
 
-        $this->assertTrue($month->equals($date->getMonth()));
+        Assert::assertTrue($month->equals($date->getMonth()));
     }
 
     public function testGetDay()
@@ -80,7 +83,7 @@ class DateTest extends TestCase
         $date = new Date(new Year(2013), Month::DECEMBER(), new MonthDay(3));
         $day = new MonthDay(3);
 
-        $this->assertTrue($day->equals($date->getDay()));
+        Assert::assertTrue($day->equals($date->getDay()));
     }
 
     public function testToNativeCarbonImmutable()
@@ -88,12 +91,12 @@ class DateTest extends TestCase
         $date = new Date(new Year(2013), Month::DECEMBER(), new MonthDay(3));
         $nativeDate = CarbonImmutable::createFromFormat('Y-n-j H:i:s', '2013-12-3 00:00:00');
 
-        $this->assertEquals($nativeDate, $date->toNativeCarbonImmutable());
+        Assert::assertEquals($nativeDate, $date->toNativeCarbonImmutable());
     }
 
     public function testToString()
     {
         $date = new Date(new Year(2013), Month::DECEMBER(), new MonthDay(3));
-        $this->assertEquals('2013-12-3', $date->__toString());
+        Assert::assertEquals('2013-12-3', $date->__toString());
     }
 }

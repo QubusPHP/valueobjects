@@ -1,3 +1,7 @@
+## 1.3.0 (2021.08.24)
+- Bumped up PHP version requirement to 8.0
+- Bumped up PHPUnit to 9.x
+
 ## 1.1.1 (2020.12.22)
 - Used QubusPHP Coding Standard to fix coding style issues.
 

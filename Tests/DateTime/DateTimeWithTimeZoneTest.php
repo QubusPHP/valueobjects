@@ -6,6 +6,7 @@ namespace Qubus\Tests\ValueObjects\DateTime;
 
 use Carbon\CarbonImmutable;
 use Carbon\CarbonTimeZone;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\ValueObjects\DateTime\Date;
 use Qubus\ValueObjects\DateTime\DateTime;
@@ -46,7 +47,7 @@ class DateTimeWithTimeZoneTest extends TestCase
             new TimeZone(new StringLiteral('Europe/Madrid'))
         );
 
-        $this->assertTrue($fromNativeDateTimeWithTz->equals($constructedDateTimeWithTz));
+        Assert::assertTrue($fromNativeDateTimeWithTz->equals($constructedDateTimeWithTz));
     }
 
     public function testFromNativeCarbonImmutable()
@@ -71,13 +72,13 @@ class DateTimeWithTimeZoneTest extends TestCase
         $timezone = new TimeZone(new StringLiteral('Europe/Madrid'));
         $constructedDateTimeWithTz = new DateTimeWithTimeZone(new DateTime($date, $time), $timezone);
 
-        $this->assertTrue($dateTimeWithTzFromNative->equals($constructedDateTimeWithTz));
+        Assert::assertTrue($dateTimeWithTzFromNative->equals($constructedDateTimeWithTz));
     }
 
     public function testNow()
     {
         $dateTimeWithTz = DateTimeWithTimeZone::now();
-        $this->assertEquals(date('Y-n-j G:i:s e'), strval($dateTimeWithTz));
+        Assert::assertEquals(date('Y-n-j G:i:s e'), strval($dateTimeWithTz));
     }
 
     public function testSameValueAs()
@@ -94,12 +95,12 @@ class DateTimeWithTimeZoneTest extends TestCase
         $dateTimeWithTz2 = new DateTimeWithTimeZone(new DateTime($date, $time), $timeZone);
         $dateTimeWithTz3 = new DateTimeWithTimeZone(new DateTime($date3, $time3), $timeZone3);
 
-        $this->assertTrue($dateTimeWithTz1->equals($dateTimeWithTz2));
-        $this->assertFalse($dateTimeWithTz1->equals($dateTimeWithTz3));
+        Assert::assertTrue($dateTimeWithTz1->equals($dateTimeWithTz2));
+        Assert::assertFalse($dateTimeWithTz1->equals($dateTimeWithTz3));
 
         $mock = $this->getMockBuilder(ValueObject::class)
             ->getMock();
-        $this->assertFalse($dateTimeWithTz1->equals($mock));
+        Assert::assertFalse($dateTimeWithTz1->equals($mock));
     }
 
     public function testSameTimestampAs()
@@ -115,12 +116,12 @@ class DateTimeWithTimeZoneTest extends TestCase
         $dateTimeWithTz1 = new DateTimeWithTimeZone(new DateTime($date1, $time1), $timeZone1);
         $dateTimeWithTz2 = new DateTimeWithTimeZone(new DateTime($date2, $time2), $timeZone2);
 
-        $this->assertTrue($dateTimeWithTz1->sameTimestampAs($dateTimeWithTz2));
-        $this->assertFalse($dateTimeWithTz1->equals($dateTimeWithTz2));
+        Assert::assertTrue($dateTimeWithTz1->sameTimestampAs($dateTimeWithTz2));
+        Assert::assertFalse($dateTimeWithTz1->equals($dateTimeWithTz2));
 
         $mock = $this->getMockBuilder(ValueObject::class)
             ->getMock();
-        $this->assertFalse($dateTimeWithTz1->sameTimestampAs($mock));
+        Assert::assertFalse($dateTimeWithTz1->sameTimestampAs($mock));
     }
 
     public function testGetDateTime()
@@ -131,7 +132,7 @@ class DateTimeWithTimeZoneTest extends TestCase
         $timeZone = new TimeZone(new StringLiteral('Europe/Madrid'));
         $dateTimeWithTz = new DateTimeWithTimeZone($dateTime, $timeZone);
 
-        $this->assertTrue($dateTime->equals($dateTimeWithTz->getDateTime()));
+        Assert::assertTrue($dateTime->equals($dateTimeWithTz->getDateTime()));
     }
 
     public function testGetTimeZone()
@@ -142,7 +143,7 @@ class DateTimeWithTimeZoneTest extends TestCase
         $timeZone = new TimeZone(new StringLiteral('Europe/Madrid'));
         $dateTimeWithTz = new DateTimeWithTimeZone($dateTime, $timeZone);
 
-        $this->assertTrue($timeZone->equals($dateTimeWithTz->getTimeZone()));
+        Assert::assertTrue($timeZone->equals($dateTimeWithTz->getTimeZone()));
     }
 
     public function testToNativeDateTime()
@@ -157,7 +158,7 @@ class DateTimeWithTimeZoneTest extends TestCase
             '2013-12-3 20:50:10 Europe/Madrid'
         );
 
-        $this->assertEquals($nativeDateTime, $dateTimeWithTz->toNativeCarbonImmutable());
+        Assert::assertEquals($nativeDateTime, $dateTimeWithTz->toNativeCarbonImmutable());
     }
 
     public function testToString()
@@ -168,6 +169,6 @@ class DateTimeWithTimeZoneTest extends TestCase
         $timeZone = new TimeZone(new StringLiteral('Europe/Madrid'));
         $dateTimeWithTz = new DateTimeWithTimeZone($dateTime, $timeZone);
 
-        $this->assertEquals('2013-12-3 20:50:10 Europe/Madrid', $dateTimeWithTz->__toString());
+        Assert::assertEquals('2013-12-3 20:50:10 Europe/Madrid', $dateTimeWithTz->__toString());
     }
 }
