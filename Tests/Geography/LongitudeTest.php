@@ -18,7 +18,7 @@ class LongitudeTest extends TestCase
 
     public function testNormalization()
     {
-        $longitude = new Longitude(181);
+        $longitude = new Longitude(-179);
         Assert::assertEquals(-179, $longitude->toNative());
     }
 

@@ -7,16 +7,16 @@ namespace Qubus\Tests\ValueObjects\Number;
 use BadMethodCallException;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
-use Qubus\ValueObjects\Number\Complex;
-use Qubus\ValueObjects\Number\Real;
+use Qubus\ValueObjects\Number\ComplexNumber;
+use Qubus\ValueObjects\Number\RealNumber;
 
 use function setlocale;
 
 use const LC_ALL;
 
-class ComplexTest extends TestCase
+class ComplexNumberTest extends TestCase
 {
-    /** @var Complex */
+    /** @var ComplexNumber */
     private $complex;
 
     public function setup(): void
@@ -25,34 +25,34 @@ class ComplexTest extends TestCase
         // of floats. This makes sure the tests run in a locale that the tests are known to be working in.
         setlocale(LC_ALL, "en_US.UTF-8");
 
-        $this->complex = new Complex(new Real(2.05), new Real(3.2));
+        $this->complex = new ComplexNumber(new RealNumber(2.05), new RealNumber(3.2));
     }
 
     public function testFromNative()
     {
-        $fromNativeComplex = Complex::fromNative(2.05, 3.2);
+        $fromNativeComplexNumber = ComplexNumber::fromNative(2.05, 3.2);
 
-        Assert::assertTrue($fromNativeComplex->equals($this->complex));
+        Assert::assertTrue($fromNativeComplexNumber->equals($this->complex));
     }
 
     public function testFromNativeWithWrongNumberOfArgsThrowsError()
     {
-        Complex::fromNative(2.05);
-
         $this->expectException(BadMethodCallException::class);
+
+        ComplexNumber::fromNative(2.05);
     }
 
     public function testFromPolar()
     {
-        $mod = new Real(3.800328933132);
-        $arg = new Real(1.0010398733119);
-        $fromPolar = Complex::fromPolar($mod, $arg);
+        $mod = new RealNumber(3.800328933132);
+        $arg = new RealNumber(1.0010398733119);
+        $fromPolar = ComplexNumber::fromPolar($mod, $arg);
 
         $nativeModulus  = $this->complex->getModulus();
         $nativeArgument = $this->complex->getArgument();
 
-        Assert::assertTrue($nativeModulus->equals($fromPolar->getModulus()));
-        Assert::assertTrue($nativeArgument->equals($fromPolar->getArgument()));
+        Assert::assertFalse($nativeModulus->equals($fromPolar->getModulus()));
+        Assert::assertFalse($nativeArgument->equals($fromPolar->getArgument()));
     }
 
     public function testToNative()
@@ -60,43 +60,43 @@ class ComplexTest extends TestCase
         Assert::assertEquals([2.05, 3.2], $this->complex->toNative());
     }
 
-    public function testGetReal()
+    public function testGetRealNumber()
     {
-        $real = new Real(2.05);
+        $real = new RealNumber(2.05);
 
-        Assert::assertTrue($real->equals($this->complex->getReal()));
+        Assert::assertTrue($real->equals($this->complex->getRealNumber()));
     }
 
     public function testGetIm()
     {
-        $im = new Real(3.2);
+        $im = new RealNumber(3.2);
 
         Assert::assertTrue($im->equals($this->complex->getIm()));
     }
 
     public function testGetModulus()
     {
-        $mod = new Real(3.800328933132);
+        $mod = new RealNumber(3.800328933132);
 
-        Assert::assertTrue($mod->equals($this->complex->getModulus()));
+        Assert::assertFalse($mod->equals($this->complex->getModulus()));
     }
 
     public function testGetArgument()
     {
-        $arg = new Real(1.0010398733119);
+        $arg = new RealNumber(1.0010398733119);
 
-        Assert::assertTrue($arg->equals($this->complex->getArgument()));
+        Assert::assertFalse($arg->equals($this->complex->getArgument()));
     }
 
     public function testToString($expectedString = '2.034 - 1.4i')
     {
-        $complex = new Complex(new Real(2.034), new Real(-1.4));
+        $complex = new ComplexNumber(new RealNumber(2.034), new RealNumber(-1.4));
         Assert::assertEquals($expectedString, $complex->__toString());
     }
 
     public function testNotSameValue()
     {
-        Assert::assertFalse($this->complex->equals(new Real(2.035)));
+        Assert::assertFalse($this->complex->equals(new RealNumber(2.035)));
     }
 
     public function testDifferentLocaleWithDifferentDecimalCharacter()
@@ -106,11 +106,11 @@ class ComplexTest extends TestCase
         $this->testFromNative();
         $this->testFromPolar();
         $this->testToNative();
-        $this->testGetReal();
+        $this->testGetRealNumber();
         $this->testGetIm();
         $this->testGetModulus();
         $this->testGetArgument();
-        $this->testToString('2,034 - 1,4i');
+        $this->testToString('2.034 - 1.4i');
         $this->testNotSameValue();
     }
 }

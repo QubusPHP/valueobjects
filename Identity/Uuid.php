@@ -27,8 +27,8 @@ use function strval;
 
 class Uuid extends StringLiteral
 {
-    /** @var BaseUuid */
-    protected $value;
+    /** @var string $value */
+    protected string $value;
 
     public function __construct(?string $value = null)
     {

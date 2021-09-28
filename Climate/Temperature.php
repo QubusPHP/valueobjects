@@ -17,9 +17,9 @@ namespace Qubus\ValueObjects\Climate;
 use Qubus\ValueObjects\Climate\Celsius;
 use Qubus\ValueObjects\Climate\Fahrenheit;
 use Qubus\ValueObjects\Climate\Kelvin;
-use Qubus\ValueObjects\Number\Real;
+use Qubus\ValueObjects\Number\RealNumber;
 
-abstract class Temperature extends Real
+abstract class Temperature extends RealNumber
 {
     abstract public function toCelsius(): Celsius;
 

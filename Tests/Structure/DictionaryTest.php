@@ -7,7 +7,7 @@ namespace Qubus\Tests\ValueObjects\Structure;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\Exception\Data\TypeException;
-use Qubus\ValueObjects\Number\Integer;
+use Qubus\ValueObjects\Number\IntegerNumber;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\Structure\Collection;
 use Qubus\ValueObjects\Structure\Dictionary;
@@ -22,9 +22,9 @@ class DictionaryTest extends TestCase
     public function setup(): void
     {
         $array = SplFixedArray::fromArray([
-            new KeyValuePair(new Integer(0), new StringLiteral('zero')),
-            new KeyValuePair(new Integer(1), new StringLiteral('one')),
-            new KeyValuePair(new Integer(2), new StringLiteral('two')),
+            new KeyValuePair(new IntegerNumber(0), new StringLiteral('zero')),
+            new KeyValuePair(new IntegerNumber(1), new StringLiteral('one')),
+            new KeyValuePair(new IntegerNumber(2), new StringLiteral('two')),
         ]);
 
         $this->dictionary = new Dictionary($array);
@@ -52,19 +52,19 @@ class DictionaryTest extends TestCase
 
     public function testInvalidArgument()
     {
+        $this->expectException(TypeException::class);
+
         $array = SplFixedArray::fromArray(['one', 'two', 'three']);
 
         new Dictionary($array);
-
-        $this->expectException(TypeException::class);
     }
 
     public function testKeys()
     {
         $array = SplFixedArray::fromArray([
-            new Integer(0),
-            new Integer(1),
-            new Integer(2),
+            new IntegerNumber(0),
+            new IntegerNumber(1),
+            new IntegerNumber(2),
         ]);
         $keys = new Collection($array);
 
@@ -85,8 +85,8 @@ class DictionaryTest extends TestCase
 
     public function testContainsKey()
     {
-        $one = new Integer(1);
-        $ten = new Integer(10);
+        $one = new IntegerNumber(1);
+        $ten = new IntegerNumber(10);
 
         Assert::assertTrue($this->dictionary->containsKey($one));
         Assert::assertFalse($this->dictionary->containsKey($ten));

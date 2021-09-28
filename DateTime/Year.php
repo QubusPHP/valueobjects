@@ -15,11 +15,11 @@ declare(strict_types=1);
 namespace Qubus\ValueObjects\DateTime;
 
 use Carbon\CarbonImmutable;
-use Qubus\ValueObjects\Number\Integer;
+use Qubus\ValueObjects\Number\IntegerNumber;
 
 use function intval;
 
-class Year extends Integer
+class Year extends IntegerNumber
 {
     /**
      * Returns the current year.

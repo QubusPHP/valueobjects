@@ -12,6 +12,7 @@ use Qubus\ValueObjects\Geography\CountryCode;
 use Qubus\ValueObjects\Geography\Street;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\ValueObject;
+use BadMethodCallException;
 
 class AddressTest extends TestCase
 {
@@ -39,7 +40,7 @@ class AddressTest extends TestCase
 
     public function testInvalidFromNative()
     {
-        $this->expectException(Address::class);
+        $this->expectException(BadMethodCallException::class);
 
         Address::fromNative('invalid');
     }

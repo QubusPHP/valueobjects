@@ -20,15 +20,14 @@ class StreetTest extends TestCase
         $this->street = new Street(
             new StringLiteral('Abbey Rd'),
             new StringLiteral('3'),
-            new StringLiteral('Building A'),
-            new StringLiteral('%number% %name%, %elements%')
+            new StringLiteral('%number% %name%')
         );
     }
 
     public function testFromNative()
     {
-        $fromNativeStreet = Street::fromNative('Abbey Rd', '3', 'Building A');
-        Assert::True($this->street->equals($fromNativeStreet));
+        $fromNativeStreet = Street::fromNative('Abbey Rd', '3');
+        Assert::assertTrue($this->street->equals($fromNativeStreet));
     }
 
     public function testInvalidFromNative()
@@ -40,38 +39,32 @@ class StreetTest extends TestCase
 
     public function testequals()
     {
-        $street2 = new Street(new StringLiteral('Abbey Rd'), new StringLiteral('3'), new StringLiteral('Building A'));
+        $street2 = new Street(new StringLiteral('Abbey Rd'), new StringLiteral('3'));
         $street3 = new Street(new StringLiteral('Orchard Road'), new StringLiteral(''));
 
-        Assert::True($this->street->equals($street2));
-        Assert::True($street2->equals($this->street));
-        Assert::False($this->street->equals($street3));
+        Assert::assertTrue($this->street->equals($street2));
+        Assert::assertTrue($street2->equals($this->street));
+        Assert::assertFalse($this->street->equals($street3));
 
         $mock = $this->getMockBuilder(ValueObject::class)
             ->getMock();
-        Assert::False($this->street->equals($mock));
+        Assert::assertFalse($this->street->equals($mock));
     }
 
     public function testGetName()
     {
         $name = new StringLiteral('Abbey Rd');
-        Assert::True($this->street->getName()->equals($name));
+        Assert::assertTrue($this->street->getName()->equals($name));
     }
 
     public function testGetNumber()
     {
         $number = new StringLiteral('3');
-        Assert::True($this->street->getNumber()->equals($number));
-    }
-
-    public function testGetElements()
-    {
-        $elements = new StringLiteral('Building A');
-        Assert::True($this->street->getElements()->equals($elements));
+        Assert::assertTrue($this->street->getNumber()->equals($number));
     }
 
     public function testToString()
     {
-        Assert::Same('3 Abbey Rd, Building A', $this->street->__toString());
+        Assert::assertSame('3 Abbey Rd', $this->street->__toString());
     }
 }

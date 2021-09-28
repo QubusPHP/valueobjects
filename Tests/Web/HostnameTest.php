@@ -12,8 +12,8 @@ class HostnameTest extends TestCase
 {
     public function testInvalidHostname()
     {
-        new Hostname('inv@lìd');
-
         $this->expectException(TypeException::class);
+
+        new Hostname('inv@lìd');
     }
 }

@@ -28,9 +28,11 @@ use function sprintf;
 
 class DateTimeWithTimeZone implements ValueObject
 {
-    protected DateTime $dateTime;
+    /** @var DateTime @dateTime */
+    protected $dateTime;
 
-    protected TimeZone $timeZone;
+    /** @var TimeZone $timeZone */
+    protected $timeZone;
 
     /**
      * Returns a new DateTimeWithTimeZone object.

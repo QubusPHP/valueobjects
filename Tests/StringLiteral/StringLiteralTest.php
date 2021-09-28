@@ -43,9 +43,9 @@ class StringLiteralTest extends TestCase
 
     public function testInvalidNativeArgument()
     {
-        new StringLiteral(12);
-
         $this->expectException(TypeError::class);
+
+        new StringLiteral(12);
     }
 
     public function testIsEmpty()

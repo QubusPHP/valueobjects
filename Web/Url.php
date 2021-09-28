@@ -40,21 +40,29 @@ use const PHP_URL_USER;
 
 class Url implements ValueObject
 {
-    protected SchemeName $scheme;
+    /** @var SchemeName $cheme */
+    protected $scheme;
 
-    protected StringLiteral $user;
+    /** @var StringLiteral $user */
+    protected $user;
 
-    protected StringLiteral $password;
+    /** @var StringLiteral $password */
+    protected $password;
 
-    protected Domain $domain;
+    /** @var Domain $domain */
+    protected $domain;
 
-    protected Path $path;
+    /** @var Path $path */
+    protected $path;
 
-    protected PortNumber $port;
+    /** @var PortNumber $post */
+    protected $port;
 
-    protected UrlQueryString $queryString;
+    /** @var UrlQueryString $queryString */
+    protected $queryString;
 
-    protected UrlFragmentIdentifier $fragmentIdentifier;
+    /** @var UrlFragmentIdentifier $fragmentIdentifier */
+    protected $fragmentIdentifier;
 
     /**
      * Returns a new Url object.

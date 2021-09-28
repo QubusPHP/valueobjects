@@ -27,11 +27,14 @@ use function sprintf;
 
 class Time implements ValueObject
 {
-    protected Hour $hour;
+    /** @var Hour $hour */
+    protected $hour;
 
-    protected Minute $minute;
+    /** @var Minute $minute */
+    protected $minute;
 
-    protected Second $second;
+    /** @var Second $second */
+    protected $second;
 
     /**
      * Returns a new Time objects.

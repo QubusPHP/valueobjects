@@ -13,9 +13,9 @@ class NullValueTest extends TestCase
 {
     public function testFromNative()
     {
-        NullValue::fromNative();
-
         $this->expectException(BadMethodCallException::class);
+
+        NullValue::fromNative();
     }
 
     public function testSameValueAs()

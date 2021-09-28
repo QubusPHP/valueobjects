@@ -19,8 +19,8 @@ class SchemeNameTest extends TestCase
 
     public function testInvalidSchemeName()
     {
-        new SchemeName('ht*tp');
-
         $this->expectException(TypeException::class);
+
+        new SchemeName('ht*tp');
     }
 }

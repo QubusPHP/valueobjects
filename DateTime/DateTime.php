@@ -26,9 +26,11 @@ use function sprintf;
 
 class DateTime implements ValueObject
 {
-    protected Date $date;
+    /** @var Date $date */
+    protected $date;
 
-    protected Time $time;
+    /** @var Time $time */
+    protected $time;
 
     /**
      * Returns a new DateTime object.

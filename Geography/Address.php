@@ -32,19 +32,19 @@ class Address implements ValueObject
      */
     public function __construct(
         /** @var StringLiteral */
-        protected StringLiteral $name,
+        protected $name,
         /** @var Street */
-        protected Street $street,
+        protected $street,
         /** @var StringLiteral */
-        protected StringLiteral $district,
+        protected $district,
         /** @var StringLiteral */
-        protected StringLiteral $city,
+        protected $city,
         /** @var StringLiteral */
-        protected StringLiteral $region,
+        protected $region,
         /** @var StringLiteral */
-        protected StringLiteral $postalCode,
-        /** @var Countryw */
-        protected Country $country
+        protected $postalCode,
+        /** @var Country */
+        protected $country
     ) {
         $this->name = $name;
         $this->street = $street;

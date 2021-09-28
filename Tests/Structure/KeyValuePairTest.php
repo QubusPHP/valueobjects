@@ -32,9 +32,9 @@ class KeyValuePairTest extends TestCase
 
     public function testInvalidFromNative()
     {
-        KeyValuePair::fromNative('key', 'value', 'invalid');
-
         $this->expectException(BadMethodCallException::class);
+
+        KeyValuePair::fromNative('key', 'value', 'invalid');
     }
 
     public function testSameValueAs()

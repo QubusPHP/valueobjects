@@ -21,8 +21,8 @@ class PortNumberTest extends TestCase
 
     public function testInvalidPortNumber()
     {
-        new UrlPortNumber(65536);
-
         $this->expectException(TypeException::class);
+
+        new UrlPortNumber(65536);
     }
 }

@@ -12,8 +12,8 @@ class NaturalTest extends TestCase
 {
     public function testInvalidNativeArgument()
     {
-        new Natural(-2);
-
         $this->expectException(TypeException::class);
+
+        new Natural(-2);
     }
 }

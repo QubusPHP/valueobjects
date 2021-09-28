@@ -24,7 +24,8 @@ use function func_get_arg;
 
 class Country implements ValueObject
 {
-    protected CountryCode $code;
+    /** @var CountryCode $code */
+    protected $code;
 
     /**
      * Returns a new Country object.
