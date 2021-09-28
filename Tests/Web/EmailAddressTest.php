@@ -23,9 +23,9 @@ class EmailAddressTest extends TestCase
 
     public function testInvalidEmailAddress()
     {
-        new EmailAddress('invalid');
-
         $this->expectException(TypeException::class);
+
+        new EmailAddress('invalid');
     }
 
     public function testGetLocalPart()

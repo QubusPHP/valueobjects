@@ -20,8 +20,8 @@ class IPv4AddressTest extends TestCase
 
     public function testInvalidIPv4Address()
     {
-        new IPv4Address('::1');
-
         $this->expectException(TypeException::class);
+
+        new IPv4Address('::1');
     }
 }

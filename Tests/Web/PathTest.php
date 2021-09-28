@@ -20,8 +20,8 @@ class PathTest extends TestCase
 
     public function testInvalidPath()
     {
-        new Path('//valid?');
-
         $this->expectException(TypeException::class);
+
+        new Path('//valid?');
     }
 }

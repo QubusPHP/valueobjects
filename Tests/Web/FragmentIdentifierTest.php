@@ -29,8 +29,8 @@ class FragmentIdentifierTest extends TestCase
 
     public function testInvalidFragmentIdentifier()
     {
-        new UrlFragmentIdentifier('invalìd');
-
         $this->expectException(TypeException::class);
+
+        new UrlFragmentIdentifier('invalìd');
     }
 }

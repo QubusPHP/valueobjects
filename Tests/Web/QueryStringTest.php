@@ -33,9 +33,9 @@ class QueryStringTest extends TestCase
 
     public function testInvalidQueryString()
     {
-        new UrlQueryString('invalìd');
-
         $this->expectException(TypeException::class);
+
+        new UrlQueryString('invalìd');
     }
 
     public function testToDictionary()

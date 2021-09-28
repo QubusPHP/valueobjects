@@ -20,8 +20,8 @@ class IPv6AddressTest extends TestCase
 
     public function testInvalidIPv6Address()
     {
-        new IPv6Address('127.0.0.1');
-
         $this->expectException(TypeException::class);
+
+        new IPv6Address('127.0.0.1');
     }
 }

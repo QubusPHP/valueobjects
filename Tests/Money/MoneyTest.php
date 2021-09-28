@@ -9,8 +9,8 @@ use PHPUnit\Framework\TestCase;
 use Qubus\ValueObjects\Money\Currency;
 use Qubus\ValueObjects\Money\CurrencyCode;
 use Qubus\ValueObjects\Money\Money;
-use Qubus\ValueObjects\Number\Integer;
-use Qubus\ValueObjects\Number\Real;
+use Qubus\ValueObjects\Number\IntegerNumber;
+use Qubus\ValueObjects\Number\RealNumber;
 use Qubus\ValueObjects\ValueObject;
 
 use function setlocale;
@@ -29,7 +29,7 @@ class MoneyTest extends TestCase
     public function testFromNative()
     {
         $fromNativeMoney = Money::fromNative(2100, 'EUR');
-        $constructedMoney = new Money(new Integer(2100), new Currency(CurrencyCode::EUR()));
+        $constructedMoney = new Money(new IntegerNumber(2100), new Currency(CurrencyCode::EUR()));
 
         Assert::assertTrue($fromNativeMoney->equals($constructedMoney));
     }
@@ -39,9 +39,9 @@ class MoneyTest extends TestCase
         $eur = new Currency(CurrencyCode::EUR());
         $usd = new Currency(CurrencyCode::USD());
 
-        $money1 = new Money(new Integer(1200), $eur);
-        $money2 = new Money(new Integer(1200), $eur);
-        $money3 = new Money(new Integer(34607), $usd);
+        $money1 = new Money(new IntegerNumber(1200), $eur);
+        $money2 = new Money(new IntegerNumber(1200), $eur);
+        $money3 = new Money(new IntegerNumber(34607), $usd);
 
         Assert::assertTrue($money1->equals($money2));
         Assert::assertTrue($money2->equals($money1));
@@ -55,17 +55,17 @@ class MoneyTest extends TestCase
     public function testGetAmount()
     {
         $eur = new Currency(CurrencyCode::EUR());
-        $money = new Money(new Integer(1200), $eur);
+        $money = new Money(new IntegerNumber(1200), $eur);
         $amount = $money->getAmount();
 
-        Assert::assertInstanceOf(Integer::class, $amount);
+        Assert::assertInstanceOf(IntegerNumber::class, $amount);
         Assert::assertSame(1200, $amount->toNative());
     }
 
     public function testGetCurrency()
     {
         $eur = new Currency(CurrencyCode::EUR());
-        $money = new Money(new Integer(1200), $eur);
+        $money = new Money(new IntegerNumber(1200), $eur);
         $currency = $money->getCurrency();
 
         Assert::assertInstanceOf(Currency::class, $currency);
@@ -75,8 +75,8 @@ class MoneyTest extends TestCase
     public function testAdd()
     {
         $eur = new Currency(CurrencyCode::EUR());
-        $money = new Money(new Integer(1200), $eur);
-        $addendum = new Integer(156);
+        $money = new Money(new IntegerNumber(1200), $eur);
+        $addendum = new IntegerNumber(156);
 
         $addedMoney = $money->add($addendum);
 
@@ -86,8 +86,8 @@ class MoneyTest extends TestCase
     public function testAddNegative()
     {
         $eur = new Currency(CurrencyCode::EUR());
-        $money = new Money(new Integer(1200), $eur);
-        $addendum = new Integer(- 120);
+        $money = new Money(new IntegerNumber(1200), $eur);
+        $addendum = new IntegerNumber(- 120);
 
         $addedMoney = $money->add($addendum);
 
@@ -97,8 +97,8 @@ class MoneyTest extends TestCase
     public function testMultiply()
     {
         $eur = new Currency(CurrencyCode::EUR());
-        $money = new Money(new Integer(1200), $eur);
-        $multiplier = new Real(1.2);
+        $money = new Money(new IntegerNumber(1200), $eur);
+        $multiplier = new RealNumber(1.2);
 
         $addedMoney = $money->multiply($multiplier);
 
@@ -108,8 +108,8 @@ class MoneyTest extends TestCase
     public function testMultiplyInverse()
     {
         $eur = new Currency(CurrencyCode::EUR());
-        $money = new Money(new Integer(1200), $eur);
-        $multiplier = new Real(0.3);
+        $money = new Money(new IntegerNumber(1200), $eur);
+        $multiplier = new RealNumber(0.3);
 
         $addedMoney = $money->multiply($multiplier);
 
@@ -119,7 +119,7 @@ class MoneyTest extends TestCase
     public function testToString()
     {
         $eur = new Currency(CurrencyCode::EUR());
-        $money = new Money(new Integer(1200), $eur);
+        $money = new Money(new IntegerNumber(1200), $eur);
 
         Assert::assertSame('EUR 1200', $money->__toString());
     }

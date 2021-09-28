@@ -7,23 +7,23 @@ namespace Qubus\Tests\ValueObjects\Number;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\Exception\Data\TypeException;
-use Qubus\ValueObjects\Number\Integer;
-use Qubus\ValueObjects\Number\Real;
+use Qubus\ValueObjects\Number\IntegerNumber;
+use Qubus\ValueObjects\Number\RealNumber;
 use Qubus\ValueObjects\ValueObject;
 
-class IntegerTest extends TestCase
+class IntegerNumberTest extends TestCase
 {
     public function testToNative()
     {
-        $integer = new Integer(5);
+        $integer = new IntegerNumber(5);
         Assert::assertSame(5, $integer->toNative());
     }
 
     public function testSameValueAs()
     {
-        $integer1 = new Integer(3);
-        $integer2 = new Integer(3);
-        $integer3 = new Integer(45);
+        $integer1 = new IntegerNumber(3);
+        $integer2 = new IntegerNumber(3);
+        $integer3 = new IntegerNumber(45);
 
         Assert::assertTrue($integer1->equals($integer2));
         Assert::assertTrue($integer2->equals($integer1));
@@ -36,29 +36,29 @@ class IntegerTest extends TestCase
 
     public function testToString()
     {
-        $integer = new Integer(87);
+        $integer = new IntegerNumber(87);
         Assert::assertSame('87', $integer->__toString());
     }
 
     public function testInvalidNativeArgument()
     {
-        new Integer(23.4);
-
         $this->expectException(TypeException::class);
+
+        new IntegerNumber(23.4);
     }
 
     public function testZeroToString()
     {
-        $zero = new Integer(0);
+        $zero = new IntegerNumber(0);
         Assert::assertSame('0', $zero->__toString());
     }
 
-    public function testToReal()
+    public function testToRealNumber()
     {
-        $integer = new Integer(5);
-        $nativeReal = new Real(5);
-        $real = $integer->toReal();
+        $integer = new IntegerNumber(5);
+        $nativeRealNumber = new RealNumber(5);
+        $real = $integer->toRealNumber();
 
-        Assert::assertTrue($real->equals($nativeReal));
+        Assert::assertTrue($real->equals($nativeRealNumber));
     }
 }

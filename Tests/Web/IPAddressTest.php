@@ -23,8 +23,8 @@ class IPAddressTest extends TestCase
 
     public function testInvalidIPAddress()
     {
-        new IPAddress('invalid');
-
         $this->expectException(TypeException::class);
+
+        new IPAddress('invalid');
     }
 }

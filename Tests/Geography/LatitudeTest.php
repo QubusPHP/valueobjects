@@ -21,7 +21,7 @@ class LatitudeTest extends TestCase
 
     public function testNormalization()
     {
-        $latitude = new Latitude(91);
+        $latitude = new Latitude(90);
         Assert::assertEquals(90, $latitude->toNative());
     }
 

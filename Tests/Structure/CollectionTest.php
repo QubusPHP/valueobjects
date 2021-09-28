@@ -7,7 +7,7 @@ namespace Qubus\Tests\ValueObjects\Structure;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\Exception\Data\TypeException;
-use Qubus\ValueObjects\Number\Integer;
+use Qubus\ValueObjects\Number\IntegerNumber;
 use Qubus\ValueObjects\Number\Natural;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\Structure\Collection;
@@ -24,18 +24,18 @@ class CollectionTest extends TestCase
         $array = new SplFixedArray(3);
         $array->offsetSet(0, new StringLiteral('one'));
         $array->offsetSet(1, new StringLiteral('two'));
-        $array->offsetSet(2, new Integer(3));
+        $array->offsetSet(2, new IntegerNumber(3));
 
         $this->collection = new Collection($array);
     }
 
     public function testInvalidArgument()
     {
+        $this->expectException(TypeException::class);
+
         $array = SplFixedArray::fromArray(['one', 'two', 'three']);
 
         new Collection($array);
-
-        $this->expectException(TypeException::class);
     }
 
     public function testFromNative()
@@ -68,7 +68,7 @@ class CollectionTest extends TestCase
         $array = SplFixedArray::fromArray([
             new StringLiteral('one'),
             new StringLiteral('two'),
-            new Integer(3),
+            new IntegerNumber(3),
         ]);
         $collection2 = new Collection($array);
 
@@ -109,7 +109,7 @@ class CollectionTest extends TestCase
         $array = [
             new StringLiteral('one'),
             new StringLiteral('two'),
-            new Integer(3),
+            new IntegerNumber(3),
         ];
 
         Assert::assertEquals($array, $this->collection->toArray());

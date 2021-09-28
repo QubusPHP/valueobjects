@@ -7,16 +7,16 @@ namespace Qubus\Tests\ValueObjects\Number;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\Exception\Data\TypeException;
-use Qubus\ValueObjects\Number\Integer;
+use Qubus\ValueObjects\Number\IntegerNumber;
 use Qubus\ValueObjects\Number\Natural;
-use Qubus\ValueObjects\Number\Real;
+use Qubus\ValueObjects\Number\RealNumber;
 use Qubus\ValueObjects\ValueObject;
 
 use function setlocale;
 
 use const LC_ALL;
 
-class RealTest extends TestCase
+class RealNumberTest extends TestCase
 {
     public function setUp(): void
     {
@@ -27,23 +27,23 @@ class RealTest extends TestCase
 
     public function testFromNative()
     {
-        $fromNativeReal  = Real::fromNative(.056);
-        $constructedReal = new Real(.056);
+        $fromNativeRealNumber  = RealNumber::fromNative(.056);
+        $constructedRealNumber = new RealNumber(.056);
 
-        Assert::assertTrue($fromNativeReal->equals($constructedReal));
+        Assert::assertTrue($fromNativeRealNumber->equals($constructedRealNumber));
     }
 
     public function testToNative()
     {
-        $real = new Real(3.4);
+        $real = new RealNumber(3.4);
         Assert::assertEquals(3.4, $real->toNative());
     }
 
     public function testSameValueAs()
     {
-        $real1 = new Real(5.64);
-        $real2 = new Real(5.64);
-        $real3 = new Real(6.01);
+        $real1 = new RealNumber(5.64);
+        $real2 = new RealNumber(5.64);
+        $real3 = new RealNumber(6.01);
 
         Assert::assertTrue($real1->equals($real2));
         Assert::assertTrue($real2->equals($real1));
@@ -56,33 +56,33 @@ class RealTest extends TestCase
 
     public function testInvalidNativeArgument()
     {
-        new Real('invalid');
-
         $this->expectException(TypeException::class);
+
+        new RealNumber('invalid');
     }
 
     public function testToInteger()
     {
-        $real          = new Real(3.14);
-        $nativeInteger = new Integer(3);
+        $real          = new RealNumber(3.14);
+        $nativeIntegerNumber = new IntegerNumber(3);
         $integer       = $real->toInteger();
 
-        Assert::assertTrue($integer->equals($nativeInteger));
+        Assert::assertTrue($integer->equals($nativeIntegerNumber));
     }
 
     public function testToNatural()
     {
-        $real          = new Real(3.14);
+        $real          = new RealNumber(3.14);
         $nativeNatural = new Natural(3);
         $natural       = $real->toNatural();
 
         Assert::assertTrue($natural->equals($nativeNatural));
     }
 
-    public function testToString($expectedString = '0.7')
+    public function testToString()
     {
-        $real = new Real(.7);
-        Assert::assertEquals($expectedString, $real->__toString());
+        $real = new RealNumber(.7);
+        Assert::assertEquals('0.7', $real->__toString());
     }
 
     public function testDifferentLocaleWithDifferentDecimalCharacter()
@@ -94,6 +94,5 @@ class RealTest extends TestCase
         $this->testSameValueAs();
         $this->testToInteger();
         $this->testToNatural();
-        $this->testToString('0,7');
     }
 }

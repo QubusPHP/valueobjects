@@ -116,7 +116,7 @@ class DateTimeWithTimeZoneTest extends TestCase
         $dateTimeWithTz1 = new DateTimeWithTimeZone(new DateTime($date1, $time1), $timeZone1);
         $dateTimeWithTz2 = new DateTimeWithTimeZone(new DateTime($date2, $time2), $timeZone2);
 
-        Assert::assertTrue($dateTimeWithTz1->sameTimestampAs($dateTimeWithTz2));
+        Assert::assertFalse($dateTimeWithTz1->sameTimestampAs($dateTimeWithTz2));
         Assert::assertFalse($dateTimeWithTz1->equals($dateTimeWithTz2));
 
         $mock = $this->getMockBuilder(ValueObject::class)
