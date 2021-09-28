@@ -15,14 +15,14 @@ declare(strict_types=1);
 namespace Qubus\ValueObjects\Number;
 
 use Qubus\Exception\Data\TypeException;
-use Qubus\ValueObjects\Number\Integer;
+use Qubus\ValueObjects\Number\IntegerNumber;
 
 use function filter_var;
 use function sprintf;
 
 use const FILTER_VALIDATE_INT;
 
-class Natural extends Integer
+class Natural extends IntegerNumber
 {
     /**
      * Returns a Natural object given a PHP native int as parameter.

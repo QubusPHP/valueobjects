@@ -32,28 +32,13 @@ class Street implements ValueObject
      * Returns a new Street object.
      */
     public function __construct(
-        protected StringLiteral $name,
-        protected StringLiteral $number,
-        /** @var StringLiteral Building, floor and unit */
-        protected ?StringLiteral $elements = null,
-        /**
-         * @var StringLiteral __toString() format
-         *                    Use properties corresponding placeholders: %name%, %number%, %elements%
-         */
-        protected ?StringLiteral $format = null
+        /** @var StringLiteral $name */
+        protected $name,
+        /** @var StringLiteral $number */
+        protected $number
     ) {
         $this->name = $name;
         $this->number = $number;
-
-        if (null === $elements) {
-            $elements = new StringLiteral('');
-        }
-        $this->elements = $elements;
-
-        if (null === $format) {
-            $format = new StringLiteral('%number% %name%');
-        }
-        $this->format = $format;
     }
 
     /**
@@ -61,13 +46,7 @@ class Street implements ValueObject
      */
     public function __toString(): string
     {
-        $replacements = [
-            '%name%'     => $this->getName(),
-            '%number%'   => $this->getNumber(),
-            '%elements%' => $this->getElements(),
-        ];
-
-        return str_replace(array_keys($replacements), array_values($replacements), $this->format);
+        return sprintf('%s %s', $this->getNumber(), $this->getName());
     }
 
     /**
@@ -85,22 +64,17 @@ class Street implements ValueObject
 
         if (count($args) < 2) {
             throw new BadMethodCallException(
-                'You must provide from 2 to 4 arguments: 1) street name, 2) street number, 
-                3) elements, 4) format (optional)'
+                'You must provide exactly 2 arguments: 1) street name, 2) street number.'
             );
         }
 
-        $nameString = $args[0];
+        $nameString   = $args[0];
         $numberString = $args[1];
-        $elementsString = $args[2] ?? '';
-        $formatString = $args[3] ?? '';
 
-        $name = new StringLiteral($nameString);
+        $name   = new StringLiteral($nameString);
         $number = new StringLiteral($numberString);
-        $elements = $elementsString ? new StringLiteral($elementsString) : null;
-        $format = $formatString ? new StringLiteral($formatString) : null;
 
-        return new static($name, $number, $elements, $format);
+        return new self($name, $number);
     }
 
     /**
@@ -115,8 +89,7 @@ class Street implements ValueObject
         }
 
         return $this->getName()->equals($street->getName()) &&
-        $this->getNumber()->equals($street->getNumber()) &&
-        $this->getElements()->equals($street->getElements());
+        $this->getNumber()->equals($street->getNumber());
     }
 
     /**
@@ -133,13 +106,5 @@ class Street implements ValueObject
     public function getNumber(): StringLiteral
     {
         return clone $this->number;
-    }
-
-    /**
-     * Returns street elements.
-     */
-    public function getElements(): StringLiteral
-    {
-        return clone $this->elements;
     }
 }

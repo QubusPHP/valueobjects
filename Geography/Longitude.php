@@ -14,23 +14,29 @@ declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Geography;
 
-use League\Geotools\Coordinate\Coordinate as BaseCoordinate;
 use Qubus\Exception\Data\TypeException;
-use Qubus\ValueObjects\Number\Real;
+use Qubus\ValueObjects\Number\RealNumber;
 
-class Longitude extends Real
+class Longitude extends RealNumber
 {
     /**
      * Returns a new Longitude object.
      *
      * @throws TypeException
      */
-    public function __construct(float $value)
+    public function __construct(float $longitude)
     {
-        // normalization process through Coordinate object
-        $coordinate = new BaseCoordinate([0, $value]);
-        $longitude = $coordinate->getLongitude();
+        if (!(-180 <= $longitude && $longitude <= 180)) {
+            throw new TypeException(
+                sprintf('Longitude must be between -180 and 180: %s', $longitude)
+            );
+        }
 
         $this->value = $longitude;
+    }
+
+    public function longitude(): float
+    {
+        return $this->value;
     }
 }

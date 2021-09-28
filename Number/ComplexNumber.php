@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Qubus\ValueObjects\Number;
 
 use BadMethodCallException;
-use Qubus\ValueObjects\Number\Real;
+use Qubus\ValueObjects\Number\RealNumber;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
@@ -29,18 +29,20 @@ use function sin;
 use function sprintf;
 use function sqrt;
 
-class Complex implements ValueObject
+class ComplexNumber implements ValueObject
 {
-    protected Real $real;
+    /** @var RealNumber $real */
+    protected $real;
 
-    protected Real $im;
+    /** @var RealNumber $im */
+    protected $im;
 
     /**
-     * Returns a new Complex object from native PHP arguments
+     * Returns a new ComplexNumber object from native PHP arguments
      *
-     * @param  float                        $real Real part of the complex number
+     * @param  float                        $real RealNumber part of the complex number
      * @param  float                        $im   Imaginary part of the complex number
-     * @return Complex|ValueObject
+     * @return ComplexNumber|ValueObject
      * @throws BadMethodCallException
      */
     public static function fromNative(): ValueObject
@@ -51,29 +53,29 @@ class Complex implements ValueObject
             throw new BadMethodCallException('You must provide 2 arguments: 1) real part, 2) imaginary part');
         }
 
-        $real = Real::fromNative($args[0]);
-        $im = Real::fromNative($args[1]);
+        $real = RealNumber::fromNative($args[0]);
+        $im = RealNumber::fromNative($args[1]);
         return new static($real, $im);
     }
 
     /**
-     * Returns a Complex given polar coordinates
+     * Returns a ComplexNumber given polar coordinates
      *
-     * @return Complex
+     * @return ComplexNumber
      */
-    public static function fromPolar(Real $modulus, Real $argument)
+    public static function fromPolar(RealNumber $modulus, RealNumber $argument)
     {
         $realValue = $modulus->toNative() * cos($argument->toNative());
         $imValue = $modulus->toNative() * sin($argument->toNative());
-        $real = new Real($realValue);
-        $im = new Real($imValue);
+        $real = new RealNumber($realValue);
+        $im = new RealNumber($imValue);
         return new static($real, $im);
     }
 
     /**
-     * Returns a Complex object give its real and imaginary parts as parameters
+     * Returns a ComplexNumber object give its real and imaginary parts as parameters
      */
-    public function __construct(Real $real, Real $im)
+    public function __construct(RealNumber $real, RealNumber $im)
     {
         $this->real = $real;
         $this->im = $im;
@@ -85,7 +87,7 @@ class Complex implements ValueObject
             return false;
         }
 
-        return $this->getReal()->equals($complex->getReal()) &&
+        return $this->getRealNumber()->equals($complex->getRealNumber()) &&
         $this->getIm()->equals($complex->getIm());
     }
 
@@ -97,58 +99,58 @@ class Complex implements ValueObject
     public function toNative(): array
     {
         return [
-            $this->getReal()->toNative(),
+            $this->getRealNumber()->toNative(),
             $this->getIm()->toNative(),
         ];
     }
 
     /**
-     * Returns the real part of the complex number
+     * Returns the real part of the complex number.
      */
-    public function getReal(): Real
+    public function getRealNumber(): RealNumber
     {
         return clone $this->real;
     }
 
     /**
-     * Returns the imaginary part of the complex number
+     * Returns the imaginary part of the complex number.
      */
-    public function getIm(): Real
+    public function getIm(): RealNumber
     {
         return clone $this->im;
     }
 
     /**
-     * Returns the modulus (or absolute value or magnitude) of the Complex number
+     * Returns the modulus (or absolute value or magnitude) of the ComplexNumber number.
      */
-    public function getModulus(): Real
+    public function getModulus(): RealNumber
     {
-        $real = $this->getReal()->toNative();
+        $real = $this->getRealNumber()->toNative();
         $im = $this->getIm()->toNative();
         $mod = sqrt(pow($real, 2) + pow($im, 2));
 
-        return new Real($mod);
+        return new RealNumber($mod);
     }
 
     /**
-     * Returns the argument (or phase) of the Complex number
+     * Returns the argument (or phase) of the ComplexNumber number.
      */
-    public function getArgument(): Real
+    public function getArgument(): RealNumber
     {
-        $real = $this->getReal()->toNative();
+        $real = $this->getRealNumber()->toNative();
         $im = $this->getIm()->toNative();
         $arg = atan2($im, $real);
 
-        return new Real($arg);
+        return new RealNumber($arg);
     }
 
     /**
-     * Returns a native string version of the Complex object in format "${real} +|- ${complex}i"
+     * Returns a native string version of the ComplexNumber object in format "${real} +|- ${complex}i"
      */
     public function __toString(): string
     {
         $format = '%g %+gi';
-        $real = $this->getReal()->toNative();
+        $real = $this->getRealNumber()->toNative();
         $im = $this->getIm()->toNative();
         $string = sprintf($format, $real, $im);
 

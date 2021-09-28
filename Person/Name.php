@@ -23,20 +23,14 @@ use function strval;
 
 class Name implements ValueObject
 {
-    /**
-     * First name.
-     */
-    protected StringLiteral $firstName;
+    /** @var StringLiteral $firstName */
+    protected $firstName;
 
-    /**
-     * Middle name.
-     */
-    protected StringLiteral $middleName;
+    /** @var StringLiteral $middleName */
+    protected $middleName;
 
-    /**
-     * Last name.
-     */
-    protected StringLiteral $lastName;
+    /** @var StringLiteral $lastName */
+    protected $lastName;
 
     /**
      * Returns a Name object.

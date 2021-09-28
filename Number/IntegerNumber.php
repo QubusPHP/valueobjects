@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Qubus\ValueObjects\Number;
 
 use Qubus\Exception\Data\TypeException;
-use Qubus\ValueObjects\Number\Real;
+use Qubus\ValueObjects\Number\RealNumber;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
@@ -25,10 +25,10 @@ use function sprintf;
 
 use const FILTER_VALIDATE_INT;
 
-class Integer extends Real
+class IntegerNumber extends RealNumber
 {
     /**
-     * Returns a Integer object given a PHP native int as parameter.
+     * Returns a IntegerNumber object given a PHP native int as parameter.
      *
      * @param int $value
      */
@@ -49,7 +49,7 @@ class Integer extends Real
     }
 
     /**
-     * Tells whether two Integer are equal by comparing their values
+     * Tells whether two IntegerNumber are equal by comparing their values
      */
     public function equals(ValueObject $integer): bool
     {
@@ -69,10 +69,10 @@ class Integer extends Real
     }
 
     /**
-     * Returns a Real with the value of the Integer
+     * Returns a RealNumber with the value of the IntegerNumber
      */
-    public function toReal(): Real
+    public function toRealNumber(): RealNumber
     {
-        return new Real($this->toNative());
+        return new RealNumber($this->toNative());
     }
 }

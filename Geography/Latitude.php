@@ -14,23 +14,30 @@ declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Geography;
 
-use League\Geotools\Coordinate\Coordinate as BaseCoordinate;
 use Qubus\Exception\Data\TypeException;
-use Qubus\ValueObjects\Number\Real;
+use Qubus\ValueObjects\Number\RealNumber;
 
-class Latitude extends Real
+class Latitude extends RealNumber
 {
     /**
      * Returns a new Latitude object.
      *
      * @throws TypeException
      */
-    public function __construct(float $value)
+    public function __construct(float $latitude)
     {
-        // normalization process through Coordinate object
-        $coordinate = new BaseCoordinate([$value, 0]);
-        $latitude = $coordinate->getLatitude();
+        if (!(-90 <= $latitude && $latitude <= 90)) {
+            throw new TypeException(
+                sprintf('Latitude must be between -90 and 90: %s', $latitude)
+            );
+        }
+
 
         $this->value = $latitude;
+    }
+
+    public function latitude(): float
+    {
+        return $this->value;
     }
 }

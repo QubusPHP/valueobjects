@@ -26,9 +26,11 @@ use function strval;
 
 class KeyValuePair implements ValueObject
 {
-    protected ValueObject $key;
+    /** @var ValueObject $key */
+    protected $key;
 
-    protected ValueObject $value;
+    /** @var ValueObject $value */
+    protected $value;
 
     /**
      * Returns a KeyValuePair.

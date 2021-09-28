@@ -31,10 +31,10 @@ use function strval;
 
 use const FILTER_VALIDATE_FLOAT;
 
-class Real implements ValueObject
+class RealNumber implements ValueObject
 {
     /**
-     * Returns a Real object given a PHP native float as parameter.
+     * Returns a RealNumber object given a PHP native float as parameter.
      *
      * @param  float $number
      * @return static
@@ -47,30 +47,15 @@ class Real implements ValueObject
     }
 
     /**
-     * Returns a Real object given a PHP native float as parameter.
+     * Returns a RealNumber object given a PHP native float as parameter.
      *
      * @param float $number
      */
-    public function __construct(protected $value)
+    public function __construct($value)
     {
-        $stringValue = (string) $value;
-        /**
-         * In some locales the decimal-point character might be different,
-         * which can cause filter_var($value, FILTER_VALIDATE_FLOAT) to fail.
-         */
-        $stringValue = str_replace(',', '.', $stringValue);
+        $stringValue = filter_var($value, FILTER_VALIDATE_FLOAT);
 
-        /**
-         * Only apply the decimal-point character fix if needed, otherwise
-         * preserve the old value.
-         */
-        if ($stringValue !== (string) $value) {
-            $value = filter_var($stringValue, FILTER_VALIDATE_FLOAT);
-        } else {
-            $value = filter_var($value, FILTER_VALIDATE_FLOAT);
-        }
-
-        if (false === $value) {
+        if (false === $stringValue) {
             throw new TypeException(
                 sprintf(
                     'Argument "%s" is invalid. Must be a float.',
@@ -93,7 +78,7 @@ class Real implements ValueObject
     }
 
     /**
-     * Tells whether two Real's are equal by comparing their values.
+     * Tells whether two RealNumber's are equal by comparing their values.
      */
     public function equals(ValueObject $real): bool
     {
@@ -105,12 +90,12 @@ class Real implements ValueObject
     }
 
     /**
-     * Returns the integer part of the Real number as a Integer.
+     * Returns the integer part of the RealNumber number as a Integer.
      *
      * @param  RoundingMode $roundingMode Rounding mode of the conversion.
      *                                     Defaults to RoundingMode::HALF_UP.
      */
-    public function toInteger(?RoundingMode $roundingMode = null): Integer
+    public function toInteger(?RoundingMode $roundingMode = null): IntegerNumber
     {
         if (null === $roundingMode) {
             $roundingMode = RoundingMode::HALF_UP();
@@ -118,11 +103,11 @@ class Real implements ValueObject
 
         $value        = $this->toNative();
         $integerValue = round($value, 0, $roundingMode->toNative());
-        return new Integer($integerValue);
+        return new IntegerNumber($integerValue);
     }
 
     /**
-     * Returns the absolute integer part of the Real number as a Natural.
+     * Returns the absolute integer part of the RealNumber number as a Natural.
      *
      * @param  RoundingMode $roundingMode Rounding mode of the conversion.
      *                                     Defaults to RoundingMode::HALF_UP.
