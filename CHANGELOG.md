@@ -1,3 +1,7 @@
+## 1.4.0 (2021.09.28)
+- API change.
+- Updated tests due to api change.
+
 ## 1.3.0 (2021.08.24)
 - Bumped up PHP version requirement to 8.0
 - Bumped up PHPUnit to 9.x
