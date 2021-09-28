@@ -18,7 +18,6 @@
     "require": {
         "php": "^8.0",
         "laminas/laminas-validator": "^2.15",
-        "league/geotools": "^0.8",
         "marc-mabe/php-enum": "^4.4",
         "moneyphp/money": "^4.0",
         "nesbot/carbon": "^2.53",
