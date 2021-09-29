@@ -20,23 +20,21 @@ use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
-use function array_keys;
-use function array_values;
 use function count;
 use function func_get_args;
-use function str_replace;
+use function sprintf;
 
 class Street implements ValueObject
 {
+    /** @var StringLiteral $name */
+    protected $name;
+    /** @var StringLiteral $number */
+    protected $number;
     /**
      * Returns a new Street object.
      */
-    public function __construct(
-        /** @var StringLiteral $name */
-        protected $name,
-        /** @var StringLiteral $number */
-        protected $number
-    ) {
+    public function __construct($name, $number)
+    {
         $this->name = $name;
         $this->number = $number;
     }

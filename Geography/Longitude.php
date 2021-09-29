@@ -17,6 +17,8 @@ namespace Qubus\ValueObjects\Geography;
 use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\Number\RealNumber;
 
+use function sprintf;
+
 class Longitude extends RealNumber
 {
     /**
@@ -26,7 +28,7 @@ class Longitude extends RealNumber
      */
     public function __construct(float $longitude)
     {
-        if (!(-180 <= $longitude && $longitude <= 180)) {
+        if (! (-180 <= $longitude && $longitude <= 180)) {
             throw new TypeException(
                 sprintf('Longitude must be between -180 and 180: %s', $longitude)
             );
