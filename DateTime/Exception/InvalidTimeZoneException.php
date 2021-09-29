@@ -20,6 +20,7 @@ use function sprintf;
 
 final class InvalidTimeZoneException extends Exception
 {
+    /** @var string $name */
     public function __construct($name)
     {
         $message = sprintf(

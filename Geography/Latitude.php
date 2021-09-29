@@ -17,6 +17,8 @@ namespace Qubus\ValueObjects\Geography;
 use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\Number\RealNumber;
 
+use function sprintf;
+
 class Latitude extends RealNumber
 {
     /**
@@ -26,12 +28,11 @@ class Latitude extends RealNumber
      */
     public function __construct(float $latitude)
     {
-        if (!(-90 <= $latitude && $latitude <= 90)) {
+        if (! (-90 <= $latitude && $latitude <= 90)) {
             throw new TypeException(
                 sprintf('Latitude must be between -90 and 90: %s', $latitude)
             );
         }
-
 
         $this->value = $latitude;
     }
