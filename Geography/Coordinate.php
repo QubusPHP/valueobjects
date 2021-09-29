@@ -18,14 +18,12 @@ use BadMethodCallException;
 use Qubus\ValueObjects\Geography\Latitude;
 use Qubus\ValueObjects\Geography\Longitude;
 use Qubus\ValueObjects\Number\IntegerNumber;
-use Qubus\ValueObjects\Number\RealNumber;
-use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
-use function call_user_func;
 use function count;
 use function func_get_args;
+use function round;
 use function sprintf;
 
 class Coordinate implements ValueObject
@@ -103,7 +101,7 @@ class Coordinate implements ValueObject
         return clone $this->longitude;
     }
 
-    public function round(IntegerNumber $numberOfDecimals)
+    public function round(IntegerNumber $numberOfDecimals): Coordinate
     {
         $latitude  = round($this->latitude, $numberOfDecimals->toNative());
         $longitude = round($this->longitude, $numberOfDecimals->toNative());

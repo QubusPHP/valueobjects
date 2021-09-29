@@ -27,24 +27,31 @@ use function sprintf;
 
 class Address implements ValueObject
 {
+    /** @var StringLiteral */
+    protected $name;
+    /** @var Street */
+    protected $street;
+    /** @var StringLiteral */
+    protected $district;
+    /** @var StringLiteral */
+    protected $city;
+    /** @var StringLiteral */
+    protected $region;
+    /** @var StringLiteral */
+    protected $postalCode;
+    /** @var Country */
+    protected $country;
     /**
      * Returns a new Address object.
      */
     public function __construct(
-        /** @var StringLiteral */
-        protected $name,
-        /** @var Street */
-        protected $street,
-        /** @var StringLiteral */
-        protected $district,
-        /** @var StringLiteral */
-        protected $city,
-        /** @var StringLiteral */
-        protected $region,
-        /** @var StringLiteral */
-        protected $postalCode,
-        /** @var Country */
-        protected $country
+        $name,
+        $street,
+        $district,
+        $city,
+        $region,
+        $postalCode,
+        $country
     ) {
         $this->name = $name;
         $this->street = $street;

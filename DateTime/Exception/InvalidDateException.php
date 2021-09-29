@@ -15,15 +15,18 @@ declare(strict_types=1);
 namespace Qubus\ValueObjects\DateTime\Exception;
 
 use Qubus\Exception\Exception;
+use Qubus\ValueObjects\DateTime\Month;
+use Qubus\ValueObjects\DateTime\MonthDay;
+use Qubus\ValueObjects\DateTime\Year;
 
 use function sprintf;
 
 final class InvalidDateException extends Exception
 {
     /**
-     * @param $year
-     * @param $month
-     * @param $day
+     * @param Year $year
+     * @param Month $month
+     * @param MonthDay $day
      */
     public function __construct($year, $month, $day)
     {

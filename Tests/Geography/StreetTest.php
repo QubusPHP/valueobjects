@@ -13,6 +13,7 @@ use Qubus\ValueObjects\ValueObject;
 
 class StreetTest extends TestCase
 {
+    /** @var Street $street */
     protected $street;
 
     protected function setup(): void

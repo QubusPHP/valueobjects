@@ -10,10 +10,8 @@ use PHPUnit\Framework\TestCase;
 use Qubus\ValueObjects\Geography\Coordinate;
 use Qubus\ValueObjects\Geography\Latitude;
 use Qubus\ValueObjects\Geography\Longitude;
-use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\ValueObject;
 
-use function round;
 use function setlocale;
 
 use const LC_ALL;

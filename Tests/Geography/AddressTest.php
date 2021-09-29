@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\ValueObjects\Geography;
 
+use BadMethodCallException;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\ValueObjects\Geography\Address;
@@ -12,7 +13,6 @@ use Qubus\ValueObjects\Geography\CountryCode;
 use Qubus\ValueObjects\Geography\Street;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\ValueObject;
-use BadMethodCallException;
 
 class AddressTest extends TestCase
 {
@@ -34,7 +34,16 @@ class AddressTest extends TestCase
 
     public function testFromNative()
     {
-        $fromNativeAddress = Address::fromNative('Nicolò Pignatelli', 'via Manara', '3', '', 'Altamura', 'BARI', '70022', 'IT');
+        $fromNativeAddress = Address::fromNative(
+            'Nicolò Pignatelli',
+            'via Manara',
+            '3',
+            '',
+            'Altamura',
+            'BARI',
+            '70022',
+            'IT'
+        );
         Assert::assertTrue($this->address->equals($fromNativeAddress));
     }
 

@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Qubus\ValueObjects\Number;
 
 use Qubus\Exception\Data\TypeException;
-use Qubus\ValueObjects\Number\Integer;
+use Qubus\ValueObjects\Number\IntegerNumber;
 use Qubus\ValueObjects\Number\Natural;
 use Qubus\ValueObjects\Number\RoundingMode;
 use Qubus\ValueObjects\Util;
@@ -26,7 +26,6 @@ use function filter_var;
 use function func_get_arg;
 use function round;
 use function sprintf;
-use function str_replace;
 use function strval;
 
 use const FILTER_VALIDATE_FLOAT;
@@ -90,7 +89,7 @@ class RealNumber implements ValueObject
     }
 
     /**
-     * Returns the integer part of the RealNumber number as a Integer.
+     * Returns the integer part of the RealNumber number as a IntegerNumber.
      *
      * @param  RoundingMode $roundingMode Rounding mode of the conversion.
      *                                     Defaults to RoundingMode::HALF_UP.

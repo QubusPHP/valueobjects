@@ -47,7 +47,10 @@ class KelvinTest extends TestCase
      */
     public function testToFahrenheit(Kelvin $temperature)
     {
-        Assert::assertEquals($temperature->toCelsius()->toNative() * 1.8 + 32, $temperature->toFahrenheit()->toNative());
+        Assert::assertEquals(
+            $temperature->toCelsius()->toNative() * 1.8 + 32,
+            $temperature->toFahrenheit()->toNative()
+        );
     }
 
     /**
