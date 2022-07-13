@@ -16,7 +16,6 @@ namespace Qubus\ValueObjects\DateTime;
 
 use Carbon\CarbonImmutable;
 use Qubus\ValueObjects\DateTime\DateTime;
-use Qubus\ValueObjects\DateTime\DateTimeWithTimeZone;
 use Qubus\ValueObjects\DateTime\Exception\InvalidDateException;
 use Qubus\ValueObjects\DateTime\Exception\InvalidTimeZoneException;
 use Qubus\ValueObjects\DateTime\TimeZone;
@@ -28,11 +27,8 @@ use function sprintf;
 
 class DateTimeWithTimeZone implements ValueObject
 {
-    /** @var DateTime @dateTime */
-    protected $dateTime;
-
-    /** @var TimeZone $timeZone */
-    protected $timeZone;
+    protected DateTime $dateTime;
+    protected TimeZone $timeZone;
 
     /**
      * Returns a new DateTimeWithTimeZone object.

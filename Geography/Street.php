@@ -26,17 +26,13 @@ use function sprintf;
 
 class Street implements ValueObject
 {
-    /** @var StringLiteral $name */
-    protected $name;
-    /** @var StringLiteral $number */
-    protected $number;
     /**
      * Returns a new Street object.
      */
-    public function __construct($name, $number)
-    {
-        $this->name = $name;
-        $this->number = $number;
+    public function __construct(
+        protected StringLiteral $name,
+        protected StringLiteral $number,
+    ) {
     }
 
     /**

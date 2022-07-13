@@ -23,26 +23,14 @@ use function strval;
 
 class Name implements ValueObject
 {
-    /** @var StringLiteral $firstName */
-    protected $firstName;
-
-    /** @var StringLiteral $middleName */
-    protected $middleName;
-
-    /** @var StringLiteral $lastName */
-    protected $lastName;
-
     /**
      * Returns a Name object.
      */
     public function __construct(
-        StringLiteral $firstName,
-        StringLiteral $middleName,
-        StringLiteral $lastName
+        protected StringLiteral $firstName,
+        protected StringLiteral $middleName,
+        protected StringLiteral $lastName
     ) {
-        $this->firstName = $firstName;
-        $this->middleName = $middleName;
-        $this->lastName = $lastName;
     }
 
     /**

@@ -40,51 +40,19 @@ use const PHP_URL_USER;
 
 class Url implements ValueObject
 {
-    /** @var SchemeName $cheme */
-    protected $scheme;
-
-    /** @var StringLiteral $user */
-    protected $user;
-
-    /** @var StringLiteral $password */
-    protected $password;
-
-    /** @var Domain $domain */
-    protected $domain;
-
-    /** @var Path $path */
-    protected $path;
-
-    /** @var PortNumber $post */
-    protected $port;
-
-    /** @var UrlQueryString $queryString */
-    protected $queryString;
-
-    /** @var UrlFragmentIdentifier $fragmentIdentifier */
-    protected $fragmentIdentifier;
-
     /**
      * Returns a new Url object.
      */
     public function __construct(
-        SchemeName $scheme,
-        StringLiteral $user,
-        StringLiteral $password,
-        Domain $domain,
-        PortNumber $port,
-        Path $path,
-        UrlQueryString $query,
-        UrlFragmentIdentifier $fragment
+        protected SchemeName $scheme,
+        protected StringLiteral $user,
+        protected StringLiteral $password,
+        protected Domain $domain,
+        protected PortNumber $port,
+        protected Path $path,
+        protected UrlQueryString $queryString,
+        protected UrlFragmentIdentifier $fragmentIdentifier
     ) {
-        $this->scheme = $scheme;
-        $this->user = $user;
-        $this->password = $password;
-        $this->domain = $domain;
-        $this->path = $path;
-        $this->port = $port;
-        $this->queryString = $query;
-        $this->fragmentIdentifier = $fragment;
     }
 
     /**

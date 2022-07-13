@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Web;
 
-interface PortNumber
+use Qubus\ValueObjects\ValueObject;
+
+interface PortNumber extends ValueObject
 {
 }

@@ -31,12 +31,10 @@ use function strval;
 
 class Collection implements ValueObject
 {
-    protected SplFixedArray $items;
-
     /**
      * Returns a new Collection object.
      */
-    public function __construct(SplFixedArray $items)
+    public function __construct(protected SplFixedArray $items)
     {
         foreach ($items as $item) {
             if (false === $item instanceof ValueObject) {
