@@ -51,8 +51,8 @@ class ComplexNumberTest extends TestCase
         $nativeModulus  = $this->complex->getModulus();
         $nativeArgument = $this->complex->getArgument();
 
-        Assert::assertFalse($nativeModulus->equals($fromPolar->getModulus()));
-        Assert::assertFalse($nativeArgument->equals($fromPolar->getArgument()));
+        Assert::assertTrue($nativeModulus->equals($fromPolar->getModulus()));
+        Assert::assertTrue($nativeArgument->equals($fromPolar->getArgument()));
     }
 
     public function testToNative()
@@ -78,14 +78,14 @@ class ComplexNumberTest extends TestCase
     {
         $mod = new RealNumber(3.800328933132);
 
-        Assert::assertFalse($mod->equals($this->complex->getModulus()));
+        Assert::assertTrue($mod->equals($this->complex->getModulus()));
     }
 
     public function testGetArgument()
     {
         $arg = new RealNumber(1.0010398733119);
 
-        Assert::assertFalse($arg->equals($this->complex->getArgument()));
+        Assert::assertTrue($arg->equals($this->complex->getArgument()));
     }
 
     public function testToString($expectedString = '2.034 - 1.4i')
@@ -110,7 +110,7 @@ class ComplexNumberTest extends TestCase
         $this->testGetIm();
         $this->testGetModulus();
         $this->testGetArgument();
-        $this->testToString('2.034 - 1.4i');
+        $this->testToString('2,034 - 1,4i');
         $this->testNotSameValue();
     }
 }
