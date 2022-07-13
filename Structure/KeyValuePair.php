@@ -26,21 +26,13 @@ use function strval;
 
 class KeyValuePair implements ValueObject
 {
-    /** @var ValueObject $key */
-    protected $key;
-
-    /** @var ValueObject $value */
-    protected $value;
-
     /**
      * Returns a KeyValuePair.
      */
     public function __construct(
-        ValueObject $key,
-        ValueObject $value
+        protected ValueObject $key,
+        protected ValueObject $value
     ) {
-        $this->key = $key;
-        $this->value = $value;
     }
 
     /**

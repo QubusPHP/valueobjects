@@ -6,8 +6,8 @@ namespace Qubus\Tests\ValueObjects\Geography;
 
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\Geography\Latitude;
-use TypeError;
 
 class LatitudeTest extends TestCase
 {
@@ -27,7 +27,7 @@ class LatitudeTest extends TestCase
 
     public function testInvalidLatitude()
     {
-        $this->expectException(TypeError::class);
+        $this->expectException(TypeException::class);
 
         new Latitude('invalid');
     }

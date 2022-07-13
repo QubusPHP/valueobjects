@@ -32,6 +32,9 @@ use const FILTER_VALIDATE_FLOAT;
 
 class RealNumber implements ValueObject
 {
+    /** @var float */
+    protected $value;
+
     /**
      * Returns a RealNumber object given a PHP native float as parameter.
      *
@@ -52,9 +55,20 @@ class RealNumber implements ValueObject
      */
     public function __construct($value)
     {
-        $stringValue = filter_var($value, FILTER_VALIDATE_FLOAT);
+        $stringValue = (string) $value;
 
-        if (false === $stringValue) {
+        # In some locales the decimal-point character might be different,
+        # which can cause filter_var($value, FILTER_VALIDATE_FLOAT) to fail.
+        $stringValue = str_replace(',', '.', $stringValue);
+
+        # Only apply the decimal-point character fix if needed, otherwise preserve the old value
+        if ($stringValue !== (string) $value) {
+            $value = filter_var($stringValue, FILTER_VALIDATE_FLOAT);
+        } else {
+            $value = filter_var($value, FILTER_VALIDATE_FLOAT);
+        }
+
+        if (false === $value) {
             throw new TypeException(
                 sprintf(
                     'Argument "%s" is invalid. Must be a float.',

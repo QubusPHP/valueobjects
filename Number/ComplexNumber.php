@@ -31,12 +31,6 @@ use function sqrt;
 
 class ComplexNumber implements ValueObject
 {
-    /** @var RealNumber $real */
-    protected $real;
-
-    /** @var RealNumber $im */
-    protected $im;
-
     /**
      * Returns a new ComplexNumber object from native PHP arguments
      *
@@ -75,10 +69,10 @@ class ComplexNumber implements ValueObject
     /**
      * Returns a ComplexNumber object give its real and imaginary parts as parameters
      */
-    public function __construct(RealNumber $real, RealNumber $im)
-    {
-        $this->real = $real;
-        $this->im = $im;
+    public function __construct(
+        protected RealNumber $real,
+        protected RealNumber $im,
+    ) {
     }
 
     public function equals(ValueObject $complex): bool

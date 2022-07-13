@@ -15,36 +15,41 @@ declare(strict_types=1);
 namespace Qubus\ValueObjects\Geography;
 
 use BadMethodCallException;
+use League\Geotools\Convert\Convert;
+use League\Geotools\Coordinate\Coordinate as BaseCoordinate;
+use League\Geotools\Coordinate\Ellipsoid as BaseEllipsoid;
+use League\Geotools\Distance\Distance;
 use Qubus\ValueObjects\Geography\Latitude;
 use Qubus\ValueObjects\Geography\Longitude;
 use Qubus\ValueObjects\Number\IntegerNumber;
+use Qubus\ValueObjects\Number\RealNumber;
+use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
 use function count;
 use function func_get_args;
-use function round;
 use function sprintf;
 
 class Coordinate implements ValueObject
 {
-    /** @var Latitude $latitude */
-    protected $latitude;
-
-    /** @var Longitude $longitude */
-    protected $longitude;
-
     /**
      * Returns a new Coordinate object.
      */
-    public function __construct(Latitude $latitude, Longitude $longitude)
-    {
-        $this->latitude = $latitude;
-        $this->longitude = $longitude;
+    public function __construct(
+        protected Latitude $latitude,
+        protected Longitude $longitude,
+        protected ?Ellipsoid $ellipsoid = null,
+    ) {
+        if (null === $ellipsoid) {
+            $ellipsoid = Ellipsoid::WGS84();
+        }
+
+        $this->ellipsoid = $ellipsoid;
     }
 
     /**
-     * Returns a native string version of the Coordiantes object in format "$latitude,$longitude".
+     * Returns a native string version of the Coordinates object in format "$latitude,$longitude".
      */
     public function __toString(): string
     {
@@ -61,13 +66,20 @@ class Coordinate implements ValueObject
     {
         $args = func_get_args();
 
-        if (count($args) < 2) {
+        if (count($args) < 2 | count($args) > 3) {
             throw new BadMethodCallException(
-                'You must provide 2 arguments: 1) latitude, 2) longitude.'
+                'You must provide 2 to 3 arguments: 1) latitude, 2) longitude, 3) valid ellipsoid type (optional).'
             );
         }
 
-        return new static($args[0], $args[1]);
+        $coordinate = new BaseCoordinate([$args[0], $args[1]]);
+        $latitude = Latitude::fromNative($coordinate->getLatitude());
+        $longitude = Longitude::fromNative($coordinate->getLongitude());
+
+        $nativeEllipsoid = $args[2] ?? null;
+        $ellipsoid = Ellipsoid::fromNative($nativeEllipsoid);
+
+        return new self($latitude, $longitude, $ellipsoid);
     }
 
     /**
@@ -82,7 +94,8 @@ class Coordinate implements ValueObject
         }
 
         return $this->getLatitude()->equals($coordinate->getLatitude()) &&
-        $this->getLongitude()->equals($coordinate->getLongitude());
+        $this->getLongitude()->equals($coordinate->getLongitude()) &&
+        $this->getEllipsoid()->equals($coordinate->getEllipsoid());
     }
 
     /**
@@ -101,10 +114,107 @@ class Coordinate implements ValueObject
         return clone $this->longitude;
     }
 
-    public function round(IntegerNumber $numberOfDecimals): Coordinate
+    /**
+     * Returns ellipsoid.
+     *
+     * @return Ellipsoid
+     */
+    public function getEllipsoid(): Ellipsoid
     {
-        $latitude  = round($this->latitude, $numberOfDecimals->toNative());
-        $longitude = round($this->longitude, $numberOfDecimals->toNative());
-        return new Coordinate($latitude, $longitude);
+        return $this->ellipsoid;
+    }
+
+    /**
+     * Returns a degrees/minutes/seconds representation of the coordinate.
+     *
+     * @return StringLiteral
+     */
+    public function toDegreesMinutesSeconds(): StringLiteral
+    {
+        $coordinate = static::getBaseCoordinate($this);
+        $convert = new Convert($coordinate);
+        $dms = $convert->toDegreesMinutesSeconds();
+
+        return new StringLiteral($dms);
+    }
+
+    /**
+     * Returns a decimal minutes representation of the coordinate.
+     *
+     * @return StringLiteral
+     */
+    public function toDecimalMinutes(): StringLiteral
+    {
+        $coordinate = static::getBaseCoordinate($this);
+        $convert = new Convert($coordinate);
+        $dm = $convert->toDecimalMinutes();
+
+        return new StringLiteral($dm);
+    }
+
+    /**
+     * Returns a Universal Transverse Mercator projection representation of the coordinate in meters.
+     *
+     * @return StringLiteral
+     */
+    public function toUniversalTransverseMercator(): StringLiteral
+    {
+        $coordinate = static::getBaseCoordinate($this);
+        $convert = new Convert($coordinate);
+        $utm = $convert->toUniversalTransverseMercator();
+
+        return new StringLiteral($utm);
+    }
+
+    /**
+     * Calculates the distance between two Coordinate objects.
+     *
+     * @param Coordinate           $coordinate
+     * @param DistanceUnit|null    $unit
+     * @param DistanceFormula|null $formula
+     *
+     * @return float
+     */
+    public function distanceFrom(
+        Coordinate $coordinate,
+        DistanceUnit $unit = null,
+        DistanceFormula $formula = null
+    ): RealNumber {
+        if (null === $unit) {
+            $unit = DistanceUnit::METER();
+        }
+
+        if (null === $formula) {
+            $formula = DistanceFormula::FLAT();
+        }
+
+        $baseThis = static::getBaseCoordinate($this);
+        $baseCoordinate = static::getBaseCoordinate($coordinate);
+
+        $distance = new Distance();
+        $distance
+            ->setFrom($baseThis)
+            ->setTo($baseCoordinate)
+            ->in($unit->toNative());
+
+        $value = call_user_func([$distance, $formula->toNative()]);
+
+        return new RealNumber($value);
+    }
+
+    /**
+     * Returns the underlying Coordinate object.
+     *
+     * @param Coordinate|ValueObject $coordinate
+     *
+     * @return BaseCoordinate
+     */
+    protected static function getBaseCoordinate(ValueObject $coordinate): BaseCoordinate
+    {
+        $latitude = $coordinate->getLatitude()->toNative();
+        $longitude = $coordinate->getLongitude()->toNative();
+        $ellipsoid = BaseEllipsoid::createFromName($coordinate->getEllipsoid()->toNative());
+
+        return new BaseCoordinate([$latitude, $longitude], $ellipsoid);
     }
 }

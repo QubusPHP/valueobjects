@@ -28,14 +28,9 @@ use function sprintf;
 
 class Date implements ValueObject
 {
-    /** @var Year $year */
-    protected $year;
-
-    /** @var Month $month */
-    protected $month;
-
-    /** @var MonthDay $day */
-    protected $day;
+    public Year $year;
+    public Month $month;
+    public MonthDay $day;
 
     /**
      * Create a new Date.

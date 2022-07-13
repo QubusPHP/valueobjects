@@ -30,10 +30,10 @@ use function sprintf;
 class Money implements ValueObject
 {
     /** @var BaseMoney $money */
-    protected $money;
+    protected BaseMoney $money;
 
     /** @var Currency $currency */
-    protected $currency;
+    protected Currency $currency;
 
     /**
      * Returns a Money object from native int amount and string currency code

@@ -26,7 +26,7 @@ class Latitude extends RealNumber
      *
      * @throws TypeException
      */
-    public function __construct(float $latitude)
+    public function __construct($latitude)
     {
         if (! (-90 <= $latitude && $latitude <= 90)) {
             throw new TypeException(
@@ -37,7 +37,7 @@ class Latitude extends RealNumber
         $this->value = $latitude;
     }
 
-    public function latitude(): float
+    public function latitude(): int|float
     {
         return $this->value;
     }

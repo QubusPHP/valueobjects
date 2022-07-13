@@ -24,10 +24,10 @@ use function func_get_arg;
 class Currency implements ValueObject
 {
     /** @var BaseCurrency $currency */
-    protected $currency;
+    protected BaseCurrency $currency;
 
     /** @var CurrencyCode $code */
-    protected $code;
+    protected CurrencyCode $code;
 
     /**
      * Returns a new Currency object from native string currency code

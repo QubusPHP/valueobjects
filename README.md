@@ -7,7 +7,7 @@ This is fork of [ytake/valueobjects](https://github.com/ytake/valueobjects/). Th
 
 ## Requirements
 
-* PHP 8.0+
+* PHP 8.1+
 
 ## Install
 
