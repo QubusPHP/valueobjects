@@ -1,3 +1,6 @@
+## 2.0.0 (2022.07.13)
+- Bumped up min PHP version to 8.1
+
 ## 1.4.0 (2021.09.28)
 - API change.
 - Updated tests due to api change.
