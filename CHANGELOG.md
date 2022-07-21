@@ -1,3 +1,6 @@
+## 2.0.1 (2022.07.21)
+- Switched league/geotools for laravie/geotools.
+
 ## 2.0.0 (2022.07.13)
 - Bumped up min PHP version to 8.1
 

@@ -1,7 +1,8 @@
 .DS_Store
 /vendor/
+composer.lock
 index.php
 /.vscode
 .phpcs-cache
 .phpunit.result.cache
-composer.lock
+phpunit.xml
