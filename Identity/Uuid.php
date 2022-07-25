@@ -19,6 +19,7 @@ use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 use Ramsey\Uuid\Uuid as BaseUuid;
+use Ramsey\Uuid\Validator\GenericValidator;
 
 use function func_get_arg;
 use function preg_match;
@@ -34,7 +35,8 @@ class Uuid extends StringLiteral
         $uuidStr = BaseUuid::uuid4();
 
         if (null !== $value) {
-            $pattern = '/' . BaseUuid::VALID_PATTERN . '/';
+            $genericPattern = (new GenericValidator())->getPattern();
+            $pattern = '/' . $genericPattern . '/';
 
             if (! preg_match($pattern, $value)) {
                 throw new TypeException(
