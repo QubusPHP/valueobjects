@@ -54,9 +54,7 @@ class Uuid extends StringLiteral
     }
 
     /**
-     * @param string $uuid
      * @throws TypeException
-     * @return Uuid|ValueObject
      */
     public static function fromNative(): ValueObject
     {
@@ -75,8 +73,6 @@ class Uuid extends StringLiteral
 
     /**
      * Tells whether two Uuid are equal by comparing their values.
-     *
-     * @param  Uuid|ValueObject $uuid
      */
     public function equals(ValueObject $uuid): bool
     {
