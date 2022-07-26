@@ -2,6 +2,7 @@
 /vendor/
 composer.lock
 index.php
+.idea
 /.vscode
 .phpcs-cache
 .phpunit.result.cache
