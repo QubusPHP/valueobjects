@@ -22,7 +22,7 @@
         "marc-mabe/php-enum": "^4.7",
         "moneyphp/money": "^4.0",
         "nesbot/carbon": "^2",
-        "qubus/exception": "^2.0",
+        "qubus/exception": "^3.0",
         "ramsey/uuid": "^4.3"
     },
     "require-dev": {
