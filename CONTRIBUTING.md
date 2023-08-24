@@ -6,7 +6,7 @@ If you are reading this, **thank you**! You are about to make things better and 
 Here are a few rules to follow in order to ease code reviews, and discussions before
 maintainers accept and merge your work.
 
-You MUST follow the [QubusPHP Coding Standards](https://github.com/QubusPHP/coding-standard).
+You MUST follow the [QubusPHP Coding Standards](https://github.com/QubusPHP/qubus-coding-standard).
 
 You MUST run the test suite.
 
