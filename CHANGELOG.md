@@ -1,4 +1,4 @@
-## 2.0.4 (2022.07.21)
+## 3.0.0 (2022.07.21)
 - Bumped up minimum PHP version to 8.2
 - Swapped Laminas Coding Standards for Qubus Coding Standards
 - Made changes/updates per Qubus Coding Standards
