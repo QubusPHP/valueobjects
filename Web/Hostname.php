@@ -4,6 +4,9 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
  */
@@ -14,7 +17,6 @@ namespace Qubus\ValueObjects\Web;
 
 use Laminas\Validator\Hostname as Validator;
 use Qubus\Exception\Data\TypeException;
-use Qubus\ValueObjects\Web\Domain;
 
 use function sprintf;
 
@@ -22,6 +24,7 @@ class Hostname extends Domain
 {
     /**
      * Returns a Hostname
+     * @throws TypeException
      */
     public function __construct(string $value)
     {

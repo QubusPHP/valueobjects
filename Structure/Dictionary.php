@@ -4,7 +4,8 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -16,8 +17,6 @@ namespace Qubus\ValueObjects\Structure;
 
 use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
-use Qubus\ValueObjects\Structure\Collection;
-use Qubus\ValueObjects\Structure\KeyValuePair;
 use Qubus\ValueObjects\ValueObject;
 use SplFixedArray;
 use Traversable;
@@ -34,7 +33,8 @@ class Dictionary extends Collection
     /**
      * Returns a new Dictionary object.
      *
-     * @param SplFixedArray $key_value_pairs
+     * @param SplFixedArray $pairs
+     * @throws TypeException
      */
     public function __construct(SplFixedArray $pairs)
     {
@@ -59,8 +59,9 @@ class Dictionary extends Collection
      *
      * @param ...array $array
      * @return Dictionary|ValueObject
+     * @throws TypeException
      */
-    public static function fromNative(): ValueObject
+    public static function fromNative(): Dictionary|ValueObject
     {
         $array = func_get_arg(0);
         $keyValuePairs = [];
@@ -81,6 +82,7 @@ class Dictionary extends Collection
 
     /**
      * Returns a Collection of the keys.
+     * @throws TypeException
      */
     public function keys(): Collection
     {
@@ -96,6 +98,7 @@ class Dictionary extends Collection
 
     /**
      * Returns a Collection of the values.
+     * @throws TypeException
      */
     public function values(): Collection
     {
@@ -111,6 +114,7 @@ class Dictionary extends Collection
 
     /**
      * Tells whether $object is one of the keys.
+     * @throws TypeException
      */
     public function containsKey(ValueObject $object): bool
     {
@@ -121,6 +125,7 @@ class Dictionary extends Collection
 
     /**
      * Tells whether $object is one of the values.
+     * @throws TypeException
      */
     public function containsValue(ValueObject $object): bool
     {

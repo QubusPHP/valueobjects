@@ -4,6 +4,9 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
  */
@@ -14,7 +17,6 @@ namespace Qubus\ValueObjects\Web;
 
 use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\Number\Natural;
-use Qubus\ValueObjects\Web\PortNumber;
 
 use function filter_var;
 use function sprintf;
@@ -25,6 +27,7 @@ class UrlPortNumber extends Natural implements PortNumber
 {
     /**
      * Returns a PortNumber object.
+     * @throws TypeException
      */
     public function __construct(int $value)
     {

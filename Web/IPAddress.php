@@ -4,6 +4,9 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
  */
@@ -13,8 +16,6 @@ declare(strict_types=1);
 namespace Qubus\ValueObjects\Web;
 
 use Qubus\Exception\Data\TypeException;
-use Qubus\ValueObjects\Web\Domain;
-use Qubus\ValueObjects\Web\IPAddressVersion;
 
 use function filter_var;
 use function sprintf;
@@ -26,6 +27,7 @@ class IPAddress extends Domain
 {
     /**
      * Returns a new IPAddress
+     * @throws TypeException
      */
     public function __construct(string $value)
     {
@@ -46,14 +48,14 @@ class IPAddress extends Domain
     /**
      * Returns the version (IPv4 or IPv6) of the ip address
      */
-    public function getVersion(): IPAddressVersion
+    public function getVersion(): string
     {
         $isIPv4 = filter_var($this->toNative(), FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
 
         if (false !== $isIPv4) {
-            return IPAddressVersion::IPV4();
+            return IPAddressVersion::IPV4;
         }
 
-        return IPAddressVersion::IPV6();
+        return IPAddressVersion::IPV6;
     }
 }

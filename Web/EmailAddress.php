@@ -4,6 +4,9 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
  */
@@ -26,6 +29,7 @@ class EmailAddress extends StringLiteral
 {
     /**
      * Returns an EmailAddress object given a PHP native string as parameter.
+     * @throws TypeException
      */
     public function __construct(string $value)
     {
@@ -45,6 +49,7 @@ class EmailAddress extends StringLiteral
 
     /**
      * Returns the local part of the email address
+     * @throws TypeException
      */
     public function getLocalPart(): StringLiteral
     {
@@ -55,6 +60,7 @@ class EmailAddress extends StringLiteral
 
     /**
      * Returns the domain part of the email address
+     * @throws TypeException
      */
     public function getDomainPart(): Domain
     {

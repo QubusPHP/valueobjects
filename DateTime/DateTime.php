@@ -4,7 +4,8 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -15,9 +16,8 @@ declare(strict_types=1);
 namespace Qubus\ValueObjects\DateTime;
 
 use Carbon\CarbonImmutable;
-use Qubus\ValueObjects\DateTime\Date;
+use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\DateTime\Exception\InvalidDateException;
-use Qubus\ValueObjects\DateTime\Time;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
@@ -31,6 +31,7 @@ class DateTime implements ValueObject
 
     /**
      * Returns a new DateTime object.
+     * @throws TypeException
      */
     public function __construct(Date $date, ?Time $time = null)
     {
@@ -52,16 +53,17 @@ class DateTime implements ValueObject
     /**
      * Returns a new DateTime object from native values.
      *
-     * @param int    $year
+     * @param int $year
      * @param string $month
-     * @param int    $day
-     * @param int    $hour
-     * @param int    $minute
-     * @param int    $second
-     * @throws InvalidDateException
+     * @param int $day
+     * @param int $hour
+     * @param int $minute
+     * @param int $second
      * @return DateTime|ValueObject
+     * @throws TypeException
+     * @throws InvalidDateException
      */
-    public static function fromNative(): ValueObject
+    public static function fromNative(): DateTime|ValueObject
     {
         $args = func_get_args();
 
@@ -74,7 +76,7 @@ class DateTime implements ValueObject
     /**
      * Returns a new DateTime from native CarbonImmutable.
      *
-     * @throws InvalidDateException
+     * @throws InvalidDateException|TypeException
      */
     public static function fromNativeCarbonImmutable(CarbonImmutable $dateTime): DateTime
     {
@@ -88,6 +90,7 @@ class DateTime implements ValueObject
      * Returns current DateTime.
      *
      * @throws InvalidDateException
+     * @throws TypeException
      */
     public static function now(): DateTime
     {

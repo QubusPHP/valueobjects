@@ -4,7 +4,8 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -28,10 +29,11 @@ class StringLiteral implements ValueObject
     /**
      * Returns a String object given a PHP native string as parameter.
      *
-     * @param  string $value
+     * @param string $value
      * @return StringLiteral|ValueObject
+     * @throws TypeException
      */
-    public static function fromNative(): ValueObject
+    public static function fromNative(): StringLiteral|ValueObject
     {
         $value = func_get_arg(0);
 
@@ -68,9 +70,10 @@ class StringLiteral implements ValueObject
     /**
      * Tells whether two strings are equal by comparing their values
      *
-     * @param  ValueObject $string
+     * @param StringLiteral|ValueObject $stringLiteral
+     * @return bool
      */
-    public function equals(ValueObject $stringLiteral): bool
+    public function equals(StringLiteral|ValueObject $stringLiteral): bool
     {
         if (false === Util::classEquals($this, $stringLiteral)) {
             return false;

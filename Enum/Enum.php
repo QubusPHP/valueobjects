@@ -4,7 +4,8 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -43,7 +44,7 @@ abstract class Enum extends BaseEnum implements ValueObject, Serializable
      *
      * @return mixed
      */
-    public function toNative()
+    public function toNative(): mixed
     {
         return parent::getValue();
     }
@@ -51,9 +52,10 @@ abstract class Enum extends BaseEnum implements ValueObject, Serializable
     /**
      * Tells whether two Enum objects are sameValueAs by comparing their values
      *
-     * @param  Enum $enum
+     * @param Enum|ValueObject $enum
+     * @return bool
      */
-    public function equals(ValueObject $enum): bool
+    public function equals(Enum|ValueObject $enum): bool
     {
         if (false === Util::classEquals($this, $enum)) {
             return false;

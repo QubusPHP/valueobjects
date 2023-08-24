@@ -4,7 +4,8 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -15,7 +16,6 @@ declare(strict_types=1);
 namespace Qubus\ValueObjects\Money;
 
 use Money\Currency as BaseCurrency;
-use Qubus\ValueObjects\Money\CurrencyCode;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
@@ -35,7 +35,7 @@ class Currency implements ValueObject
      * @param  string $code Currency code
      * @return Currency|ValueObject
      */
-    public static function fromNative(): ValueObject
+    public static function fromNative(): Currency|ValueObject
     {
         return new static(CurrencyCode::get(func_get_arg(0)));
     }
@@ -49,7 +49,7 @@ class Currency implements ValueObject
     /**
      * Tells whether two Currency are equal by comparing their names
      */
-    public function equals(ValueObject $currency): bool
+    public function equals(Currency|ValueObject $currency): bool
     {
         if (false === Util::classEquals($this, $currency)) {
             return false;

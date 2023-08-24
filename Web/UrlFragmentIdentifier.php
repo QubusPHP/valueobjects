@@ -4,6 +4,9 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
  */
@@ -14,7 +17,6 @@ namespace Qubus\ValueObjects\Web;
 
 use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
-use Qubus\ValueObjects\Web\FragmentIdentifier;
 
 use function preg_match;
 use function sprintf;
@@ -23,6 +25,7 @@ class UrlFragmentIdentifier extends StringLiteral implements FragmentIdentifier
 {
     /**
      * Returns a new FragmentIdentifier.
+     * @throws TypeException
      */
     public function __construct(string $value)
     {

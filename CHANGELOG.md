@@ -1,3 +1,8 @@
+## 3.0.0 (2022.07.21)
+- Bumped up minimum PHP version to 8.2
+- Swapped Laminas Coding Standards for Qubus Coding Standards
+- Made changes/updates per Qubus Coding Standards
+
 ## 2.0.1 (2022.07.21)
 - Switched league/geotools for laravie/geotools.
 
