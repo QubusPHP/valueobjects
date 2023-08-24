@@ -4,7 +4,8 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -15,6 +16,8 @@ declare(strict_types=1);
 namespace Qubus\ValueObjects\DateTime;
 
 use Carbon\CarbonTimeZone;
+use Exception;
+use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\DateTime\Exception\InvalidTimeZoneException;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\Util;
@@ -55,11 +58,11 @@ class TimeZone implements ValueObject
     /**
      * Returns a new Time object from native timezone name.
      *
-     * @param  string $name
-     * @throws InvalidTimeZoneException
+     * @param  ...string $name
      * @return TimeZone|ValueObject
+     * @throws InvalidTimeZoneException|TypeException
      */
-    public static function fromNative(): ValueObject
+    public static function fromNative(): TimeZone|ValueObject
     {
         $args = func_get_args();
 
@@ -71,10 +74,11 @@ class TimeZone implements ValueObject
     /**
      * Returns a new Time from a native PHP \DateTime.
      *
-     * @throws InvalidTimeZoneException
      * @return TimeZone|ValueObject
+     * @throws TypeException
+     * @throws InvalidTimeZoneException
      */
-    public static function fromNativeCarbonTimeZone(CarbonTimeZone $timezone): ValueObject
+    public static function fromNativeCarbonTimeZone(CarbonTimeZone $timezone): TimeZone|ValueObject
     {
         return static::fromNative($timezone->getName());
     }
@@ -82,16 +86,17 @@ class TimeZone implements ValueObject
     /**
      * Returns default TimeZone.
      *
-     * @throws InvalidTimeZoneException
      * @return TimeZone|ValueObject
+     * @throws InvalidTimeZoneException|TypeException
      */
-    public static function fromDefault()
+    public static function fromDefault(): TimeZone|ValueObject
     {
         return new static(new StringLiteral(date_default_timezone_get()));
     }
 
     /**
      * Returns a native CarbonTimeZone version of the current TimeZone.
+     * @throws Exception
      */
     public function toNativeCarbonTimeZone(): CarbonTimeZone
     {
@@ -101,9 +106,10 @@ class TimeZone implements ValueObject
     /**
      * Tells whether two DateTimeZone are equal by comparing their names.
      *
-     * @param  ValueObject|TimeZone $timezone
+     * @param ValueObject|TimeZone $timezone
+     * @return bool
      */
-    public function equals(ValueObject $timezone): bool
+    public function equals(TimeZone|ValueObject $timezone): bool
     {
         if (false === Util::classEquals($this, $timezone)) {
             return false;

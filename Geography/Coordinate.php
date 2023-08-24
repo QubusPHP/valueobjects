@@ -4,7 +4,8 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -19,9 +20,7 @@ use League\Geotools\Convert\Convert;
 use League\Geotools\Coordinate\Coordinate as BaseCoordinate;
 use League\Geotools\Coordinate\Ellipsoid as BaseEllipsoid;
 use League\Geotools\Distance\Distance;
-use Qubus\ValueObjects\Geography\Latitude;
-use Qubus\ValueObjects\Geography\Longitude;
-use Qubus\ValueObjects\Number\IntegerNumber;
+use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\Number\RealNumber;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\Util;
@@ -62,7 +61,7 @@ class Coordinate implements ValueObject
      * @throws BadMethodCallException
      * @return Coordinate|ValueObject
      */
-    public static function fromNative(): ValueObject
+    public static function fromNative(): Coordinate|ValueObject
     {
         $args = func_get_args();
 
@@ -86,8 +85,9 @@ class Coordinate implements ValueObject
      * Tells whether tow Coordinate objects are equal.
      *
      * @param Coordinate|ValueObject $coordinate
+     * @return bool
      */
-    public function equals(ValueObject $coordinate): bool
+    public function equals(Coordinate|ValueObject $coordinate): bool
     {
         if (false === Util::classEquals($this, $coordinate)) {
             return false;
@@ -128,6 +128,7 @@ class Coordinate implements ValueObject
      * Returns a degrees/minutes/seconds representation of the coordinate.
      *
      * @return StringLiteral
+     * @throws TypeException
      */
     public function toDegreesMinutesSeconds(): StringLiteral
     {
@@ -142,6 +143,7 @@ class Coordinate implements ValueObject
      * Returns a decimal minutes representation of the coordinate.
      *
      * @return StringLiteral
+     * @throws TypeException
      */
     public function toDecimalMinutes(): StringLiteral
     {
@@ -156,6 +158,7 @@ class Coordinate implements ValueObject
      * Returns a Universal Transverse Mercator projection representation of the coordinate in meters.
      *
      * @return StringLiteral
+     * @throws TypeException
      */
     public function toUniversalTransverseMercator(): StringLiteral
     {
@@ -169,11 +172,12 @@ class Coordinate implements ValueObject
     /**
      * Calculates the distance between two Coordinate objects.
      *
-     * @param Coordinate           $coordinate
-     * @param DistanceUnit|null    $unit
+     * @param Coordinate $coordinate
+     * @param DistanceUnit|null $unit
      * @param DistanceFormula|null $formula
      *
-     * @return float
+     * @return RealNumber
+     * @throws TypeException
      */
     public function distanceFrom(
         Coordinate $coordinate,
@@ -209,7 +213,7 @@ class Coordinate implements ValueObject
      *
      * @return BaseCoordinate
      */
-    protected static function getBaseCoordinate(ValueObject $coordinate): BaseCoordinate
+    protected static function getBaseCoordinate(Coordinate|ValueObject $coordinate): BaseCoordinate
     {
         $latitude = $coordinate->getLatitude()->toNative();
         $longitude = $coordinate->getLongitude()->toNative();

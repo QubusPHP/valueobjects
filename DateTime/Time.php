@@ -4,7 +4,8 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -15,9 +16,7 @@ declare(strict_types=1);
 namespace Qubus\ValueObjects\DateTime;
 
 use Carbon\CarbonImmutable;
-use Qubus\ValueObjects\DateTime\Hour;
-use Qubus\ValueObjects\DateTime\Minute;
-use Qubus\ValueObjects\DateTime\Second;
+use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
@@ -50,14 +49,15 @@ class Time implements ValueObject
     }
 
     /**
-     * Returns a nee Time object from native int hour, minute and second.
+     * Returns a new Time object from native int hour, minute and second.
      *
-     * @param  int $hour
-     * @param  int $minute
-     * @param  int $second
+     * @param int $hour
+     * @param int $minute
+     * @param int $second
      * @return Time|ValueObject
+     * @throws TypeException
      */
-    public static function fromNative(): ValueObject
+    public static function fromNative(): Time|ValueObject
     {
         $args = func_get_args();
 
@@ -67,9 +67,11 @@ class Time implements ValueObject
     /**
      * Returns a new Time from a native CarbonImmutable.
      *
+     * @param CarbonImmutable $time
      * @return Time|ValueObject
+     * @throws TypeException
      */
-    public static function fromNativeCarbonImmutable(CarbonImmutable $time): ValueObject
+    public static function fromNativeCarbonImmutable(CarbonImmutable $time): Time|ValueObject
     {
         $hour = intval($time->format('G'));
         $minute = intval($time->format('i'));
@@ -82,8 +84,9 @@ class Time implements ValueObject
      * Returns current Time.
      *
      * @return Time|ValueObject
+     * @throws TypeException
      */
-    public static function now(): ValueObject
+    public static function now(): Time|ValueObject
     {
         return new static(Hour::now(), Minute::now(), Second::now());
     }
@@ -92,8 +95,9 @@ class Time implements ValueObject
      * Return zero time.
      *
      * @return Time|ValueObject
+     * @throws TypeException
      */
-    public static function zero(): ValueObject
+    public static function zero(): Time|ValueObject
     {
         return new static(new Hour(0), new Minute(0), new Second(0));
     }
@@ -102,8 +106,9 @@ class Time implements ValueObject
      * Tells whether two Time are equal by comparing their values.
      *
      * @param Time|ValueObject $time
+     * @return bool
      */
-    public function equals(ValueObject $time): bool
+    public function equals(Time|ValueObject $time): bool
     {
         if (false === Util::classEquals($this, $time)) {
             return false;

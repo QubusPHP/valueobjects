@@ -4,7 +4,8 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -61,8 +62,9 @@ class Hour extends Natural
      *
      * @param ...int $value
      * @return Hour|ValueObject
+     * @throws TypeException
      */
-    public static function fromNative(): ValueObject
+    public static function fromNative(): Hour|ValueObject
     {
         $value = func_get_arg(0);
 
@@ -71,6 +73,7 @@ class Hour extends Natural
 
     /**
      * Returns the current hour.
+     * @throws TypeException
      */
     public static function now(): Hour
     {

@@ -4,7 +4,8 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -16,7 +17,7 @@ namespace Qubus\ValueObjects\Money;
 
 use Money\Currency as BaseCurrency;
 use Money\Money as BaseMoney;
-use Qubus\ValueObjects\Money\Currency;
+use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\Number\IntegerNumber;
 use Qubus\ValueObjects\Number\RealNumber;
 use Qubus\ValueObjects\Number\RoundingMode;
@@ -38,11 +39,10 @@ class Money implements ValueObject
     /**
      * Returns a Money object from native int amount and string currency code
      *
-     * @param  int    $amount   Amount expressed in the smallest units of $currency (e.g. cents)
-     * @param  string $currency Currency code of the money object
-     * @return static
+     * @return Money|ValueObject
+     * @throws TypeException
      */
-    public static function fromNative(): ValueObject
+    public static function fromNative(): Money|ValueObject
     {
         $args = func_get_args();
 
@@ -67,8 +67,9 @@ class Money implements ValueObject
 
     /**
      *  Tells whether two Currency are equal by comparing their amount and currency
+     * @throws TypeException
      */
-    public function equals(ValueObject $money): bool
+    public function equals(Money|ValueObject $money): bool
     {
         if (false === Util::classEquals($this, $money)) {
             return false;
@@ -79,6 +80,7 @@ class Money implements ValueObject
 
     /**
      * Returns money amount
+     * @throws TypeException
      */
     public function getAmount(): IntegerNumber
     {
@@ -97,7 +99,8 @@ class Money implements ValueObject
      * Add an integer quantity to the amount and returns a new Money object.
      * Use a negative quantity for subtraction.
      *
-     * @param  IntegerNumber $quantity Quantity to add
+     * @param IntegerNumber $quantity Quantity to add
+     * @throws TypeException
      */
     public function add(IntegerNumber $quantity): Money
     {
@@ -107,9 +110,10 @@ class Money implements ValueObject
 
     /**
      * Multiply the Money amount for a given number and returns a new Money object.
-     * Use 0 < RealNumber $multipler < 1 for division.
+     * Use 0 < RealNumber $multiplier < 1 for division.
      *
-     * @param  mixed $roundingMode Rounding mode of the operation. Defaults to RoundingMode::HALF_UP.
+     * @param mixed $roundingMode Rounding mode of the operation. Defaults to RoundingMode::HALF_UP.
+     * @throws TypeException
      */
     public function multiply(RealNumber $multiplier, ?RoundingMode $roundingMode = null): Money
     {
@@ -124,6 +128,7 @@ class Money implements ValueObject
 
     /**
      * Returns a string representation of the Money value in format "CUR AMOUNT" (e.g.: EUR 1000)
+     * @throws TypeException
      */
     public function __toString(): string
     {

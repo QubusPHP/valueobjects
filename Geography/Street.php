@@ -4,7 +4,8 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -16,6 +17,7 @@ namespace Qubus\ValueObjects\Geography;
 
 use BadFunctionCallException;
 use BadMethodCallException;
+use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
@@ -49,10 +51,11 @@ class Street implements ValueObject
      * @param string $name
      * @param string $number
      * @param string $elements
-     * @throws BadFunctionCallException
      * @return Street|ValueObject
+     * @throws TypeException
+     * @throws BadFunctionCallException
      */
-    public static function fromNative(): ValueObject
+    public static function fromNative(): Street|ValueObject
     {
         $args = func_get_args();
 
@@ -76,7 +79,7 @@ class Street implements ValueObject
      *
      * @param Street|ValueObject $street
      */
-    public function equals(ValueObject $street): bool
+    public function equals(Street|ValueObject $street): bool
     {
         if (false === Util::classEquals($this, $street)) {
             return false;

@@ -4,7 +4,8 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -14,8 +15,6 @@ declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Geography;
 
-use Qubus\ValueObjects\Geography\CountryCode;
-use Qubus\ValueObjects\Geography\CountryCodeName;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
@@ -25,7 +24,7 @@ use function func_get_arg;
 class Country implements ValueObject
 {
     /** @var CountryCode $code */
-    protected $code;
+    protected CountryCode $code;
 
     /**
      * Returns a new Country object.
@@ -49,7 +48,7 @@ class Country implements ValueObject
      * @param ...string $code
      * @return Country|ValueObject
      */
-    public static function fromNative(): ValueObject
+    public static function fromNative(): Country|ValueObject
     {
         $codeString = func_get_arg(0);
         $code = CountryCode::byName($codeString);
@@ -60,8 +59,9 @@ class Country implements ValueObject
      * Tells whether two Country are equal.
      *
      * @param Country|ValueObject $country
+     * @return bool
      */
-    public function equals(ValueObject $country): bool
+    public function equals(Country|ValueObject $country): bool
     {
         if (false === Util::classEquals($this, $country)) {
             return false;

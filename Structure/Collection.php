@@ -4,7 +4,8 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -33,6 +34,7 @@ class Collection implements ValueObject
 {
     /**
      * Returns a new Collection object.
+     * @throws TypeException
      */
     public function __construct(protected SplFixedArray $items)
     {
@@ -65,8 +67,9 @@ class Collection implements ValueObject
      *
      * @param ...SplFixedArray $array
      * @return Collection|ValueObject
+     * @throws TypeException
      */
-    public static function fromNative(): ValueObject
+    public static function fromNative(): Collection|ValueObject
     {
         $array = func_get_arg(0);
         $items = [];
@@ -86,8 +89,10 @@ class Collection implements ValueObject
      * Tells whether two Collection are equal by comparing their size and items (item order matters).
      *
      * @param Collection|ValueObject $collection
+     * @return bool
+     * @throws TypeException
      */
-    public function equals(ValueObject $collection): bool
+    public function equals(Collection|ValueObject $collection): bool
     {
         if (
             false === Util::classEquals($this, $collection)
@@ -109,6 +114,7 @@ class Collection implements ValueObject
 
     /**
      * Returns the number of objects in the collection.
+     * @throws TypeException
      */
     public function count(): Natural
     {

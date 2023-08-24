@@ -4,7 +4,8 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -15,7 +16,7 @@ declare(strict_types=1);
 namespace Qubus\ValueObjects\Number;
 
 use BadMethodCallException;
-use Qubus\ValueObjects\Number\RealNumber;
+use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
@@ -39,7 +40,7 @@ class ComplexNumber implements ValueObject
      * @return ComplexNumber|ValueObject
      * @throws BadMethodCallException
      */
-    public static function fromNative(): ValueObject
+    public static function fromNative(): ComplexNumber|ValueObject
     {
         $args = func_get_args();
 
@@ -55,9 +56,12 @@ class ComplexNumber implements ValueObject
     /**
      * Returns a ComplexNumber given polar coordinates
      *
+     * @param RealNumber $modulus
+     * @param RealNumber $argument
      * @return ComplexNumber
+     * @throws TypeException
      */
-    public static function fromPolar(RealNumber $modulus, RealNumber $argument)
+    public static function fromPolar(RealNumber $modulus, RealNumber $argument): ComplexNumber
     {
         $realValue = $modulus->toNative() * cos($argument->toNative());
         $imValue = $modulus->toNative() * sin($argument->toNative());
@@ -75,7 +79,7 @@ class ComplexNumber implements ValueObject
     ) {
     }
 
-    public function equals(ValueObject $complex): bool
+    public function equals(ComplexNumber|ValueObject $complex): bool
     {
         if (false === Util::classEquals($this, $complex)) {
             return false;
@@ -116,6 +120,7 @@ class ComplexNumber implements ValueObject
 
     /**
      * Returns the modulus (or absolute value or magnitude) of the ComplexNumber number.
+     * @throws TypeException
      */
     public function getModulus(): RealNumber
     {
@@ -128,6 +133,7 @@ class ComplexNumber implements ValueObject
 
     /**
      * Returns the argument (or phase) of the ComplexNumber number.
+     * @throws TypeException
      */
     public function getArgument(): RealNumber
     {

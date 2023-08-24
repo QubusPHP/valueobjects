@@ -4,7 +4,8 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -14,6 +15,7 @@ declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Person;
 
+use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
@@ -35,6 +37,7 @@ class Name implements ValueObject
 
     /**
      * Returns the full name.
+     * @throws TypeException
      */
     public function __toString(): string
     {
@@ -48,8 +51,9 @@ class Name implements ValueObject
      * @param string $middle_name
      * @param string $last_name
      * @return Name|ValueObject
+     * @throws TypeException
      */
-    public static function fromNative(): ValueObject
+    public static function fromNative(): Name|ValueObject
     {
         $args = func_get_args();
 
@@ -86,6 +90,7 @@ class Name implements ValueObject
 
     /**
      * Returns the full name.
+     * @throws TypeException
      */
     public function getFullName(): StringLiteral
     {
@@ -100,8 +105,10 @@ class Name implements ValueObject
      * Tells whether two names are equal by comparing their values.
      *
      * @param Name|ValueObject $name
+     * @return bool
+     * @throws TypeException
      */
-    public function equals(ValueObject $name): bool
+    public function equals(Name|ValueObject $name): bool
     {
         if (false === Util::classEquals($this, $name)) {
             return false;

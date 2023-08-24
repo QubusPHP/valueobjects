@@ -4,7 +4,8 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -15,6 +16,7 @@ declare(strict_types=1);
 namespace Qubus\ValueObjects\Structure;
 
 use BadMethodCallException;
+use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
@@ -48,10 +50,11 @@ class KeyValuePair implements ValueObject
      *
      * @param string $key
      * @param string $value
-     * @throws BadMethodCallException
      * @return KeyValuePair|ValueObject
+     * @throws TypeException
+     * @throws BadMethodCallException
      */
-    public static function fromNative(): ValueObject
+    public static function fromNative(): KeyValuePair|ValueObject
     {
         $args = func_get_args();
 
@@ -73,8 +76,9 @@ class KeyValuePair implements ValueObject
      * Tells whether two KeyValuePair are equal.
      *
      * @param KeyValuePair|ValueObject $keyValuePair
+     * @return bool
      */
-    public function equals(ValueObject $keyValuePair): bool
+    public function equals(KeyValuePair|ValueObject $keyValuePair): bool
     {
         if (false === Util::classEquals($this, $keyValuePair)) {
             return false;

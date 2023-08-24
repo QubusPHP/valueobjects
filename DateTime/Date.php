@@ -4,7 +4,8 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -15,10 +16,8 @@ declare(strict_types=1);
 namespace Qubus\ValueObjects\DateTime;
 
 use Carbon\CarbonImmutable;
+use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\DateTime\Exception\InvalidDateException;
-use Qubus\ValueObjects\DateTime\Month;
-use Qubus\ValueObjects\DateTime\MonthDay;
-use Qubus\ValueObjects\DateTime\Year;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
@@ -62,13 +61,14 @@ class Date implements ValueObject
     /**
      * Returns a new Date from native year, month and day values.
      *
-     * @param  int    $year
-     * @param  string $month
-     * @param  int    $day
-     * @throws InvalidDateException
+     * @param int $year
+     * @param string $month
+     * @param int $day
      * @return Date|ValueObject
+     * @throws TypeException
+     * @throws InvalidDateException
      */
-    public static function fromNative(): ValueObject
+    public static function fromNative(): Date|ValueObject
     {
         $args = func_get_args();
 
@@ -82,7 +82,7 @@ class Date implements ValueObject
     /**
      * Returns a new Date from CarbonImmutable.
      *
-     * @throws InvalidDateException
+     * @throws InvalidDateException|TypeException
      */
     public static function fromNativeCarbonImmutable(CarbonImmutable $date): Date
     {
@@ -97,6 +97,7 @@ class Date implements ValueObject
      * Returns current Date.
      *
      * @throws InvalidDateException
+     * @throws TypeException
      */
     public static function now(): Date
     {
@@ -106,9 +107,10 @@ class Date implements ValueObject
     /**
      * Tells whether two Date are equal by comparing their values.
      *
-     * @param  ValueObject|Date $date
+     * @param ValueObject|Date $date
+     * @return bool
      */
-    public function equals(ValueObject $date): bool
+    public function equals(Date|ValueObject $date): bool
     {
         if (false === Util::classEquals($this, $date)) {
             return false;

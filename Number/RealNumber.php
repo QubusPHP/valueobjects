@@ -4,7 +4,8 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -15,9 +16,6 @@ declare(strict_types=1);
 namespace Qubus\ValueObjects\Number;
 
 use Qubus\Exception\Data\TypeException;
-use Qubus\ValueObjects\Number\IntegerNumber;
-use Qubus\ValueObjects\Number\Natural;
-use Qubus\ValueObjects\Number\RoundingMode;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
@@ -38,10 +36,11 @@ class RealNumber implements ValueObject
     /**
      * Returns a RealNumber object given a PHP native float as parameter.
      *
-     * @param  float $number
-     * @return static
+     * @param float $number
+     * @return RealNumber|ValueObject
+     * @throws TypeException
      */
-    public static function fromNative(): ValueObject
+    public static function fromNative(): RealNumber|ValueObject
     {
         $value = func_get_arg(0);
 
@@ -51,7 +50,8 @@ class RealNumber implements ValueObject
     /**
      * Returns a RealNumber object given a PHP native float as parameter.
      *
-     * @param float $number
+     * @param mixed $number
+     * @throws TypeException
      */
     public function __construct($value)
     {
@@ -93,7 +93,7 @@ class RealNumber implements ValueObject
     /**
      * Tells whether two RealNumber's are equal by comparing their values.
      */
-    public function equals(ValueObject $real): bool
+    public function equals(RealNumber|ValueObject $real): bool
     {
         if (false === Util::classEquals($this, $real)) {
             return false;
@@ -105,8 +105,10 @@ class RealNumber implements ValueObject
     /**
      * Returns the integer part of the RealNumber number as a IntegerNumber.
      *
-     * @param  RoundingMode $roundingMode Rounding mode of the conversion.
-     *                                     Defaults to RoundingMode::HALF_UP.
+     * @param RoundingMode|null $roundingMode Rounding mode of the conversion.
+     *                                        Defaults to RoundingMode::HALF_UP.
+     * @return IntegerNumber
+     * @throws TypeException
      */
     public function toInteger(?RoundingMode $roundingMode = null): IntegerNumber
     {
@@ -122,8 +124,10 @@ class RealNumber implements ValueObject
     /**
      * Returns the absolute integer part of the RealNumber number as a Natural.
      *
-     * @param  RoundingMode $roundingMode Rounding mode of the conversion.
-     *                                     Defaults to RoundingMode::HALF_UP.
+     * @param RoundingMode|null $roundingMode Rounding mode of the conversion.
+     *                                        Defaults to RoundingMode::HALF_UP.
+     * @return Natural
+     * @throws TypeException
      */
     public function toNatural(?RoundingMode $roundingMode = null): Natural
     {

@@ -4,7 +4,8 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -15,7 +16,6 @@ declare(strict_types=1);
 namespace Qubus\ValueObjects\Number;
 
 use Qubus\Exception\Data\TypeException;
-use Qubus\ValueObjects\Number\RealNumber;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
@@ -31,6 +31,7 @@ class IntegerNumber extends RealNumber
      * Returns a IntegerNumber object given a PHP native int as parameter.
      *
      * @param int $value
+     * @throws TypeException
      */
     public function __construct($value)
     {
@@ -51,7 +52,7 @@ class IntegerNumber extends RealNumber
     /**
      * Tells whether two IntegerNumber are equal by comparing their values
      */
-    public function equals(ValueObject $integer): bool
+    public function equals(IntegerNumber|ValueObject $integer): bool
     {
         if (false === Util::classEquals($this, $integer)) {
             return false;
@@ -70,6 +71,7 @@ class IntegerNumber extends RealNumber
 
     /**
      * Returns a RealNumber with the value of the IntegerNumber
+     * @throws TypeException
      */
     public function toRealNumber(): RealNumber
     {

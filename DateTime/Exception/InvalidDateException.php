@@ -4,7 +4,8 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -14,6 +15,7 @@ declare(strict_types=1);
 
 namespace Qubus\ValueObjects\DateTime\Exception;
 
+use Qubus\Exception\BaseException;
 use Qubus\Exception\Exception;
 use Qubus\ValueObjects\DateTime\Month;
 use Qubus\ValueObjects\DateTime\MonthDay;
@@ -27,6 +29,7 @@ final class InvalidDateException extends Exception
      * @param Year $year
      * @param Month $month
      * @param MonthDay $day
+     * @throws BaseException
      */
     public function __construct($year, $month, $day)
     {

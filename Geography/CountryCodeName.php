@@ -4,7 +4,8 @@
  * Qubus\ValueObjects
  *
  * @link       https://github.com/QubusPHP/valueobjects
- * @copyright  2020 Joshua Parker
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -14,12 +15,12 @@ declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Geography;
 
-use Qubus\ValueObjects\Geography\CountryCode;
+use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
 
 class CountryCodeName
 {
-    private static $names = [
+    private static array $names = [
         'AF'  => 'Afghanistan',
         'AX'  => 'Åland Islands',
         'AL'  => 'Albania',
@@ -268,6 +269,7 @@ class CountryCodeName
 
     /**
      * Returns country name.
+     * @throws TypeException
      */
     public static function getName(CountryCode $code): StringLiteral
     {
