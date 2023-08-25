@@ -7,8 +7,6 @@
  * @copyright  2020
  * @author     Joshua Parker <joshua@joshuaparker.dev>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
- *
- * @since      3.0.1
  */
 
 declare(strict_types=1);
