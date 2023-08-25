@@ -1,4 +1,12 @@
-## 3.0.0 (2022.07.21)
+## 3.0.2 (2023.08.24)
+- Removed Laminas Validator library
+- Corrected Changelog
+- Removed @since tag from headers
+
+## 3.0.1 (2023.08.24)
+- Fixed Qubus Exception Version.
+
+## 3.0.0 (2023.08.23)
 - Bumped up minimum PHP version to 8.2
 - Swapped Laminas Coding Standards for Qubus Coding Standards
 - Made changes/updates per Qubus Coding Standards

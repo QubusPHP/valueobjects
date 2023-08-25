@@ -13,13 +13,14 @@ declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Web;
 
-class NullQueryString extends UrlQueryString implements QueryString
+trait ValidateHostnameAware
 {
-    /**
-     * Returns a new NullQueryString.
-     */
-    public function __construct()
+    protected function isValid(string $domain): bool
     {
-        $this->value = '';
+        if (filter_var(gethostbyname($domain), FILTER_VALIDATE_IP)) {
+            return true;
+        }
+
+        return false;
     }
 }

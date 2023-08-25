@@ -15,10 +15,10 @@ class IPAddressTest extends TestCase
     public function testGetVersion()
     {
         $ip4 = new IPAddress('127.0.0.1');
-        Assert::assertSame(IPAddressVersion::IPV4(), $ip4->getVersion());
+        Assert::assertSame(IPAddressVersion::IPV4, $ip4->getVersion());
 
         $ip6 = new IPAddress('::1');
-        Assert::assertSame(IPAddressVersion::IPV6(), $ip6->getVersion());
+        Assert::assertSame(IPAddressVersion::IPV6, $ip6->getVersion());
     }
 
     public function testInvalidIPAddress()
