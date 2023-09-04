@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Qubus\ValueObjects\DateTime;
 
 use Carbon\CarbonImmutable;
+use Exception;
 use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\DateTime\Exception\InvalidDateException;
 use Qubus\ValueObjects\DateTime\Exception\InvalidTimeZoneException;
@@ -88,9 +89,9 @@ class DateTimeWithTimeZone implements ValueObject
     /**
      * Returns a DateTimeWithTimeZone object using current DateTime and default TimeZone.
      *
-     * @throws InvalidDateException
-     * @throws InvalidTimeZoneException
      * @return DateTimeWithTimeZone|ValueObject
+     * @throws InvalidTimeZoneException|TypeException
+     * @throws InvalidDateException
      */
     public static function now(): DateTimeWithTimeZone|ValueObject
     {
@@ -118,6 +119,7 @@ class DateTimeWithTimeZone implements ValueObject
      *
      * @param DateTimeWithTimeZone|ValueObject $dateTimeWithTimeZone
      * @return bool
+     * @throws Exception
      */
     public function sameTimestampAs(DateTimeWithTimeZone|ValueObject $dateTimeWithTimeZone): bool
     {
@@ -146,6 +148,7 @@ class DateTimeWithTimeZone implements ValueObject
 
     /**
      * Returns a Carbon version of the current DateTimeWithTimeZone.
+     * @throws Exception
      */
     public function toNativeCarbonImmutable(): CarbonImmutable
     {
