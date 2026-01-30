@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Qubus\Tests\ValueObjects\Climate;
 
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Qubus\ValueObjects\Climate\Fahrenheit;
 
@@ -22,22 +23,18 @@ class FahrenheitTest extends TestCase
         setlocale(LC_ALL, "en_US.UTF-8");
     }
 
-    public function temperatureProvider()
+    public static function temperatureProvider(): array
     {
         return [[new Fahrenheit(10)]];
     }
 
-    /**
-     * @dataProvider temperatureProvider
-     */
+    #[DataProvider('temperatureProvider')]
     public function testToCelsius(Fahrenheit $temperature)
     {
         Assert::assertEquals((10 - 32) / 1.8, $temperature->toCelsius()->toNative());
     }
 
-    /**
-     * @dataProvider temperatureProvider
-     */
+    #[DataProvider('temperatureProvider')]
     public function testToKelvin(Fahrenheit $temperature)
     {
         Assert::assertEquals(
@@ -46,17 +43,13 @@ class FahrenheitTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider temperatureProvider
-     */
+    #[DataProvider('temperatureProvider')]
     public function testToFahrenheit(Fahrenheit $temperature)
     {
         Assert::assertEquals(10, $temperature->toFahrenheit()->toNative());
     }
 
-    /**
-     * @dataProvider temperatureProvider
-     */
+    #[DataProvider('temperatureProvider')]
     public function testDifferentLocaleWithDifferentDecimalCharacter(Fahrenheit $temperature)
     {
         setlocale(LC_ALL, "de_DE.UTF-8");

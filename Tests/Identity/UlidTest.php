@@ -7,6 +7,7 @@ namespace Qubus\Tests\ValueObjects\Identity;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\Exception\Data\TypeException;
+use Qubus\Tests\ValueObjects\Fixtures\PersonId;
 use Qubus\ValueObjects\Identity\Ulid;
 use Qubus\ValueObjects\ValueObject;
 
@@ -49,5 +50,13 @@ class UlidTest extends TestCase
         $this->expectException(TypeException::class);
 
         new Ulid('invalid');
+    }
+
+    public function testReturnPersonId()
+    {
+        $personId = new PersonId();
+
+        Assert::assertInstanceOf(PersonId::class, $personId);
+        Assert::assertTrue($personId->equals($personId));
     }
 }

@@ -25,7 +25,7 @@ class EnumTest extends TestCase
             ->disableOriginalConstructor()->getMock();
         $stub1->expects($this->any())
             ->method('equals')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         Assert::assertTrue($stub1->equals($stub2));
     }

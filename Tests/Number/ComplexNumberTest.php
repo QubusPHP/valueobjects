@@ -110,7 +110,7 @@ class ComplexNumberTest extends TestCase
         $this->testGetIm();
         $this->testGetModulus();
         $this->testGetArgument();
-        $this->testToString('2,034 - 1,4i');
+        $this->testToString('2.034 - 1.4i');
         $this->testNotSameValue();
     }
 }

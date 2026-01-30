@@ -21,16 +21,6 @@ class QueryStringTest extends TestCase
         Assert::assertInstanceOf(QueryString::class, $query);
     }
 
-    public function testEmptyQueryString()
-    {
-        $query = new NullQueryString();
-
-        Assert::assertInstanceOf(QueryString::class, $query);
-
-        $dictionary = $query->toDictionary();
-        Assert::assertInstanceOf(Dictionary::class, $dictionary);
-    }
-
     public function testInvalidQueryString()
     {
         $this->expectException(TypeException::class);

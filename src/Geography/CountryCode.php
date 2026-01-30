@@ -1,0 +1,272 @@
+<?php
+
+/**
+ * Qubus\ValueObjects
+ *
+ * @link       https://github.com/QubusPHP/valueobjects
+ * @copyright  2020
+ * @author     Joshua Parker <joshua@joshuaparker.dev>
+ * @license    https://opensource.org/licenses/mit-license.php MIT License
+ */
+
+declare(strict_types=1);
+
+namespace Qubus\ValueObjects\Geography;
+
+use Qubus\ValueObjects\Enum\Enum;
+
+/**
+ * @method static string AF()
+ * @method static string AX()
+ * @method static string AL()
+ * @method static string DZ()
+ * @method static string AD()
+ * @method static string AO()
+ */
+class CountryCode extends Enum
+{
+    public const string AF = 'AF';
+    public const string AX = 'AX';
+    public const string AL = 'AL';
+    public const string DZ = 'DZ';
+    public const string AD = 'AD';
+    public const string AO = 'AO';
+    public const string AI = 'AI';
+    public const string AQ = 'AQ';
+    public const string AG = 'AG';
+    public const string AR = 'AR';
+    public const string AM = 'AM';
+    public const string AW = 'AW';
+    public const string AU = 'AU';
+    public const string AT = 'AT';
+    public const string AZ = 'AZ';
+    public const string BS = 'BS';
+    public const string BH = 'BH';
+    public const string BD = 'BD';
+    public const string BB = 'BB';
+    public const string BY = 'BY';
+    public const string BE = 'BE';
+    public const string PW = 'PW';
+    public const string BZ = 'BZ';
+    public const string BJ = 'BJ';
+    public const string BM = 'BM';
+    public const string BT = 'BT';
+    public const string BO = 'BO';
+    public const string BQ = 'BQ';
+    public const string BA = 'BA';
+    public const string BW = 'BW';
+    public const string BV = 'BV';
+    public const string BR = 'BR';
+    public const string IO = 'IO';
+    public const string VG = 'VG';
+    public const string BN = 'BN';
+    public const string BG = 'BG';
+    public const string BF = 'BF';
+    public const string BI = 'BI';
+    public const string KH = 'KH';
+    public const string CM = 'CM';
+    public const string CA = 'CA';
+    public const string CV = 'CV';
+    public const string KY = 'KY';
+    public const string CF = 'CF';
+    public const string TD = 'TD';
+    public const string CL = 'CL';
+    public const string CN = 'CN';
+    public const string CX = 'CX';
+    public const string CC = 'CC';
+    public const string CO = 'CO';
+    public const string KM = 'KM';
+    public const string CG = 'CG';
+    public const string CD = 'CD';
+    public const string CK = 'CK';
+    public const string CR = 'CR';
+    public const string HR = 'HR';
+    public const string CU = 'CU';
+    public const string CW = 'CW';
+    public const string CY = 'CY';
+    public const string CZ = 'CZ';
+    public const string DK = 'DK';
+    public const string DJ = 'DJ';
+    public const string DM = 'DM';
+    public const string DO_ = 'DO'; // DO is a PHP reserved keyword
+    public const string EC = 'EC';
+    public const string EG = 'EG';
+    public const string SV = 'SV';
+    public const string GQ = 'GQ';
+    public const string ER = 'ER';
+    public const string EE = 'EE';
+    public const string ET = 'ET';
+    public const string FK = 'FK';
+    public const string FO = 'FO';
+    public const string FJ = 'FJ';
+    public const string FI = 'FI';
+    public const string FR = 'FR';
+    public const string GF = 'GF';
+    public const string PF = 'PF';
+    public const string TF = 'TF';
+    public const string GA = 'GA';
+    public const string GM = 'GM';
+    public const string GE = 'GE';
+    public const string DE = 'DE';
+    public const string GH = 'GH';
+    public const string GI = 'GI';
+    public const string GR = 'GR';
+    public const string GL = 'GL';
+    public const string GD = 'GD';
+    public const string GP = 'GP';
+    public const string GT = 'GT';
+    public const string GG = 'GG';
+    public const string GN = 'GN';
+    public const string GW = 'GW';
+    public const string GY = 'GY';
+    public const string HT = 'HT';
+    public const string HM = 'HM';
+    public const string HN = 'HN';
+    public const string HK = 'HK';
+    public const string HU = 'HU';
+    public const string IS = 'IS';
+    public const string IN = 'IN';
+    public const string ID = 'ID';
+    public const string IR = 'IR';
+    public const string IQ = 'IQ';
+    public const string IE = 'IE';
+    public const string IM = 'IM';
+    public const string IL = 'IL';
+    public const string IT = 'IT';
+    public const string CI = 'CI';
+    public const string JM = 'JM';
+    public const string JP = 'JP';
+    public const string JE = 'JE';
+    public const string JO = 'JO';
+    public const string KZ = 'KZ';
+    public const string KE = 'KE';
+    public const string KI = 'KI';
+    public const string KW = 'KW';
+    public const string KG = 'KG';
+    public const string LA = 'LA';
+    public const string LV = 'LV';
+    public const string LB = 'LB';
+    public const string LS = 'LS';
+    public const string LR = 'LR';
+    public const string LY = 'LY';
+    public const string LI = 'LI';
+    public const string LT = 'LT';
+    public const string LU = 'LU';
+    public const string MO = 'MO';
+    public const string MK = 'MK';
+    public const string MG = 'MG';
+    public const string MW = 'MW';
+    public const string MY = 'MY';
+    public const string MV = 'MV';
+    public const string ML = 'ML';
+    public const string MT = 'MT';
+    public const string MH = 'MH';
+    public const string MQ = 'MQ';
+    public const string MR = 'MR';
+    public const string MU = 'MU';
+    public const string YT = 'YT';
+    public const string MX = 'MX';
+    public const string FM = 'FM';
+    public const string MD = 'MD';
+    public const string MC = 'MC';
+    public const string MN = 'MN';
+    public const string ME = 'ME';
+    public const string MS = 'MS';
+    public const string MA = 'MA';
+    public const string MZ = 'MZ';
+    public const string MM = 'MM';
+    public const string NA = 'NA';
+    public const string NR = 'NR';
+    public const string NP = 'NP';
+    public const string NL = 'NL';
+    public const string AN = 'AN';
+    public const string NC = 'NC';
+    public const string NZ = 'NZ';
+    public const string NI = 'NI';
+    public const string NE = 'NE';
+    public const string NG = 'NG';
+    public const string NU = 'NU';
+    public const string NF = 'NF';
+    public const string KP = 'KP';
+    public const string NO = 'NO';
+    public const string OM = 'OM';
+    public const string PK = 'PK';
+    public const string PS = 'PS';
+    public const string PA = 'PA';
+    public const string PG = 'PG';
+    public const string PY = 'PY';
+    public const string PE = 'PE';
+    public const string PH = 'PH';
+    public const string PN = 'PN';
+    public const string PL = 'PL';
+    public const string PT = 'PT';
+    public const string QA = 'QA';
+    public const string RE = 'RE';
+    public const string RO = 'RO';
+    public const string RU = 'RU';
+    public const string RW = 'RW';
+    public const string BL = 'BL';
+    public const string SH = 'SH';
+    public const string KN = 'KN';
+    public const string LC = 'LC';
+    public const string MF = 'MF';
+    public const string SX = 'SX';
+    public const string PM = 'PM';
+    public const string VC = 'VC';
+    public const string WS = 'WS';
+    public const string SM = 'SM';
+    public const string ST = 'ST';
+    public const string SA = 'SA';
+    public const string SN = 'SN';
+    public const string RS = 'RS';
+    public const string SC = 'SC';
+    public const string SL = 'SL';
+    public const string SG = 'SG';
+    public const string SK = 'SK';
+    public const string SI = 'SI';
+    public const string SB = 'SB';
+    public const string SO = 'SO';
+    public const string ZA = 'ZA';
+    public const string GS = 'GS';
+    public const string KR = 'KR';
+    public const string SS = 'SS';
+    public const string ES = 'ES';
+    public const string LK = 'LK';
+    public const string SD = 'SD';
+    public const string SR = 'SR';
+    public const string SJ = 'SJ';
+    public const string SZ = 'SZ';
+    public const string SE = 'SE';
+    public const string CH = 'CH';
+    public const string SY = 'SY';
+    public const string TW = 'TW';
+    public const string TJ = 'TJ';
+    public const string TZ = 'TZ';
+    public const string TH = 'TH';
+    public const string TL = 'TL';
+    public const string TG = 'TG';
+    public const string TK = 'TK';
+    public const string TO = 'TO';
+    public const string TT = 'TT';
+    public const string TN = 'TN';
+    public const string TR = 'TR';
+    public const string TM = 'TM';
+    public const string TC = 'TC';
+    public const string TV = 'TV';
+    public const string UG = 'UG';
+    public const string UA = 'UA';
+    public const string AE = 'AE';
+    public const string GB = 'GB';
+    public const string US = 'US';
+    public const string UY = 'UY';
+    public const string UZ = 'UZ';
+    public const string VU = 'VU';
+    public const string VA = 'VA';
+    public const string VE = 'VE';
+    public const string VN = 'VN';
+    public const string WF = 'WF';
+    public const string EH = 'EH';
+    public const string YE = 'YE';
+    public const string ZM = 'ZM';
+    public const string ZW = 'ZW';
+}

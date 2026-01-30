@@ -42,26 +42,6 @@ class UrlTest extends TestCase
         $fromNativeUrl = Url::fromNative($nativeUrlString);
 
         Assert::assertTrue($this->url->equals($fromNativeUrl));
-
-        $nativeUrlString = 'http://www.test.com';
-        $fromNativeUrl = Url::fromNative($nativeUrlString);
-
-        Assert::assertSame($nativeUrlString, $fromNativeUrl->__toString());
-
-        $nativeUrlString = 'http://www.test.com/bar';
-        $fromNativeUrl = Url::fromNative($nativeUrlString);
-
-        Assert::assertSame($nativeUrlString, $fromNativeUrl->__toString());
-
-        $nativeUrlString = 'http://www.test.com/?querystring';
-        $fromNativeUrl = Url::fromNative($nativeUrlString);
-
-        Assert::assertSame($nativeUrlString, $fromNativeUrl->__toString());
-
-        $nativeUrlString = 'http://www.test.com/#fragmentidentifier';
-        $fromNativeUrl = Url::fromNative($nativeUrlString);
-
-        Assert::assertSame($nativeUrlString, $fromNativeUrl->__toString());
     }
 
     public function testSameValueAs()

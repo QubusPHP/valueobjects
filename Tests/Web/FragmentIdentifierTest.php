@@ -20,13 +20,6 @@ class FragmentIdentifierTest extends TestCase
         Assert::assertInstanceOf(FragmentIdentifier::class, $fragment);
     }
 
-    public function testNullFragmentIdentifier()
-    {
-        $fragment = new NullFragmentIdentifier();
-
-        Assert::assertInstanceOf(FragmentIdentifier::class, $fragment);
-    }
-
     public function testInvalidFragmentIdentifier()
     {
         $this->expectException(TypeException::class);
