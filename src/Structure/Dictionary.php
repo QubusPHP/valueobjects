@@ -19,13 +19,13 @@ use Qubus\ValueObjects\ValueObject;
 use SplFixedArray;
 use Traversable;
 
-use function func_get_arg;
 use function gettype;
 use function is_array;
 use function is_object;
 use function sprintf;
 use function strval;
 
+/** @phpstan-consistent-constructor  */
 class Dictionary extends Collection
 {
     /**
@@ -55,20 +55,20 @@ class Dictionary extends Collection
     /**
      * Returns a new Dictionary object.
      *
-     * @param ...array $array
-     * @return Dictionary|ValueObject
+     * @param SplFixedArray|array ...$array
+     * @return self
      * @throws TypeException
      */
-    public static function fromNative(): Dictionary|ValueObject
+    public static function fromNative(SplFixedArray|array ...$array): self
     {
-        $array = func_get_arg(0);
+        $array = $array[0];
         $keyValuePairs = [];
 
         foreach ($array as $arrayKey => $arrayValue) {
             $key = new StringLiteral(strval($arrayKey));
 
             if ($arrayValue instanceof Traversable || is_array($arrayValue)) {
-                $value = Collection::fromNative($arrayValue);
+                $value = self::fromNative($arrayValue);
             } else {
                 $value = new StringLiteral(strval($arrayValue));
             }

@@ -17,8 +17,6 @@ use Carbon\CarbonImmutable;
 use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\Number\Natural;
 
-use Qubus\ValueObjects\ValueObject;
-
 use function filter_var;
 use function intval;
 use function sprintf;
@@ -33,9 +31,10 @@ class Minute extends Natural
 
     /**
      * Returns a new Minute object.
+     *
      * @throws TypeException
      */
-    public function __construct(int $value)
+    public function __construct($value)
     {
         $options = [
             'options' => ['min_range' => self::MIN_MINUTE, 'max_range' => self::MAX_MINUTE],
@@ -53,20 +52,6 @@ class Minute extends Natural
         }
 
         parent::__construct($value);
-    }
-
-    /**
-     * Returns a new Minute from native int value.
-     *
-     * @param ...int $value
-     * @return Minute|ValueObject
-     * @throws TypeException
-     */
-    public static function fromNative(): Minute|ValueObject
-    {
-        $value = func_get_arg(0);
-
-        return new self($value);
     }
 
     /**

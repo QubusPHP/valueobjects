@@ -21,7 +21,6 @@ use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
 use function date_default_timezone_get;
-use function func_get_args;
 use function in_array;
 use function strval;
 use function timezone_identifiers_list;
@@ -38,7 +37,7 @@ class TimeZone implements ValueObject
     public function __construct(StringLiteral $name)
     {
         if (! in_array($name->toNative(), timezone_identifiers_list())) {
-            throw new InvalidTimeZoneException($name);
+            throw new InvalidTimeZoneException($name->toNative());
         }
 
         $this->name = $name;
@@ -55,29 +54,27 @@ class TimeZone implements ValueObject
     /**
      * Returns a new Time object from native timezone name.
      *
-     * @param  ...string $name
+     * @param  string ...$name
      * @return self
      * @throws InvalidTimeZoneException
      */
-    public static function fromNative(): self
+    public static function fromNative(string ...$name): self
     {
-        $args = func_get_args();
+        $string = new StringLiteral($name[0]);
 
-        $name = new StringLiteral($args[0]);
-
-        return new self($name);
+        return new self($string);
     }
 
     /**
      * Returns a new Time from a native PHP \DateTime.
      *
      * @param CarbonTimeZone $timezone
-     * @return static
+     * @return self
      * @throws InvalidTimeZoneException
      */
-    public static function fromNativeCarbonTimeZone(CarbonTimeZone $timezone): static
+    public static function fromNativeCarbonTimeZone(CarbonTimeZone $timezone): self
     {
-        return static::fromNative($timezone->getName());
+        return self::fromNative($timezone->getName());
     }
 
     /**

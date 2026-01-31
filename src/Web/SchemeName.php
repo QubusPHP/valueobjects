@@ -23,19 +23,9 @@ class SchemeName extends StringLiteral
 {
     /**
      * Returns a SchemeName.
-     * @throws TypeException
      */
     public function __construct(string $value)
     {
-        if (0 === preg_match('/^[a-z]([a-z0-9\+\.-]+)?$/i', $value)) {
-            throw new TypeException(
-                sprintf(
-                    'Argument "%s" is invalid. Must enter a string (valid scheme name).',
-                    $value
-                )
-            );
-        }
-
         parent::__construct($value);
     }
 }

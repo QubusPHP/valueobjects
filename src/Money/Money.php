@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Money;
 
+use BadMethodCallException;
 use Money\Currency as BaseCurrency;
 use Money\Money as BaseMoney;
 use Qubus\Exception\Data\TypeException;
@@ -22,7 +23,6 @@ use Qubus\ValueObjects\Number\RoundingMode;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
-use function func_get_args;
 use function round;
 use function sprintf;
 
@@ -37,13 +37,17 @@ class Money implements ValueObject
     /**
      * Returns a Money object from native int amount and string currency code
      *
+     * @param string|int ...$args
      * @return Money|ValueObject
      * @throws TypeException
      */
-    public static function fromNative(): Money|ValueObject
+    public static function fromNative(...$args): Money|ValueObject
     {
-        $args = func_get_args();
-
+        if (2 !== count($args)) {
+            throw new BadMethodCallException(
+                'You must provide exactly 2 arguments: 1) integer, 2) currency code string'
+            );
+        }
         $amount   = new IntegerNumber($args[0]);
         $currency = Currency::fromNative($args[1]);
 
@@ -84,7 +88,7 @@ class Money implements ValueObject
      */
     public function getAmount(): IntegerNumber
     {
-        return new IntegerNumber($this->money->getAmount());
+        return new IntegerNumber((float) $this->money->getAmount());
     }
 
     /**
@@ -112,7 +116,7 @@ class Money implements ValueObject
      * Multiply the Money amount for a given number and returns a new Money object.
      * Use 0 < RealNumber $multiplier < 1 for division.
      *
-     * @param mixed $roundingMode Rounding mode of the operation. Defaults to RoundingMode::HALF_UP.
+     * @param ?RoundingMode $roundingMode Rounding mode of the operation. Defaults to RoundingMode::HALF_UP.
      * @throws TypeException
      */
     public function multiply(RealNumber $multiplier, ?RoundingMode $roundingMode = null): Money|ValueObject

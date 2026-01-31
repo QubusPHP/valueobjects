@@ -13,13 +13,9 @@ declare(strict_types=1);
 
 namespace Qubus\ValueObjects\StringLiteral;
 
-use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
-use function func_get_arg;
-use function is_string;
-use function sprintf;
 use function strlen;
 
 /** @phpstan-consistent-constructor */
@@ -28,14 +24,12 @@ class StringLiteral implements ValueObject
     /**
      * Returns a String object given a PHP native string as parameter.
      *
-     * @param string $value
+     * @param string ...$value
      * @return static
      */
-    public static function fromNative(): static
+    public static function fromNative(string ...$value): static
     {
-        $value = func_get_arg(0);
-
-        return new static($value);
+        return new static($value[0]);
     }
 
     /**

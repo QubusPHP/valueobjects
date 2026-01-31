@@ -20,7 +20,6 @@ use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
 use function count;
-use function func_get_args;
 use function sprintf;
 
 class Street implements ValueObject
@@ -45,16 +44,12 @@ class Street implements ValueObject
     /**
      * Returns a new Street from native PHP string name and number.
      *
-     * @param string $name
-     * @param string $number
-     * @param string $elements
+     * @param string ...$args
      * @return Street|ValueObject
      * @throws BadFunctionCallException
      */
-    public static function fromNative(): Street|ValueObject
+    public static function fromNative(string ...$args): Street|ValueObject
     {
-        $args = func_get_args();
-
         if (count($args) < 2) {
             throw new BadMethodCallException(
                 'You must provide exactly 2 arguments: 1) street name, 2) street number.'

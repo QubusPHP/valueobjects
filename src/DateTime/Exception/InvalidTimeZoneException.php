@@ -20,10 +20,10 @@ use function sprintf;
 final class InvalidTimeZoneException extends Exception
 {
     /**
-     * @var string $name
+     * @param string $name
      * @throws Exception
      */
-    public function __construct($name)
+    public function __construct(string $name)
     {
         $message = sprintf(
             'The timezone "%s" is invalid. Check "timezone_identifiers_list()" for valid values.',

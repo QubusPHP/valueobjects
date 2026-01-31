@@ -19,7 +19,6 @@ use Qubus\ValueObjects\DateTime\Exception\InvalidDateException;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
-use function func_get_args;
 use function sprintf;
 
 class DateTime implements ValueObject
@@ -51,20 +50,13 @@ class DateTime implements ValueObject
     /**
      * Returns a new DateTime object from native values.
      *
-     * @param int $year
-     * @param string $month
-     * @param int $day
-     * @param int $hour
-     * @param int $minute
-     * @param int $second
+     * @param string|int ...$args
      * @return DateTime
      * @throws TypeException
      * @throws InvalidDateException
      */
-    public static function fromNative(): DateTime
+    public static function fromNative(int|string ...$args): DateTime
     {
-        $args = func_get_args();
-
         $date = Date::fromNative($args[0], $args[1], $args[2]);
         $time = Time::fromNative($args[3], $args[4], $args[5]);
 

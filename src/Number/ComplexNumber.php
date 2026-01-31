@@ -33,18 +33,15 @@ class ComplexNumber implements ValueObject
     /**
      * Returns a new ComplexNumber object from native PHP arguments
      *
-     * @param float $real RealNumber part of the complex number
-     * @param float $im Imaginary part of the complex number
+     * @param float ...$args
      * @return ComplexNumber|ValueObject
      * @throws BadMethodCallException
      * @throws TypeException
      */
-    public static function fromNative(): ComplexNumber|ValueObject
+    public static function fromNative(float ...$args): ComplexNumber|ValueObject
     {
-        $args = func_get_args();
-
         if (2 !== count($args)) {
-            throw new BadMethodCallException('You must provide 2 arguments: 1) real part, 2) imaginary part');
+            throw new BadMethodCallException('You must provide 2 float arguments: 1) real part, 2) imaginary part');
         }
 
         $real = RealNumber::fromNative($args[0]);
@@ -90,7 +87,7 @@ class ComplexNumber implements ValueObject
     /**
      * Returns the native value of the real and imaginary parts as an array
      *
-     * @return array
+     * @return array<float|int>
      */
     public function toNative(): array
     {

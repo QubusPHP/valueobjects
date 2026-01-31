@@ -28,7 +28,7 @@ class IntegerNumber extends RealNumber
     /**
      * Returns a IntegerNumber object given a PHP native int as parameter.
      *
-     * @param int $value
+     * @param float $value
      * @throws TypeException
      */
     public function __construct($value)

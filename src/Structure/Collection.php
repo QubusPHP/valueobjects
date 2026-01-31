@@ -21,13 +21,13 @@ use Qubus\ValueObjects\ValueObject;
 use SplFixedArray;
 use Traversable;
 
-use function func_get_arg;
 use function gettype;
 use function is_array;
 use function is_object;
 use function sprintf;
 use function strval;
 
+/** @phpstan-consistent-constructor  */
 class Collection implements ValueObject
 {
     protected SplFixedArray $items;
@@ -67,18 +67,18 @@ class Collection implements ValueObject
     /**
      * Returns a new Collection object.
      *
-     * @param ...SplFixedArray $array
-     * @return Collection|ValueObject
+     * @param SplFixedArray|array ...$array
+     * @return self
      * @throws TypeException
      */
-    public static function fromNative(): Collection|ValueObject
+    public static function fromNative(SplFixedArray|array ...$array): self
     {
-        $array = func_get_arg(0);
+        $array = $array[0];
         $items = [];
 
         foreach ($array as $item) {
             if ($item instanceof Traversable || is_array($item)) {
-                $items[] = static::fromNative($item);
+                $items[] = self::fromNative($item);
             } else {
                 $items[] = new StringLiteral(strval($item));
             }
@@ -90,11 +90,11 @@ class Collection implements ValueObject
     /**
      * Tells whether two Collection are equal by comparing their size and items (item order matters).
      *
-     * @param Collection|ValueObject $collection
+     * @param ValueObject $collection
      * @return bool
      * @throws TypeException
      */
-    public function equals(Collection|ValueObject $collection): bool
+    public function equals(ValueObject $collection): bool
     {
         if (
             false === Util::classEquals($this, $collection)

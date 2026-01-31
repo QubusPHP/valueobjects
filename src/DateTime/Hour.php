@@ -35,7 +35,7 @@ class Hour extends Natural
      *
      * @throws TypeException
      */
-    public function __construct(int $value)
+    public function __construct($value)
     {
         $options = [
             'options' => ['min_range' => self::MIN_HOUR, 'max_range' => self::MAX_HOUR],
@@ -56,21 +56,8 @@ class Hour extends Natural
     }
 
     /**
-     * Returns a new Hour from native int value.
-     *
-     * @param ...int $value
-     * @return Hour|ValueObject
-     * @throws TypeException
-     */
-    public static function fromNative(): Hour|ValueObject
-    {
-        $value = func_get_arg(0);
-
-        return new self($value);
-    }
-
-    /**
      * Returns the current hour.
+     *
      * @throws TypeException
      */
     public static function now(): self

@@ -30,9 +30,10 @@ class MonthDay extends Natural
 
     /**
      * Returns a new MonthDay.
+     *
      * @throws TypeException
      */
-    public function __construct(int $value)
+    public function __construct($value)
     {
         $options = [
             'options' => ['min_range' => self::MIN_MONTH_DAY, 'max_range' => self::MAX_MONTH_DAY],

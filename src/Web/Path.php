@@ -32,7 +32,7 @@ class Path extends StringLiteral
     {
         $filteredValue = parse_url($value, PHP_URL_PATH);
 
-        if (null === $filteredValue || strlen($filteredValue) !== strlen($value)) {
+        if (!is_string($filteredValue) || strlen($filteredValue) !== strlen($value)) {
             throw new TypeException(
                 sprintf(
                     'Argument "%s" is invalid. Must enter a string (valid url path).',

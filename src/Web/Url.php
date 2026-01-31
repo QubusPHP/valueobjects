@@ -18,10 +18,8 @@ use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
-use function func_get_arg;
 use function parse_url;
 use function sprintf;
-use function strval;
 
 use const PHP_URL_FRAGMENT;
 use const PHP_URL_HOST;
@@ -60,13 +58,13 @@ class Url implements ValueObject
     /**
      * Returns a new Url object from a native url string.
      *
-     * @param ...string $url
+     * @param string ...$url
      * @return Url|ValueObject
      * @throws TypeException
      */
-    public static function fromNative(): Url|ValueObject
+    public static function fromNative(string ...$url): Url|ValueObject
     {
-        $urlString = strval(func_get_arg(0));
+        $urlString = $url[0];
 
         $user = parse_url($urlString, PHP_URL_USER);
         $pass = parse_url($urlString, PHP_URL_PASS);

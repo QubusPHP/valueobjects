@@ -18,7 +18,6 @@ use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
-use function func_get_args;
 use function intval;
 use function sprintf;
 
@@ -49,42 +48,38 @@ class Time implements ValueObject
     /**
      * Returns a new Time object from native int hour, minute and second.
      *
-     * @param int $hour
-     * @param int $minute
-     * @param int $second
-     * @return Time|ValueObject
+     * @param int ...$int
+     * @return Time
      * @throws TypeException
      */
-    public static function fromNative(): Time|ValueObject
+    public static function fromNative(int ...$int): Time
     {
-        $args = func_get_args();
-
-        return new self(new Hour($args[0]), new Minute($args[1]), new Second($args[2]));
+        return new self(new Hour($int[0]), new Minute($int[1]), new Second($int[2]));
     }
 
     /**
      * Returns a new Time from a native CarbonImmutable.
      *
      * @param CarbonImmutable $time
-     * @return Time|ValueObject
+     * @return Time
      * @throws TypeException
      */
-    public static function fromNativeCarbonImmutable(CarbonImmutable $time): Time|ValueObject
+    public static function fromNativeCarbonImmutable(CarbonImmutable $time): Time
     {
         $hour = intval($time->format('G'));
         $minute = intval($time->format('i'));
         $second = intval($time->format('s'));
 
-        return static::fromNative($hour, $minute, $second);
+        return self::fromNative($hour, $minute, $second);
     }
 
     /**
      * Returns current Time.
      *
-     * @return Time|ValueObject
+     * @return Time
      * @throws TypeException
      */
-    public static function now(): Time|ValueObject
+    public static function now(): Time
     {
         return new self(Hour::now(), Minute::now(), Second::now());
     }
@@ -92,10 +87,10 @@ class Time implements ValueObject
     /**
      * Return zero time.
      *
-     * @return Time|ValueObject
+     * @return Time
      * @throws TypeException
      */
-    public static function zero(): Time|ValueObject
+    public static function zero(): Time
     {
         return new self(new Hour(0), new Minute(0), new Second(0));
     }

@@ -17,10 +17,7 @@ use Carbon\CarbonImmutable;
 use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\Number\Natural;
 
-use Qubus\ValueObjects\ValueObject;
-
 use function filter_var;
-use function func_get_arg;
 use function intval;
 use function sprintf;
 
@@ -33,9 +30,10 @@ class Second extends Natural
 
     /**
      * Returns a new Second object.
+     *
      * @throws TypeException
      */
-    public function __construct(int $value)
+    public function __construct($value)
     {
         $options = [
             'options' => ['min_range' => self::MIN_SECOND, 'max_range' => self::MAX_SECOND],
@@ -53,20 +51,6 @@ class Second extends Natural
         }
 
         parent::__construct($value);
-    }
-
-    /**
-     * Returns a new Second from native int value.
-     *
-     * @param ...int $value
-     * @return Second|ValueObject
-     * @throws TypeException
-     */
-    public static function fromNative(): Second|ValueObject
-    {
-        $value = func_get_arg(0);
-
-        return new self($value);
     }
 
     /**

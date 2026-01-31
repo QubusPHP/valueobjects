@@ -20,7 +20,6 @@ use Qubus\ValueObjects\DateTime\Exception\InvalidDateException;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
-use function func_get_args;
 use function intval;
 use function sprintf;
 
@@ -62,17 +61,13 @@ class Date implements ValueObject
     /**
      * Returns a new Date from native year, month and day values.
      *
-     * @param int $year
-     * @param string $month
-     * @param int $day
+     * @param string|int ...$args
      * @return Date
      * @throws TypeException
      * @throws InvalidDateException
      */
-    public static function fromNative(): Date
+    public static function fromNative(...$args): Date
     {
-        $args = func_get_args();
-
         return new self(
             new Year($args[0]),
             Month::fromNative($args[1]),

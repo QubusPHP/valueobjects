@@ -41,10 +41,10 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/phpunit --colors=always",
+        "test": "vendor/bin/phpunit",
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
-        "qubestan": "phpstan analyse -l 1"
+        "qubestan": "phpstan analyse -l 5"
     },
     "config": {
         "optimize-autoloader": true,

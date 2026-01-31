@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Qubus\ValueObjects\Person;
 
+use BadMethodCallException;
 use Qubus\Exception\Data\TypeException;
 use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\Util;
@@ -44,14 +45,16 @@ class Name implements ValueObject
     /**
      * Returns a Name objects form PHP native values.
      *
-     * @param string $first_name
-     * @param string $middle_name
-     * @param string $last_name
+     * @param string ...$args
      * @return Name|ValueObject
      */
-    public static function fromNative(): Name|ValueObject
+    public static function fromNative(string ...$args): Name|ValueObject
     {
-        $args = func_get_args();
+        if (3 !== count($args)) {
+            throw new BadMethodCallException(
+                'You must provide exactly 3 arguments: 1) first name, 2) middle name, 3) last name.'
+            );
+        }
 
         $firstName = new StringLiteral($args[0]);
         $middleName = new StringLiteral($args[1]);

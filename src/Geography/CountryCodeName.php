@@ -17,6 +17,9 @@ use Qubus\ValueObjects\StringLiteral\StringLiteral;
 
 class CountryCodeName
 {
+    /**
+     * @var array<string> $names
+     */
     private static array $names = [
         'AF'  => 'Afghanistan',
         'AX'  => 'Åland Islands',

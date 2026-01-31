@@ -17,8 +17,6 @@ use Money\Currency as BaseCurrency;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
-use function func_get_arg;
-
 class Currency implements ValueObject
 {
     /** @var BaseCurrency $currency */
@@ -30,12 +28,12 @@ class Currency implements ValueObject
     /**
      * Returns a new Currency object from native string currency code
      *
-     * @param string $code Currency code
-     * @return static
+     * @param mixed ...$code Currency code
+     * @return self
      */
-    public static function fromNative(): self
+    public static function fromNative(mixed ...$code): self
     {
-        return new self(CurrencyCode::get(func_get_arg(0)));
+        return new self(CurrencyCode::get($code[0]));
     }
 
     public function __construct(CurrencyCode $code)

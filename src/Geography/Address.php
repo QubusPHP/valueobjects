@@ -19,7 +19,6 @@ use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
 use function count;
-use function func_get_args;
 use function sprintf;
 
 class Address implements ValueObject
@@ -49,21 +48,12 @@ class Address implements ValueObject
     /**
      * Returns a new Address from native PHP arguments.
      *
-     * @param string $name
-     * @param string $street_name
-     * @param string $street_number
-     * @param string $district
-     * @param string $city
-     * @param string $region
-     * @param string $postal_code
-     * @param string $country_code
+     * @param string ...$args
      * @throws BadMethodCallException
      * @return Address|ValueObject
      */
-    public static function fromNative(): Address|ValueObject
+    public static function fromNative(string ...$args): Address|ValueObject
     {
-        $args = func_get_args();
-
         if (8 !== count($args)) {
             throw new BadMethodCallException(
                 'You must provide exactly 8 arguments: 1) addressee name, 2) street name, 

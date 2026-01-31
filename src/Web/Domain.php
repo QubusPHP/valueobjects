@@ -25,11 +25,11 @@ abstract class Domain extends StringLiteral
     /**
      * Returns a Hostname or a IPAddress object depending on passed value
      *
-     * @param  $domain
+     * @param string $domain
      * @return Hostname|IPAddress
      * @throws TypeException
      */
-    public static function specifyType($domain): Hostname|IPAddress
+    public static function specifyType(string $domain): Hostname|IPAddress
     {
         if (false !== filter_var($domain, FILTER_VALIDATE_IP)) {
             return new IPAddress($domain);

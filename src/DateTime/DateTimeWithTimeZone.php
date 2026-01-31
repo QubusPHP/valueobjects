@@ -21,7 +21,6 @@ use Qubus\ValueObjects\DateTime\Exception\InvalidTimeZoneException;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
-use function func_get_args;
 use function sprintf;
 
 class DateTimeWithTimeZone implements ValueObject
@@ -51,20 +50,12 @@ class DateTimeWithTimeZone implements ValueObject
     /**
      * Returns a new DateTime object from native values.
      *
-     * @param int    $year
-     * @param string $month
-     * @param int    $day
-     * @param int    $hour
-     * @param int    $minute
-     * @param int    $second
-     * @param string $timezone
+     * @param string|int ...$args
      * @return DateTimeWithTimeZone|ValueObject
      * @throws InvalidDateException|InvalidTimeZoneException|TypeException
      */
-    public static function fromNative(): DateTimeWithTimeZone|ValueObject
+    public static function fromNative(string|int ...$args): DateTimeWithTimeZone|ValueObject
     {
-        $args = func_get_args();
-
         return new self(
             DateTime::fromNative($args[0], $args[1], $args[2], $args[3], $args[4], $args[5]),
             TimeZone::fromNative($args[6])
@@ -119,17 +110,17 @@ class DateTimeWithTimeZone implements ValueObject
     /**
      * Tells whether two DateTimeWithTimeZone represents the same timestamp.
      *
-     * @param DateTimeWithTimeZone|ValueObject $dateTimeWithTimeZone
+     * @param ValueObject $dateTimeWithTimeZone
      * @return bool
      * @throws Exception
      */
-    public function sameTimestampAs(DateTimeWithTimeZone|ValueObject $dateTimeWithTimeZone): bool
+    public function sameTimestampAs(ValueObject $dateTimeWithTimeZone): bool
     {
         if (false === Util::classEquals($this, $dateTimeWithTimeZone)) {
             return false;
         }
 
-        return $this->toNativeCarbonImmutable() === $dateTimeWithTimeZone->toNativeCarbonImmutable();
+        return $this->toNative() === $dateTimeWithTimeZone->toNative();
     }
 
     /**

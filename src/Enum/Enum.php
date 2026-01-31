@@ -19,7 +19,6 @@ use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 use Serializable;
 
-use function func_get_arg;
 use function strval;
 
 abstract class Enum extends BaseEnum implements ValueObject, Serializable
@@ -29,12 +28,12 @@ abstract class Enum extends BaseEnum implements ValueObject, Serializable
     /**
      * Returns a new Enum object from passed value matching argument
      *
-     * @param string $value
+     * @param string ...$value
      * @return static
      */
-    public static function fromNative(): static
+    public static function fromNative(string ...$value): static
     {
-        return static::get(func_get_arg(0));
+        return static::get($value[0]);
     }
 
     /**
@@ -70,6 +69,9 @@ abstract class Enum extends BaseEnum implements ValueObject, Serializable
         return strval($this->toNative());
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function jsonSerialize(): array
     {
         return [

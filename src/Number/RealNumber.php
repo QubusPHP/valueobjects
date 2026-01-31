@@ -19,13 +19,13 @@ use Qubus\ValueObjects\ValueObject;
 
 use function abs;
 use function filter_var;
-use function func_get_arg;
 use function round;
 use function sprintf;
 use function strval;
 
 use const FILTER_VALIDATE_FLOAT;
 
+/** @phpstan-consistent-constructor  */
 class RealNumber implements ValueObject
 {
     protected float|int $value;
@@ -33,21 +33,19 @@ class RealNumber implements ValueObject
     /**
      * Returns a RealNumber object given a PHP native float as parameter.
      *
-     * @param float|int $number
+     * @param float|int ...$number
      * @return static
      * @throws TypeException
      */
-    public static function fromNative(): RealNumber|ValueObject
+    public static function fromNative(float|int ...$number): static
     {
-        $value = func_get_arg(0);
-
-        return new self($value);
+        return new static($number[0]);
     }
 
     /**
      * Returns a RealNumber object given a PHP native float as parameter.
      *
-     * @param mixed $number
+     * @param float $value
      * @throws TypeException
      */
     public function __construct($value)

@@ -203,10 +203,10 @@ class Coordinate implements ValueObject
     /**
      * Returns the underlying Coordinate object.
      *
-     * @param Coordinate|ValueObject $coordinate
+     * @param Coordinate $coordinate
      * @return BaseCoordinate
      */
-    protected static function getBaseCoordinate(Coordinate|ValueObject $coordinate): BaseCoordinate
+    protected static function getBaseCoordinate(Coordinate $coordinate): BaseCoordinate
     {
         $latitude = $coordinate->getLatitude()->toNative();
         $longitude = $coordinate->getLongitude()->toNative();

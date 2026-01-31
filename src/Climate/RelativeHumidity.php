@@ -34,7 +34,7 @@ class RelativeHumidity extends Natural
      * Returns a new RelativeHumidity object.
      * @throws TypeException
      */
-    public function __construct(int $value)
+    public function __construct($value)
     {
         $options = [
             'options' => ['min_range' => self::MIN, 'max_range' => self::MAX],
@@ -51,18 +51,5 @@ class RelativeHumidity extends Natural
             );
         }
         parent::__construct($value);
-    }
-
-    /**
-     * Returns a new RelativeHumidity from native int value.
-     *
-     * @return RelativeHumidity|ValueObject
-     * @throws TypeException
-     */
-    public static function fromNative(): RelativeHumidity|ValueObject
-    {
-        $value = func_get_arg(0);
-
-        return new self($value);
     }
 }

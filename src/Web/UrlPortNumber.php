@@ -25,9 +25,10 @@ class UrlPortNumber extends Natural implements PortNumber
 {
     /**
      * Returns a PortNumber object.
+     *
      * @throws TypeException
      */
-    public function __construct(int $value)
+    public function __construct($value)
     {
         $options = [
             'options' => [

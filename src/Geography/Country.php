@@ -17,8 +17,6 @@ use Qubus\ValueObjects\StringLiteral\StringLiteral;
 use Qubus\ValueObjects\Util;
 use Qubus\ValueObjects\ValueObject;
 
-use function func_get_arg;
-
 class Country implements ValueObject
 {
     /** @var CountryCode $code */
@@ -43,13 +41,12 @@ class Country implements ValueObject
     /**
      * Returns a new Country object given a native PHP string country code.
      *
-     * @param ...string $code
-     * @return Country|ValueObject
+     * @param string ...$value
+     * @return Country
      */
-    public static function fromNative(): Country|ValueObject
+    public static function fromNative(string ...$value): Country
     {
-        $codeString = func_get_arg(0);
-        $code = CountryCode::byName($codeString);
+        $code = CountryCode::byName($value[0]);
         return new self($code);
     }
 

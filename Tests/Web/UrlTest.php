@@ -145,7 +145,7 @@ class UrlTest extends TestCase
         );
         Assert::assertSame($nativeUrlString, $authlessUrl->__toString());
         $fromNativeUrl = Url::fromNative($nativeUrlString);
-        Assert::assertSame($nativeUrlString, Url::fromNative($authlessUrl)->__toString());
+        Assert::assertSame($nativeUrlString, Url::fromNative($fromNativeUrl->toNative())->__toString());
     }
 
     public function testNullPortUrlToString()
