@@ -46,9 +46,9 @@ class Name implements ValueObject
      * Returns a Name objects form PHP native values.
      *
      * @param string ...$args
-     * @return Name|ValueObject
+     * @return Name
      */
-    public static function fromNative(string ...$args): Name|ValueObject
+    public static function fromNative(string ...$args): Name
     {
         if (3 !== count($args)) {
             throw new BadMethodCallException(
